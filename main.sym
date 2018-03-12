@@ -1,0 +1,212 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+  8 ___str_0                                                       000D3F R
+  8 ___str_1                                                       000D47 R
+  8 ___str_10                                                      000E0A R
+  8 ___str_11                                                      000E23 R
+  8 ___str_12                                                      000E3B R
+  8 ___str_13                                                      000E49 R
+  8 ___str_14                                                      000E4B R
+  8 ___str_15                                                      000E4F R
+  8 ___str_16                                                      000E61 R
+  8 ___str_17                                                      000E63 R
+  8 ___str_18                                                      000E66 R
+  8 ___str_19                                                      000E77 R
+  8 ___str_2                                                       000D4A R
+  8 ___str_20                                                      000E90 R
+  8 ___str_21                                                      000E93 R
+  8 ___str_22                                                      000E97 R
+  8 ___str_23                                                      000EA8 R
+  8 ___str_24                                                      000EAE R
+  8 ___str_25                                                      000EBF R
+  8 ___str_26                                                      000EC5 R
+  8 ___str_27                                                      000ED4 R
+  8 ___str_28                                                      000EDC R
+  8 ___str_29                                                      000EED R
+  8 ___str_3                                                       000D75 R
+  8 ___str_30                                                      000EF4 R
+  8 ___str_31                                                      000F13 R
+  8 ___str_32                                                      000F1A R
+  8 ___str_33                                                      000F26 R
+  8 ___str_34                                                      000F33 R
+  8 ___str_35                                                      000F3F R
+  8 ___str_36                                                      000F53 R
+  8 ___str_37                                                      000F68 R
+  8 ___str_38                                                      000F7D R
+  8 ___str_39                                                      000F92 R
+  8 ___str_4                                                       000DAC R
+  8 ___str_40                                                      000FA7 R
+  8 ___str_41                                                      000FB4 R
+  8 ___str_42                                                      000FBB R
+  8 ___str_43                                                      000FC5 R
+  8 ___str_44                                                      000FCC R
+  8 ___str_45                                                      000FD3 R
+  8 ___str_46                                                      000FDB R
+  8 ___str_47                                                      000FE2 R
+  8 ___str_48                                                      000FE9 R
+  8 ___str_49                                                      000FF1 R
+  8 ___str_5                                                       000DB0 R
+  8 ___str_50                                                      000FF8 R
+  8 ___str_51                                                      001002 R
+  8 ___str_52                                                      00100B R
+  8 ___str_53                                                      001012 R
+  8 ___str_54                                                      001019 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 2.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  8 ___str_55                                                      001025 R
+  8 ___str_56                                                      001031 R
+  8 ___str_57                                                      001038 R
+  8 ___str_58                                                      001042 R
+  8 ___str_59                                                      001048 R
+  8 ___str_6                                                       000DBE R
+  8 ___str_60                                                      00104F R
+  8 ___str_61                                                      001056 R
+  8 ___str_62                                                      001061 R
+  8 ___str_63                                                      001069 R
+  8 ___str_64                                                      001071 R
+  8 ___str_65                                                      001079 R
+  8 ___str_66                                                      001084 R
+  8 ___str_67                                                      00108E R
+  8 ___str_68                                                      001099 R
+  8 ___str_69                                                      0010A4 R
+  8 ___str_7                                                       000DCB R
+  8 ___str_70                                                      0010AB R
+  8 ___str_71                                                      0010B0 R
+  8 ___str_72                                                      0010B8 R
+  8 ___str_73                                                      0010BD R
+  8 ___str_74                                                      0010C5 R
+  8 ___str_75                                                      0010CB R
+  8 ___str_76                                                      0010D2 R
+  8 ___str_77                                                      0010DD R
+  8 ___str_78                                                      0010E9 R
+  8 ___str_79                                                      0010F4 R
+  8 ___str_8                                                       000DE4 R
+  8 ___str_80                                                      001100 R
+  8 ___str_81                                                      00110B R
+  8 ___str_82                                                      001117 R
+  8 ___str_83                                                      001122 R
+  8 ___str_84                                                      00112E R
+  8 ___str_85                                                      001139 R
+  8 ___str_86                                                      001145 R
+  8 ___str_87                                                      001150 R
+  8 ___str_88                                                      00115C R
+  8 ___str_89                                                      001167 R
+  8 ___str_9                                                       000DFC R
+  8 ___str_90                                                      001173 R
+  8 ___str_91                                                      00117E R
+  8 ___str_92                                                      00118A R
+  8 ___str_93                                                      001195 R
+  8 ___str_94                                                      0011A8 R
+  8 ___str_95                                                      0011BA R
+  8 ___str_96                                                      0011C1 R
+  8 ___str_97                                                      0011CD R
+  8 ___str_98                                                      0011EB R
+  8 ___str_99                                                      001212 R
+  5 __interrupt_vect                                               000000 R
+    __mullong                                                      ****** GX
+  8 __parse_uint                                                   000297 GR
+  6 __sdcc_gs_init_startup                                         000000 R
+  6 __sdcc_init_data                                               000000 R
+  5 __sdcc_program_startup                                         000080 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 3.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  3 __start__stack                                                 000000 R
+    _adc_channel                                                   ****** GX
+    _adc_init                                                      ****** GX
+    _adc_read                                                      ****** GX
+    _adc_ready                                                     ****** GX
+    _adc_start                                                     ****** GX
+    _adc_to_volt                                                   ****** GX
+  8 _autocommit                                                    000076 GR
+  1 _cfg_output                                                    00003D GR
+  1 _cfg_system                                                    000000 GR
+  8 _commit_output                                                 000000 GR
+    _config_default_output                                         ****** GX
+    _config_default_system                                         ****** GX
+  8 _config_load                                                   000B00 GR
+    _config_load_output                                            ****** GX
+    _config_load_system                                            ****** GX
+    _config_save_output                                            ****** GX
+    _config_save_system                                            ****** GX
+    _display_refresh                                               ****** GX
+    _display_show                                                  ****** GX
+    _eeprom_set_afr0                                               ****** GX
+  8 _ensure_afr0_set                                               000C98 GR
+    _isprint                                                       ****** GX
+  8 _main                                                          000CC2 GR
+    _memcpy                                                        ****** GX
+    _output_check_state                                            ****** GX
+    _output_commit                                                 ****** GX
+    _parse_millinum                                                ****** GX
+  8 _parse_uint                                                    0002FA GR
+  8 _process_input                                                 000357 GR
+    _pwm_init                                                      ****** GX
+    _read_newline                                                  ****** GX
+  8 _read_state                                                    000B34 GR
+  8 _set_autocommit                                                0001B3 GR
+  8 _set_current                                                   00015D GR
+  8 _set_name                                                      000015 GR
+  8 _set_output                                                    00008B GR
+  8 _set_voltage                                                   0000F5 GR
+  1 _state                                                         000046 GR
+    _strcmp                                                        ****** GX
+    _uart_drive                                                    ****** GX
+    _uart_flush_writes                                             ****** GX
+    _uart_init                                                     ****** GX
+    _uart_read_buf                                                 ****** GX
+    _uart_read_len                                                 ****** GX
+    _uart_write_ch                                                 ****** GX
+    _uart_write_fixed_point                                        ****** GX
+    _uart_write_int                                                ****** GX
+    _uart_write_int32                                              ****** GX
+    _uart_write_milliamp                                           ****** GX
+    _uart_write_millivolt                                          ****** GX
+    _uart_write_str                                                ****** GX
+  8 _write_int                                                     000280 GR
+  8 _write_milliamp                                                000269 GR
+  8 _write_millivolt                                               000252 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 4.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  8 _write_onoff                                                   00023C GR
+  8 _write_str                                                     000225 GR
+    l_DATA                                                         ****** GX
+    l_INITIALIZER                                                  ****** GX
+    s_DATA                                                         ****** GX
+    s_GSINIT                                                       ****** GX
+    s_INITIALIZED                                                  ****** GX
+    s_INITIALIZER                                                  ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8), page 5.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size     54   flags    0
+   2 INITIALIZED                                size      0   flags    0
+   3 SSEG                                       size      1   flags    0
+   4 DABS                                       size      0   flags    8
+   5 HOME                                       size     83   flags    0
+   6 GSINIT                                     size     1A   flags    0
+   7 GSFINAL                                    size      3   flags    0
+   8 CODE                                       size   1234   flags    0
+   9 INITIALIZER                                size      0   flags    0
+   A CABS                                       size      0   flags    8
+

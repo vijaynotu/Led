@@ -1,0 +1,2822 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Mar 24 2016) (Linux)
+                                      4 ; This file was generated Mon Mar 12 12:44:09 2018
+                                      5 ;--------------------------------------------------------
+                                      6 	.module main
+                                      7 	.optsdcc -mstm8
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _main
+                                     13 	.globl _ensure_afr0_set
+                                     14 	.globl _read_state
+                                     15 	.globl _config_load
+                                     16 	.globl _process_input
+                                     17 	.globl _parse_uint
+                                     18 	.globl __parse_uint
+                                     19 	.globl _write_int
+                                     20 	.globl _write_milliamp
+                                     21 	.globl _write_millivolt
+                                     22 	.globl _write_onoff
+                                     23 	.globl _write_str
+                                     24 	.globl _set_autocommit
+                                     25 	.globl _set_current
+                                     26 	.globl _set_voltage
+                                     27 	.globl _set_output
+                                     28 	.globl _autocommit
+                                     29 	.globl _set_name
+                                     30 	.globl _commit_output
+                                     31 	.globl _adc_ready
+                                     32 	.globl _adc_channel
+                                     33 	.globl _adc_read
+                                     34 	.globl _adc_to_volt
+                                     35 	.globl _adc_start
+                                     36 	.globl _adc_init
+                                     37 	.globl _parse_millinum
+                                     38 	.globl _output_check_state
+                                     39 	.globl _output_commit
+                                     40 	.globl _pwm_init
+                                     41 	.globl _config_default_output
+                                     42 	.globl _config_save_output
+                                     43 	.globl _config_load_output
+                                     44 	.globl _config_default_system
+                                     45 	.globl _config_save_system
+                                     46 	.globl _config_load_system
+                                     47 	.globl _eeprom_set_afr0
+                                     48 	.globl _uart_flush_writes
+                                     49 	.globl _uart_drive
+                                     50 	.globl _uart_write_milliamp
+                                     51 	.globl _uart_write_millivolt
+                                     52 	.globl _uart_write_fixed_point
+                                     53 	.globl _uart_write_int32
+                                     54 	.globl _uart_write_int
+                                     55 	.globl _uart_write_str
+                                     56 	.globl _uart_write_ch
+                                     57 	.globl _uart_init
+                                     58 	.globl _display_show
+                                     59 	.globl _display_refresh
+                                     60 	.globl _isprint
+                                     61 	.globl _strcmp
+                                     62 	.globl _memcpy
+                                     63 	.globl _state
+                                     64 	.globl _cfg_output
+                                     65 	.globl _cfg_system
+                                     66 ;--------------------------------------------------------
+                                     67 ; ram data
+                                     68 ;--------------------------------------------------------
+                                     69 	.area DATA
+      000000                         70 _cfg_system::
+      000000                         71 	.ds 61
+      00003D                         72 _cfg_output::
+      00003D                         73 	.ds 9
+      000046                         74 _state::
+      000046                         75 	.ds 14
+                                     76 ;--------------------------------------------------------
+                                     77 ; ram data
+                                     78 ;--------------------------------------------------------
+                                     79 	.area INITIALIZED
+                                     80 ;--------------------------------------------------------
+                                     81 ; Stack segment in internal ram 
+                                     82 ;--------------------------------------------------------
+                                     83 	.area	SSEG
+      000000                         84 __start__stack:
+      000000                         85 	.ds	1
+                                     86 
+                                     87 ;--------------------------------------------------------
+                                     88 ; absolute external ram data
+                                     89 ;--------------------------------------------------------
+                                     90 	.area DABS (ABS)
+                                     91 ;--------------------------------------------------------
+                                     92 ; interrupt vector 
+                                     93 ;--------------------------------------------------------
+                                     94 	.area HOME
+      000000                         95 __interrupt_vect:
+      000000 82v00u00u00             96 	int s_GSINIT ;reset
+      000004 82 00 00 00             97 	int 0x0000 ;trap
+      000008 82 00 00 00             98 	int 0x0000 ;int0
+      00000C 82 00 00 00             99 	int 0x0000 ;int1
+      000010 82 00 00 00            100 	int 0x0000 ;int2
+      000014 82 00 00 00            101 	int 0x0000 ;int3
+      000018 82 00 00 00            102 	int 0x0000 ;int4
+      00001C 82 00 00 00            103 	int 0x0000 ;int5
+      000020 82 00 00 00            104 	int 0x0000 ;int6
+      000024 82 00 00 00            105 	int 0x0000 ;int7
+      000028 82 00 00 00            106 	int 0x0000 ;int8
+      00002C 82 00 00 00            107 	int 0x0000 ;int9
+      000030 82 00 00 00            108 	int 0x0000 ;int10
+      000034 82 00 00 00            109 	int 0x0000 ;int11
+      000038 82 00 00 00            110 	int 0x0000 ;int12
+      00003C 82 00 00 00            111 	int 0x0000 ;int13
+      000040 82 00 00 00            112 	int 0x0000 ;int14
+      000044 82 00 00 00            113 	int 0x0000 ;int15
+      000048 82 00 00 00            114 	int 0x0000 ;int16
+      00004C 82 00 00 00            115 	int 0x0000 ;int17
+      000050 82 00 00 00            116 	int 0x0000 ;int18
+      000054 82 00 00 00            117 	int 0x0000 ;int19
+      000058 82 00 00 00            118 	int 0x0000 ;int20
+      00005C 82 00 00 00            119 	int 0x0000 ;int21
+      000060 82 00 00 00            120 	int 0x0000 ;int22
+      000064 82 00 00 00            121 	int 0x0000 ;int23
+      000068 82 00 00 00            122 	int 0x0000 ;int24
+      00006C 82 00 00 00            123 	int 0x0000 ;int25
+      000070 82 00 00 00            124 	int 0x0000 ;int26
+      000074 82 00 00 00            125 	int 0x0000 ;int27
+      000078 82 00 00 00            126 	int 0x0000 ;int28
+      00007C 82 00 00 00            127 	int 0x0000 ;int29
+                                    128 ;--------------------------------------------------------
+                                    129 ; global & static initialisations
+                                    130 ;--------------------------------------------------------
+                                    131 	.area HOME
+                                    132 	.area GSINIT
+                                    133 	.area GSFINAL
+                                    134 	.area GSINIT
+      000000                        135 __sdcc_gs_init_startup:
+      000000                        136 __sdcc_init_data:
+                                    137 ; stm8_genXINIT() start
+      000000 AEr00r00         [ 2]  138 	ldw x, #l_DATA
+      000003 27 07            [ 1]  139 	jreq	00002$
+      000005                        140 00001$:
+      000005 72 4FuFFuFF      [ 1]  141 	clr (s_DATA - 1, x)
+      000009 5A               [ 2]  142 	decw x
+      00000A 26 F9            [ 1]  143 	jrne	00001$
+      00000C                        144 00002$:
+      00000C AEr00r00         [ 2]  145 	ldw	x, #l_INITIALIZER
+      00000F 27 09            [ 1]  146 	jreq	00004$
+      000011                        147 00003$:
+      000011 D6uFFuFF         [ 1]  148 	ld	a, (s_INITIALIZER - 1, x)
+      000014 D7uFFuFF         [ 1]  149 	ld	(s_INITIALIZED - 1, x), a
+      000017 5A               [ 2]  150 	decw	x
+      000018 26 F7            [ 1]  151 	jrne	00003$
+      00001A                        152 00004$:
+                                    153 ; stm8_genXINIT() end
+                                    154 	.area GSFINAL
+      000000 CCr00r80         [ 2]  155 	jp	__sdcc_program_startup
+                                    156 ;--------------------------------------------------------
+                                    157 ; Home
+                                    158 ;--------------------------------------------------------
+                                    159 	.area HOME
+                                    160 	.area HOME
+      000080                        161 __sdcc_program_startup:
+      000080 CCr0CrC2         [ 2]  162 	jp	_main
+                                    163 ;	return from main will return to caller
+                                    164 ;--------------------------------------------------------
+                                    165 ; code
+                                    166 ;--------------------------------------------------------
+                                    167 	.area CODE
+                                    168 ;	main.c: 59: void commit_output()
+                                    169 ;	-----------------------------------------
+                                    170 ;	 function commit_output
+                                    171 ;	-----------------------------------------
+      000000                        172 _commit_output:
+                                    173 ;	main.c: 61: output_commit(&cfg_output, &cfg_system, state.constant_current);
+      000000 AEr00r52         [ 2]  174 	ldw	x, #_state+12
+      000003 F6               [ 1]  175 	ld	a, (x)
+      000004 AEr00r00         [ 2]  176 	ldw	x, #_cfg_system+0
+      000007 90 AEr00r3D      [ 2]  177 	ldw	y, #_cfg_output+0
+      00000B 88               [ 1]  178 	push	a
+      00000C 89               [ 2]  179 	pushw	x
+      00000D 90 89            [ 2]  180 	pushw	y
+      00000F CDr00r00         [ 4]  181 	call	_output_commit
+      000012 5B 05            [ 2]  182 	addw	sp, #5
+      000014 81               [ 4]  183 	ret
+                                    184 ;	main.c: 64: void set_name(uint8_t *name)
+                                    185 ;	-----------------------------------------
+                                    186 ;	 function set_name
+                                    187 ;	-----------------------------------------
+      000015                        188 _set_name:
+      000015 52 07            [ 2]  189 	sub	sp, #7
+                                    190 ;	main.c: 68: for (idx = 0; name[idx] != 0; idx++) {
+      000017 0F 01            [ 1]  191 	clr	(0x01, sp)
+      000019                        192 00105$:
+      000019 5F               [ 1]  193 	clrw	x
+      00001A 7B 01            [ 1]  194 	ld	a, (0x01, sp)
+      00001C 97               [ 1]  195 	ld	xl, a
+      00001D 72 FB 0A         [ 2]  196 	addw	x, (0x0a, sp)
+      000020 1F 02            [ 2]  197 	ldw	(0x02, sp), x
+      000022 1E 02            [ 2]  198 	ldw	x, (0x02, sp)
+      000024 F6               [ 1]  199 	ld	a, (x)
+      000025 A1 00            [ 1]  200 	cp	a, #0x00
+      000027 27 14            [ 1]  201 	jreq	00103$
+                                    202 ;	main.c: 69: if (!isprint(name[idx]))
+      000029 5F               [ 1]  203 	clrw	x
+      00002A 97               [ 1]  204 	ld	xl, a
+      00002B 89               [ 2]  205 	pushw	x
+      00002C CDr00r00         [ 4]  206 	call	_isprint
+      00002F 5B 02            [ 2]  207 	addw	sp, #2
+      000031 5D               [ 2]  208 	tnzw	x
+      000032 26 05            [ 1]  209 	jrne	00106$
+                                    210 ;	main.c: 70: name[idx] = '.'; // Eliminate non-printable chars
+      000034 1E 02            [ 2]  211 	ldw	x, (0x02, sp)
+      000036 A6 2E            [ 1]  212 	ld	a, #0x2e
+      000038 F7               [ 1]  213 	ld	(x), a
+      000039                        214 00106$:
+                                    215 ;	main.c: 68: for (idx = 0; name[idx] != 0; idx++) {
+      000039 0C 01            [ 1]  216 	inc	(0x01, sp)
+      00003B 20 DC            [ 2]  217 	jra	00105$
+      00003D                        218 00103$:
+                                    219 ;	main.c: 73: memcpy(cfg_system.name, name, sizeof(cfg_system.name));
+      00003D 16 0A            [ 2]  220 	ldw	y, (0x0a, sp)
+      00003F AEr00r00         [ 2]  221 	ldw	x, #_cfg_system+0
+      000042 1F 06            [ 2]  222 	ldw	(0x06, sp), x
+      000044 1E 06            [ 2]  223 	ldw	x, (0x06, sp)
+      000046 5C               [ 2]  224 	incw	x
+      000047 1F 04            [ 2]  225 	ldw	(0x04, sp), x
+      000049 1E 04            [ 2]  226 	ldw	x, (0x04, sp)
+      00004B 4B 11            [ 1]  227 	push	#0x11
+      00004D 4B 00            [ 1]  228 	push	#0x00
+      00004F 90 89            [ 2]  229 	pushw	y
+      000051 89               [ 2]  230 	pushw	x
+      000052 CDr00r00         [ 4]  231 	call	_memcpy
+      000055 5B 06            [ 2]  232 	addw	sp, #6
+                                    233 ;	main.c: 74: cfg_system.name[sizeof(cfg_system.name)-1] = 0;
+      000057 1E 06            [ 2]  234 	ldw	x, (0x06, sp)
+      000059 1C 00 11         [ 2]  235 	addw	x, #0x0011
+      00005C 7F               [ 1]  236 	clr	(x)
+                                    237 ;	main.c: 76: uart_write_str("SNAME: ");
+      00005D AEr0Dr3F         [ 2]  238 	ldw	x, #___str_0+0
+      000060 89               [ 2]  239 	pushw	x
+      000061 CDr00r00         [ 4]  240 	call	_uart_write_str
+      000064 85               [ 2]  241 	popw	x
+                                    242 ;	main.c: 77: uart_write_str(cfg_system.name);
+      000065 1E 04            [ 2]  243 	ldw	x, (0x04, sp)
+      000067 89               [ 2]  244 	pushw	x
+      000068 CDr00r00         [ 4]  245 	call	_uart_write_str
+      00006B 85               [ 2]  246 	popw	x
+                                    247 ;	main.c: 78: uart_write_str("\r\n");
+      00006C AEr0Dr47         [ 2]  248 	ldw	x, #___str_1+0
+      00006F 89               [ 2]  249 	pushw	x
+      000070 CDr00r00         [ 4]  250 	call	_uart_write_str
+      000073 5B 09            [ 2]  251 	addw	sp, #9
+      000075 81               [ 4]  252 	ret
+                                    253 ;	main.c: 81: void autocommit(void)
+                                    254 ;	-----------------------------------------
+                                    255 ;	 function autocommit
+                                    256 ;	-----------------------------------------
+      000076                        257 _autocommit:
+                                    258 ;	main.c: 83: if (cfg_system.autocommit) {
+      000076 AEr00r14         [ 2]  259 	ldw	x, #_cfg_system+20
+      000079 F6               [ 1]  260 	ld	a, (x)
+      00007A 4D               [ 1]  261 	tnz	a
+      00007B 27 05            [ 1]  262 	jreq	00102$
+                                    263 ;	main.c: 84: commit_output();
+      00007D CDr00r00         [ 4]  264 	call	_commit_output
+      000080 20 08            [ 2]  265 	jra	00104$
+      000082                        266 00102$:
+                                    267 ;	main.c: 86: uart_write_str("AUTOCOMMIT OFF: CHANGE PENDING ON COMMIT\r\n");
+      000082 AEr0Dr4A         [ 2]  268 	ldw	x, #___str_2+0
+      000085 89               [ 2]  269 	pushw	x
+      000086 CDr00r00         [ 4]  270 	call	_uart_write_str
+      000089 85               [ 2]  271 	popw	x
+      00008A                        272 00104$:
+      00008A 81               [ 4]  273 	ret
+                                    274 ;	main.c: 90: void set_output(uint8_t *s)
+                                    275 ;	-----------------------------------------
+                                    276 ;	 function set_output
+                                    277 ;	-----------------------------------------
+      00008B                        278 _set_output:
+      00008B 89               [ 2]  279 	pushw	x
+                                    280 ;	main.c: 92: if (s[1] != 0) {
+      00008C 1E 05            [ 2]  281 	ldw	x, (0x05, sp)
+      00008E E6 01            [ 1]  282 	ld	a, (0x1, x)
+      000090 4D               [ 1]  283 	tnz	a
+      000091 27 19            [ 1]  284 	jreq	00102$
+                                    285 ;	main.c: 93: uart_write_str("OUTPUT takes either 0 for OFF or 1 for ON, received: \"");
+      000093 AEr0Dr75         [ 2]  286 	ldw	x, #___str_3+0
+      000096 89               [ 2]  287 	pushw	x
+      000097 CDr00r00         [ 4]  288 	call	_uart_write_str
+      00009A 85               [ 2]  289 	popw	x
+                                    290 ;	main.c: 94: uart_write_str(s);
+      00009B 1E 05            [ 2]  291 	ldw	x, (0x05, sp)
+      00009D 89               [ 2]  292 	pushw	x
+      00009E CDr00r00         [ 4]  293 	call	_uart_write_str
+      0000A1 85               [ 2]  294 	popw	x
+                                    295 ;	main.c: 95: uart_write_str("\"\r\n");
+      0000A2 AEr0DrAC         [ 2]  296 	ldw	x, #___str_4+0
+      0000A5 89               [ 2]  297 	pushw	x
+      0000A6 CDr00r00         [ 4]  298 	call	_uart_write_str
+      0000A9 85               [ 2]  299 	popw	x
+                                    300 ;	main.c: 96: return;
+      0000AA 20 47            [ 2]  301 	jra	00109$
+      0000AC                        302 00102$:
+                                    303 ;	main.c: 99: if (s[0] == '0') {
+      0000AC 16 05            [ 2]  304 	ldw	y, (0x05, sp)
+      0000AE 17 01            [ 2]  305 	ldw	(0x01, sp), y
+      0000B0 1E 01            [ 2]  306 	ldw	x, (0x01, sp)
+      0000B2 F6               [ 1]  307 	ld	a, (x)
+      0000B3 A1 30            [ 1]  308 	cp	a, #0x30
+      0000B5 26 0E            [ 1]  309 	jrne	00107$
+                                    310 ;	main.c: 100: cfg_system.output = 0;
+      0000B7 AEr00r13         [ 2]  311 	ldw	x, #_cfg_system+19
+      0000BA 7F               [ 1]  312 	clr	(x)
+                                    313 ;	main.c: 101: uart_write_str("OUTPUT: OFF\r\n");
+      0000BB AEr0DrB0         [ 2]  314 	ldw	x, #___str_5+0
+      0000BE 89               [ 2]  315 	pushw	x
+      0000BF CDr00r00         [ 4]  316 	call	_uart_write_str
+      0000C2 85               [ 2]  317 	popw	x
+      0000C3 20 2B            [ 2]  318 	jra	00108$
+      0000C5                        319 00107$:
+                                    320 ;	main.c: 102: } else if (s[0] == '1') {
+      0000C5 A1 31            [ 1]  321 	cp	a, #0x31
+      0000C7 26 10            [ 1]  322 	jrne	00104$
+                                    323 ;	main.c: 103: cfg_system.output = 1;
+      0000C9 AEr00r13         [ 2]  324 	ldw	x, #_cfg_system+19
+      0000CC A6 01            [ 1]  325 	ld	a, #0x01
+      0000CE F7               [ 1]  326 	ld	(x), a
+                                    327 ;	main.c: 104: uart_write_str("OUTPUT: ON\r\n");
+      0000CF AEr0DrBE         [ 2]  328 	ldw	x, #___str_6+0
+      0000D2 89               [ 2]  329 	pushw	x
+      0000D3 CDr00r00         [ 4]  330 	call	_uart_write_str
+      0000D6 85               [ 2]  331 	popw	x
+      0000D7 20 17            [ 2]  332 	jra	00108$
+      0000D9                        333 00104$:
+                                    334 ;	main.c: 106: uart_write_str("OUTPUT takes either 0 for OFF or 1 for ON, received: \"");
+      0000D9 AEr0Dr75         [ 2]  335 	ldw	x, #___str_3+0
+      0000DC 89               [ 2]  336 	pushw	x
+      0000DD CDr00r00         [ 4]  337 	call	_uart_write_str
+      0000E0 85               [ 2]  338 	popw	x
+                                    339 ;	main.c: 107: uart_write_str(s);
+      0000E1 1E 01            [ 2]  340 	ldw	x, (0x01, sp)
+      0000E3 89               [ 2]  341 	pushw	x
+      0000E4 CDr00r00         [ 4]  342 	call	_uart_write_str
+      0000E7 85               [ 2]  343 	popw	x
+                                    344 ;	main.c: 108: uart_write_str("\"\r\n");
+      0000E8 AEr0DrAC         [ 2]  345 	ldw	x, #___str_4+0
+      0000EB 89               [ 2]  346 	pushw	x
+      0000EC CDr00r00         [ 4]  347 	call	_uart_write_str
+      0000EF 85               [ 2]  348 	popw	x
+      0000F0                        349 00108$:
+                                    350 ;	main.c: 111: autocommit();
+      0000F0 CDr00r76         [ 4]  351 	call	_autocommit
+      0000F3                        352 00109$:
+      0000F3 85               [ 2]  353 	popw	x
+      0000F4 81               [ 4]  354 	ret
+                                    355 ;	main.c: 114: void set_voltage(uint8_t *s)
+                                    356 ;	-----------------------------------------
+                                    357 ;	 function set_voltage
+                                    358 ;	-----------------------------------------
+      0000F5                        359 _set_voltage:
+      0000F5 52 06            [ 2]  360 	sub	sp, #6
+                                    361 ;	main.c: 118: val = parse_millinum(s);
+      0000F7 1E 09            [ 2]  362 	ldw	x, (0x09, sp)
+      0000F9 89               [ 2]  363 	pushw	x
+      0000FA CDr00r00         [ 4]  364 	call	_parse_millinum
+      0000FD 5B 02            [ 2]  365 	addw	sp, #2
+      0000FF 1F 01            [ 2]  366 	ldw	(0x01, sp), x
+                                    367 ;	main.c: 119: if (val == 0xFFFF)
+      000101 1E 01            [ 2]  368 	ldw	x, (0x01, sp)
+      000103 A3 FF FF         [ 2]  369 	cpw	x, #0xffff
+      000106 27 52            [ 1]  370 	jreq	00107$
+                                    371 ;	main.c: 120: return;
+      000108 20 00            [ 2]  372 	jra	00102$
+      00010A                        373 00102$:
+                                    374 ;	main.c: 122: if (val > CAP_VMAX) {
+      00010A 16 01            [ 2]  375 	ldw	y, (0x01, sp)
+      00010C 17 05            [ 2]  376 	ldw	(0x05, sp), y
+      00010E 0F 04            [ 1]  377 	clr	(0x04, sp)
+      000110 0F 03            [ 1]  378 	clr	(0x03, sp)
+      000112 AE 88 B8         [ 2]  379 	ldw	x, #0x88b8
+      000115 13 05            [ 2]  380 	cpw	x, (0x05, sp)
+      000117 4F               [ 1]  381 	clr	a
+      000118 12 04            [ 1]  382 	sbc	a, (0x04, sp)
+      00011A 4F               [ 1]  383 	clr	a
+      00011B 12 03            [ 1]  384 	sbc	a, (0x03, sp)
+      00011D 2E 0A            [ 1]  385 	jrsge	00104$
+                                    386 ;	main.c: 123: uart_write_str("VOLTAGE VALUE TOO HIGH\r\n");
+      00011F AEr0DrCB         [ 2]  387 	ldw	x, #___str_7+0
+      000122 89               [ 2]  388 	pushw	x
+      000123 CDr00r00         [ 4]  389 	call	_uart_write_str
+      000126 85               [ 2]  390 	popw	x
+                                    391 ;	main.c: 124: return;
+      000127 20 31            [ 2]  392 	jra	00107$
+      000129                        393 00104$:
+                                    394 ;	main.c: 126: if (val < CAP_VMIN) {
+      000129 1E 01            [ 2]  395 	ldw	x, (0x01, sp)
+      00012B A3 00 0A         [ 2]  396 	cpw	x, #0x000a
+      00012E 24 0A            [ 1]  397 	jrnc	00106$
+                                    398 ;	main.c: 127: uart_write_str("VOLTAGE VALUE TOO LOW\r\n");
+      000130 AEr0DrE4         [ 2]  399 	ldw	x, #___str_8+0
+      000133 89               [ 2]  400 	pushw	x
+      000134 CDr00r00         [ 4]  401 	call	_uart_write_str
+      000137 85               [ 2]  402 	popw	x
+                                    403 ;	main.c: 128: return;
+      000138 20 20            [ 2]  404 	jra	00107$
+      00013A                        405 00106$:
+                                    406 ;	main.c: 131: uart_write_str("VOLTAGE: SET ");
+      00013A AEr0DrFC         [ 2]  407 	ldw	x, #___str_9+0
+      00013D 89               [ 2]  408 	pushw	x
+      00013E CDr00r00         [ 4]  409 	call	_uart_write_str
+      000141 85               [ 2]  410 	popw	x
+                                    411 ;	main.c: 132: uart_write_millivolt(val);
+      000142 1E 01            [ 2]  412 	ldw	x, (0x01, sp)
+      000144 89               [ 2]  413 	pushw	x
+      000145 CDr00r00         [ 4]  414 	call	_uart_write_millivolt
+      000148 85               [ 2]  415 	popw	x
+                                    416 ;	main.c: 133: uart_write_str("\r\n");
+      000149 AEr0Dr47         [ 2]  417 	ldw	x, #___str_1+0
+      00014C 89               [ 2]  418 	pushw	x
+      00014D CDr00r00         [ 4]  419 	call	_uart_write_str
+      000150 85               [ 2]  420 	popw	x
+                                    421 ;	main.c: 134: cfg_output.vset = val;
+      000151 AEr00r3E         [ 2]  422 	ldw	x, #_cfg_output+1
+      000154 16 01            [ 2]  423 	ldw	y, (0x01, sp)
+      000156 FF               [ 2]  424 	ldw	(x), y
+                                    425 ;	main.c: 136: autocommit();
+      000157 CDr00r76         [ 4]  426 	call	_autocommit
+      00015A                        427 00107$:
+      00015A 5B 06            [ 2]  428 	addw	sp, #6
+      00015C 81               [ 4]  429 	ret
+                                    430 ;	main.c: 139: void set_current(uint8_t *s)
+                                    431 ;	-----------------------------------------
+                                    432 ;	 function set_current
+                                    433 ;	-----------------------------------------
+      00015D                        434 _set_current:
+                                    435 ;	main.c: 143: val = parse_millinum(s);
+      00015D 1E 03            [ 2]  436 	ldw	x, (0x03, sp)
+      00015F 89               [ 2]  437 	pushw	x
+      000160 CDr00r00         [ 4]  438 	call	_parse_millinum
+      000163 5B 02            [ 2]  439 	addw	sp, #2
+                                    440 ;	main.c: 144: if (val == 0xFFFF)
+      000165 A3 FF FF         [ 2]  441 	cpw	x, #0xffff
+      000168 27 48            [ 1]  442 	jreq	00107$
+                                    443 ;	main.c: 145: return;
+      00016A 20 00            [ 2]  444 	jra	00102$
+      00016C                        445 00102$:
+                                    446 ;	main.c: 147: if (val > CAP_CMAX) {
+      00016C A3 0B B8         [ 2]  447 	cpw	x, #0x0bb8
+      00016F 23 0A            [ 2]  448 	jrule	00104$
+                                    449 ;	main.c: 148: uart_write_str("CURRENT VALUE TOO HIGH\r\n");
+      000171 AEr0Er0A         [ 2]  450 	ldw	x, #___str_10+0
+      000174 89               [ 2]  451 	pushw	x
+      000175 CDr00r00         [ 4]  452 	call	_uart_write_str
+      000178 85               [ 2]  453 	popw	x
+                                    454 ;	main.c: 149: return;
+      000179 20 37            [ 2]  455 	jra	00107$
+      00017B                        456 00104$:
+                                    457 ;	main.c: 151: if (val < CAP_CMIN) {
+      00017B A3 00 01         [ 2]  458 	cpw	x, #0x0001
+      00017E 24 0A            [ 1]  459 	jrnc	00106$
+                                    460 ;	main.c: 152: uart_write_str("CURRENT VALUE TOO LOW\r\n");
+      000180 AEr0Er23         [ 2]  461 	ldw	x, #___str_11+0
+      000183 89               [ 2]  462 	pushw	x
+      000184 CDr00r00         [ 4]  463 	call	_uart_write_str
+      000187 85               [ 2]  464 	popw	x
+                                    465 ;	main.c: 153: return;
+      000188 20 28            [ 2]  466 	jra	00107$
+      00018A                        467 00106$:
+                                    468 ;	main.c: 156: uart_write_str("CURRENT: SET ");
+      00018A 90 AEr0Er3B      [ 2]  469 	ldw	y, #___str_12+0
+      00018E 89               [ 2]  470 	pushw	x
+      00018F 90 89            [ 2]  471 	pushw	y
+      000191 CDr00r00         [ 4]  472 	call	_uart_write_str
+      000194 85               [ 2]  473 	popw	x
+      000195 85               [ 2]  474 	popw	x
+                                    475 ;	main.c: 157: uart_write_milliamp(val);
+      000196 89               [ 2]  476 	pushw	x
+      000197 89               [ 2]  477 	pushw	x
+      000198 CDr00r00         [ 4]  478 	call	_uart_write_milliamp
+      00019B 85               [ 2]  479 	popw	x
+      00019C 85               [ 2]  480 	popw	x
+                                    481 ;	main.c: 158: uart_write_str("\r\n");
+      00019D 90 AEr0Dr47      [ 2]  482 	ldw	y, #___str_1+0
+      0001A1 89               [ 2]  483 	pushw	x
+      0001A2 90 89            [ 2]  484 	pushw	y
+      0001A4 CDr00r00         [ 4]  485 	call	_uart_write_str
+      0001A7 85               [ 2]  486 	popw	x
+      0001A8 85               [ 2]  487 	popw	x
+                                    488 ;	main.c: 159: cfg_output.cset = val;
+      0001A9 90 AEr00r40      [ 2]  489 	ldw	y, #_cfg_output+3
+      0001AD 90 FF            [ 2]  490 	ldw	(y), x
+                                    491 ;	main.c: 161: autocommit();
+      0001AF CDr00r76         [ 4]  492 	call	_autocommit
+      0001B2                        493 00107$:
+      0001B2 81               [ 4]  494 	ret
+                                    495 ;	main.c: 164: void set_autocommit(uint8_t *s)
+                                    496 ;	-----------------------------------------
+                                    497 ;	 function set_autocommit
+                                    498 ;	-----------------------------------------
+      0001B3                        499 _set_autocommit:
+                                    500 ;	main.c: 166: if (strcmp(s, "1") == 0 || strcmp(s, "YES") == 0) {
+      0001B3 AEr0Er49         [ 2]  501 	ldw	x, #___str_13+0
+      0001B6 89               [ 2]  502 	pushw	x
+      0001B7 1E 05            [ 2]  503 	ldw	x, (0x05, sp)
+      0001B9 89               [ 2]  504 	pushw	x
+      0001BA CDr00r00         [ 4]  505 	call	_strcmp
+      0001BD 5B 04            [ 2]  506 	addw	sp, #4
+      0001BF 5D               [ 2]  507 	tnzw	x
+      0001C0 27 0F            [ 1]  508 	jreq	00105$
+      0001C2 AEr0Er4B         [ 2]  509 	ldw	x, #___str_14+0
+      0001C5 89               [ 2]  510 	pushw	x
+      0001C6 1E 05            [ 2]  511 	ldw	x, (0x05, sp)
+      0001C8 89               [ 2]  512 	pushw	x
+      0001C9 CDr00r00         [ 4]  513 	call	_strcmp
+      0001CC 5B 04            [ 2]  514 	addw	sp, #4
+      0001CE 5D               [ 2]  515 	tnzw	x
+      0001CF 26 10            [ 1]  516 	jrne	00106$
+      0001D1                        517 00105$:
+                                    518 ;	main.c: 167: cfg_system.autocommit = 1;
+      0001D1 AEr00r14         [ 2]  519 	ldw	x, #_cfg_system+20
+      0001D4 A6 01            [ 1]  520 	ld	a, #0x01
+      0001D6 F7               [ 1]  521 	ld	(x), a
+                                    522 ;	main.c: 168: uart_write_str("AUTOCOMMIT: YES\r\n");
+      0001D7 AEr0Er4F         [ 2]  523 	ldw	x, #___str_15+0
+      0001DA 89               [ 2]  524 	pushw	x
+      0001DB CDr00r00         [ 4]  525 	call	_uart_write_str
+      0001DE 85               [ 2]  526 	popw	x
+      0001DF 20 43            [ 2]  527 	jra	00109$
+      0001E1                        528 00106$:
+                                    529 ;	main.c: 169: } else if (strcmp(s, "0") == 0 || strcmp(s, "NO") == 0) {
+      0001E1 AEr0Er61         [ 2]  530 	ldw	x, #___str_16+0
+      0001E4 89               [ 2]  531 	pushw	x
+      0001E5 1E 05            [ 2]  532 	ldw	x, (0x05, sp)
+      0001E7 89               [ 2]  533 	pushw	x
+      0001E8 CDr00r00         [ 4]  534 	call	_strcmp
+      0001EB 5B 04            [ 2]  535 	addw	sp, #4
+      0001ED 5D               [ 2]  536 	tnzw	x
+      0001EE 27 0F            [ 1]  537 	jreq	00101$
+      0001F0 AEr0Er63         [ 2]  538 	ldw	x, #___str_17+0
+      0001F3 89               [ 2]  539 	pushw	x
+      0001F4 1E 05            [ 2]  540 	ldw	x, (0x05, sp)
+      0001F6 89               [ 2]  541 	pushw	x
+      0001F7 CDr00r00         [ 4]  542 	call	_strcmp
+      0001FA 5B 04            [ 2]  543 	addw	sp, #4
+      0001FC 5D               [ 2]  544 	tnzw	x
+      0001FD 26 0E            [ 1]  545 	jrne	00102$
+      0001FF                        546 00101$:
+                                    547 ;	main.c: 170: cfg_system.autocommit = 0;
+      0001FF AEr00r14         [ 2]  548 	ldw	x, #_cfg_system+20
+      000202 7F               [ 1]  549 	clr	(x)
+                                    550 ;	main.c: 171: uart_write_str("AUTOCOMMIT: NO\r\n");
+      000203 AEr0Er66         [ 2]  551 	ldw	x, #___str_18+0
+      000206 89               [ 2]  552 	pushw	x
+      000207 CDr00r00         [ 4]  553 	call	_uart_write_str
+      00020A 85               [ 2]  554 	popw	x
+      00020B 20 17            [ 2]  555 	jra	00109$
+      00020D                        556 00102$:
+                                    557 ;	main.c: 173: uart_write_str("UNKNOWN AUTOCOMMIT ARG: ");
+      00020D AEr0Er77         [ 2]  558 	ldw	x, #___str_19+0
+      000210 89               [ 2]  559 	pushw	x
+      000211 CDr00r00         [ 4]  560 	call	_uart_write_str
+      000214 85               [ 2]  561 	popw	x
+                                    562 ;	main.c: 174: uart_write_str(s);
+      000215 1E 03            [ 2]  563 	ldw	x, (0x03, sp)
+      000217 89               [ 2]  564 	pushw	x
+      000218 CDr00r00         [ 4]  565 	call	_uart_write_str
+      00021B 85               [ 2]  566 	popw	x
+                                    567 ;	main.c: 175: uart_write_str("\r\n");
+      00021C AEr0Dr47         [ 2]  568 	ldw	x, #___str_1+0
+      00021F 89               [ 2]  569 	pushw	x
+      000220 CDr00r00         [ 4]  570 	call	_uart_write_str
+      000223 85               [ 2]  571 	popw	x
+      000224                        572 00109$:
+      000224 81               [ 4]  573 	ret
+                                    574 ;	main.c: 179: void write_str(const char *prefix, const char *val)
+                                    575 ;	-----------------------------------------
+                                    576 ;	 function write_str
+                                    577 ;	-----------------------------------------
+      000225                        578 _write_str:
+                                    579 ;	main.c: 181: uart_write_str(prefix);
+      000225 1E 03            [ 2]  580 	ldw	x, (0x03, sp)
+      000227 89               [ 2]  581 	pushw	x
+      000228 CDr00r00         [ 4]  582 	call	_uart_write_str
+      00022B 85               [ 2]  583 	popw	x
+                                    584 ;	main.c: 182: uart_write_str(val);
+      00022C 1E 05            [ 2]  585 	ldw	x, (0x05, sp)
+      00022E 89               [ 2]  586 	pushw	x
+      00022F CDr00r00         [ 4]  587 	call	_uart_write_str
+      000232 85               [ 2]  588 	popw	x
+                                    589 ;	main.c: 183: uart_write_str("\r\n");
+      000233 AEr0Dr47         [ 2]  590 	ldw	x, #___str_1+0
+      000236 89               [ 2]  591 	pushw	x
+      000237 CDr00r00         [ 4]  592 	call	_uart_write_str
+      00023A 85               [ 2]  593 	popw	x
+      00023B 81               [ 4]  594 	ret
+                                    595 ;	main.c: 186: void write_onoff(const char *prefix, uint8_t on)
+                                    596 ;	-----------------------------------------
+                                    597 ;	 function write_onoff
+                                    598 ;	-----------------------------------------
+      00023C                        599 _write_onoff:
+                                    600 ;	main.c: 188: write_str(prefix, on ? "ON" : "OFF");
+      00023C 0D 05            [ 1]  601 	tnz	(0x05, sp)
+      00023E 27 05            [ 1]  602 	jreq	00103$
+      000240 AEr0Er90         [ 2]  603 	ldw	x, #___str_20+0
+      000243 20 03            [ 2]  604 	jra	00104$
+      000245                        605 00103$:
+      000245 AEr0Er93         [ 2]  606 	ldw	x, #___str_21+0
+      000248                        607 00104$:
+      000248 89               [ 2]  608 	pushw	x
+      000249 1E 05            [ 2]  609 	ldw	x, (0x05, sp)
+      00024B 89               [ 2]  610 	pushw	x
+      00024C CDr02r25         [ 4]  611 	call	_write_str
+      00024F 5B 04            [ 2]  612 	addw	sp, #4
+      000251 81               [ 4]  613 	ret
+                                    614 ;	main.c: 191: void write_millivolt(const char *prefix, uint16_t mv)
+                                    615 ;	-----------------------------------------
+                                    616 ;	 function write_millivolt
+                                    617 ;	-----------------------------------------
+      000252                        618 _write_millivolt:
+                                    619 ;	main.c: 193: uart_write_str(prefix);
+      000252 1E 03            [ 2]  620 	ldw	x, (0x03, sp)
+      000254 89               [ 2]  621 	pushw	x
+      000255 CDr00r00         [ 4]  622 	call	_uart_write_str
+      000258 85               [ 2]  623 	popw	x
+                                    624 ;	main.c: 194: uart_write_millivolt(mv);
+      000259 1E 05            [ 2]  625 	ldw	x, (0x05, sp)
+      00025B 89               [ 2]  626 	pushw	x
+      00025C CDr00r00         [ 4]  627 	call	_uart_write_millivolt
+      00025F 85               [ 2]  628 	popw	x
+                                    629 ;	main.c: 195: uart_write_str("\r\n");
+      000260 AEr0Dr47         [ 2]  630 	ldw	x, #___str_1+0
+      000263 89               [ 2]  631 	pushw	x
+      000264 CDr00r00         [ 4]  632 	call	_uart_write_str
+      000267 85               [ 2]  633 	popw	x
+      000268 81               [ 4]  634 	ret
+                                    635 ;	main.c: 198: void write_milliamp(const char *prefix, uint16_t ma)
+                                    636 ;	-----------------------------------------
+                                    637 ;	 function write_milliamp
+                                    638 ;	-----------------------------------------
+      000269                        639 _write_milliamp:
+                                    640 ;	main.c: 200: uart_write_str(prefix);
+      000269 1E 03            [ 2]  641 	ldw	x, (0x03, sp)
+      00026B 89               [ 2]  642 	pushw	x
+      00026C CDr00r00         [ 4]  643 	call	_uart_write_str
+      00026F 85               [ 2]  644 	popw	x
+                                    645 ;	main.c: 201: uart_write_milliamp(ma);
+      000270 1E 05            [ 2]  646 	ldw	x, (0x05, sp)
+      000272 89               [ 2]  647 	pushw	x
+      000273 CDr00r00         [ 4]  648 	call	_uart_write_milliamp
+      000276 85               [ 2]  649 	popw	x
+                                    650 ;	main.c: 202: uart_write_str("\r\n");
+      000277 AEr0Dr47         [ 2]  651 	ldw	x, #___str_1+0
+      00027A 89               [ 2]  652 	pushw	x
+      00027B CDr00r00         [ 4]  653 	call	_uart_write_str
+      00027E 85               [ 2]  654 	popw	x
+      00027F 81               [ 4]  655 	ret
+                                    656 ;	main.c: 205: void write_int(const char *prefix, uint16_t val)
+                                    657 ;	-----------------------------------------
+                                    658 ;	 function write_int
+                                    659 ;	-----------------------------------------
+      000280                        660 _write_int:
+                                    661 ;	main.c: 207: uart_write_str(prefix);
+      000280 1E 03            [ 2]  662 	ldw	x, (0x03, sp)
+      000282 89               [ 2]  663 	pushw	x
+      000283 CDr00r00         [ 4]  664 	call	_uart_write_str
+      000286 85               [ 2]  665 	popw	x
+                                    666 ;	main.c: 208: uart_write_int(val);
+      000287 1E 05            [ 2]  667 	ldw	x, (0x05, sp)
+      000289 89               [ 2]  668 	pushw	x
+      00028A CDr00r00         [ 4]  669 	call	_uart_write_int
+      00028D 85               [ 2]  670 	popw	x
+                                    671 ;	main.c: 209: uart_write_str("\r\n");
+      00028E AEr0Dr47         [ 2]  672 	ldw	x, #___str_1+0
+      000291 89               [ 2]  673 	pushw	x
+      000292 CDr00r00         [ 4]  674 	call	_uart_write_str
+      000295 85               [ 2]  675 	popw	x
+      000296 81               [ 4]  676 	ret
+                                    677 ;	main.c: 212: uint32_t _parse_uint(uint8_t *s)
+                                    678 ;	-----------------------------------------
+                                    679 ;	 function _parse_uint
+                                    680 ;	-----------------------------------------
+      000297                        681 __parse_uint:
+      000297 52 0A            [ 2]  682 	sub	sp, #10
+                                    683 ;	main.c: 214: uint32_t val = 0;
+      000299 5F               [ 1]  684 	clrw	x
+      00029A 1F 03            [ 2]  685 	ldw	(0x03, sp), x
+      00029C 90 5F            [ 1]  686 	clrw	y
+                                    687 ;	main.c: 225: return val;
+      00029E 1E 0D            [ 2]  688 	ldw	x, (0x0d, sp)
+      0002A0 1F 05            [ 2]  689 	ldw	(0x05, sp), x
+      0002A2                        690 00107$:
+                                    691 ;	main.c: 216: for (; *s; s++) {
+      0002A2 1E 05            [ 2]  692 	ldw	x, (0x05, sp)
+      0002A4 F6               [ 1]  693 	ld	a, (x)
+      0002A5 4D               [ 1]  694 	tnz	a
+      0002A6 27 4D            [ 1]  695 	jreq	00105$
+                                    696 ;	main.c: 217: uint8_t ch = *s;
+                                    697 ;	main.c: 218: if (ch >= '0' && ch <= '9') {
+      0002A8 A1 30            [ 1]  698 	cp	a, #0x30
+      0002AA 25 39            [ 1]  699 	jrc	00102$
+      0002AC A1 39            [ 1]  700 	cp	a, #0x39
+      0002AE 22 35            [ 1]  701 	jrugt	00102$
+                                    702 ;	main.c: 219: val = val*10 + (ch-'0');
+      0002B0 88               [ 1]  703 	push	a
+      0002B1 1E 04            [ 2]  704 	ldw	x, (0x04, sp)
+      0002B3 89               [ 2]  705 	pushw	x
+      0002B4 90 89            [ 2]  706 	pushw	y
+      0002B6 4B 0A            [ 1]  707 	push	#0x0a
+      0002B8 5F               [ 1]  708 	clrw	x
+      0002B9 89               [ 2]  709 	pushw	x
+      0002BA 4B 00            [ 1]  710 	push	#0x00
+      0002BC CDr00r00         [ 4]  711 	call	__mullong
+      0002BF 5B 08            [ 2]  712 	addw	sp, #8
+      0002C1 1F 0A            [ 2]  713 	ldw	(0x0a, sp), x
+      0002C3 17 08            [ 2]  714 	ldw	(0x08, sp), y
+      0002C5 84               [ 1]  715 	pop	a
+      0002C6 5F               [ 1]  716 	clrw	x
+      0002C7 97               [ 1]  717 	ld	xl, a
+      0002C8 1D 00 30         [ 2]  718 	subw	x, #0x0030
+      0002CB 9E               [ 1]  719 	ld	a, xh
+      0002CC 90 5F            [ 1]  720 	clrw	y
+      0002CE 4D               [ 1]  721 	tnz	a
+      0002CF 2A 02            [ 1]  722 	jrpl	00130$
+      0002D1 90 5A            [ 2]  723 	decw	y
+      0002D3                        724 00130$:
+      0002D3 95               [ 1]  725 	ld	xh, a
+      0002D4 72 FB 09         [ 2]  726 	addw	x, (0x09, sp)
+      0002D7 90 9F            [ 1]  727 	ld	a, yl
+      0002D9 19 08            [ 1]  728 	adc	a, (0x08, sp)
+      0002DB 90 02            [ 1]  729 	rlwa	y
+      0002DD 19 07            [ 1]  730 	adc	a, (0x07, sp)
+      0002DF 90 95            [ 1]  731 	ld	yh, a
+      0002E1 1F 03            [ 2]  732 	ldw	(0x03, sp), x
+      0002E3 20 09            [ 2]  733 	jra	00108$
+      0002E5                        734 00102$:
+                                    735 ;	main.c: 221: return 0xFFFFFFFF;
+      0002E5 AE FF FF         [ 2]  736 	ldw	x, #0xffff
+      0002E8 90 AE FF FF      [ 2]  737 	ldw	y, #0xffff
+      0002EC 20 09            [ 2]  738 	jra	00109$
+      0002EE                        739 00108$:
+                                    740 ;	main.c: 216: for (; *s; s++) {
+      0002EE 1E 05            [ 2]  741 	ldw	x, (0x05, sp)
+      0002F0 5C               [ 2]  742 	incw	x
+      0002F1 1F 05            [ 2]  743 	ldw	(0x05, sp), x
+      0002F3 20 AD            [ 2]  744 	jra	00107$
+      0002F5                        745 00105$:
+                                    746 ;	main.c: 225: return val;
+      0002F5 1E 03            [ 2]  747 	ldw	x, (0x03, sp)
+      0002F7                        748 00109$:
+      0002F7 5B 0A            [ 2]  749 	addw	sp, #10
+      0002F9 81               [ 4]  750 	ret
+                                    751 ;	main.c: 228: void parse_uint(const char *name, uint32_t *pval, uint8_t *s)
+                                    752 ;	-----------------------------------------
+                                    753 ;	 function parse_uint
+                                    754 ;	-----------------------------------------
+      0002FA                        755 _parse_uint:
+      0002FA 52 04            [ 2]  756 	sub	sp, #4
+                                    757 ;	main.c: 230: uint32_t val = _parse_uint(s);
+      0002FC 1E 0B            [ 2]  758 	ldw	x, (0x0b, sp)
+      0002FE 89               [ 2]  759 	pushw	x
+      0002FF CDr02r97         [ 4]  760 	call	__parse_uint
+      000302 5B 02            [ 2]  761 	addw	sp, #2
+      000304 1F 03            [ 2]  762 	ldw	(0x03, sp), x
+                                    763 ;	main.c: 231: if (val == 0xFFFFFFFF) {
+      000306 1E 03            [ 2]  764 	ldw	x, (0x03, sp)
+      000308 A3 FF FF         [ 2]  765 	cpw	x, #0xffff
+      00030B 26 26            [ 1]  766 	jrne	00102$
+      00030D 90 A3 FF FF      [ 2]  767 	cpw	y, #0xffff
+      000311 26 20            [ 1]  768 	jrne	00102$
+                                    769 ;	main.c: 232: uart_write_str("FAILED TO PARSE ");
+      000313 AEr0Er97         [ 2]  770 	ldw	x, #___str_22+0
+      000316 89               [ 2]  771 	pushw	x
+      000317 CDr00r00         [ 4]  772 	call	_uart_write_str
+      00031A 85               [ 2]  773 	popw	x
+                                    774 ;	main.c: 233: uart_write_str(s);
+      00031B 1E 0B            [ 2]  775 	ldw	x, (0x0b, sp)
+      00031D 89               [ 2]  776 	pushw	x
+      00031E CDr00r00         [ 4]  777 	call	_uart_write_str
+      000321 85               [ 2]  778 	popw	x
+                                    779 ;	main.c: 234: uart_write_str(" FOR ");
+      000322 AEr0ErA8         [ 2]  780 	ldw	x, #___str_23+0
+      000325 89               [ 2]  781 	pushw	x
+      000326 CDr00r00         [ 4]  782 	call	_uart_write_str
+      000329 85               [ 2]  783 	popw	x
+                                    784 ;	main.c: 235: uart_write_str(name);
+      00032A 1E 07            [ 2]  785 	ldw	x, (0x07, sp)
+      00032C 89               [ 2]  786 	pushw	x
+      00032D CDr00r00         [ 4]  787 	call	_uart_write_str
+      000330 85               [ 2]  788 	popw	x
+      000331 20 1A            [ 2]  789 	jra	00103$
+      000333                        790 00102$:
+                                    791 ;	main.c: 237: *pval = val;
+      000333 1E 09            [ 2]  792 	ldw	x, (0x09, sp)
+      000335 7B 04            [ 1]  793 	ld	a, (0x04, sp)
+      000337 E7 03            [ 1]  794 	ld	(0x3, x), a
+      000339 7B 03            [ 1]  795 	ld	a, (0x03, sp)
+      00033B E7 02            [ 1]  796 	ld	(0x2, x), a
+      00033D FF               [ 2]  797 	ldw	(x), y
+                                    798 ;	main.c: 238: uart_write_str("CALIBRATION SET ");
+      00033E AEr0ErAE         [ 2]  799 	ldw	x, #___str_24+0
+      000341 89               [ 2]  800 	pushw	x
+      000342 CDr00r00         [ 4]  801 	call	_uart_write_str
+      000345 85               [ 2]  802 	popw	x
+                                    803 ;	main.c: 239: uart_write_str(name);
+      000346 1E 07            [ 2]  804 	ldw	x, (0x07, sp)
+      000348 89               [ 2]  805 	pushw	x
+      000349 CDr00r00         [ 4]  806 	call	_uart_write_str
+      00034C 85               [ 2]  807 	popw	x
+      00034D                        808 00103$:
+                                    809 ;	main.c: 241: uart_write_str("\r\n");
+      00034D AEr0Dr47         [ 2]  810 	ldw	x, #___str_1+0
+      000350 89               [ 2]  811 	pushw	x
+      000351 CDr00r00         [ 4]  812 	call	_uart_write_str
+      000354 5B 06            [ 2]  813 	addw	sp, #6
+      000356 81               [ 4]  814 	ret
+                                    815 ;	main.c: 244: void process_input()
+                                    816 ;	-----------------------------------------
+                                    817 ;	 function process_input
+                                    818 ;	-----------------------------------------
+      000357                        819 _process_input:
+      000357 52 1D            [ 2]  820 	sub	sp, #29
+                                    821 ;	main.c: 247: uart_read_buf[uart_read_len-1] = 0;
+      000359 AEr00r00         [ 2]  822 	ldw	x, #_uart_read_buf+0
+      00035C 1F 06            [ 2]  823 	ldw	(0x06, sp), x
+      00035E C6u00u00         [ 1]  824 	ld	a, _uart_read_len+0
+      000361 4A               [ 1]  825 	dec	a
+      000362 5F               [ 1]  826 	clrw	x
+      000363 97               [ 1]  827 	ld	xl, a
+      000364 72 FB 06         [ 2]  828 	addw	x, (0x06, sp)
+      000367 7F               [ 1]  829 	clr	(x)
+                                    830 ;	main.c: 249: if (strcmp(uart_read_buf, "MODEL") == 0) {
+      000368 AEr0ErBF         [ 2]  831 	ldw	x, #___str_25+0
+      00036B 16 06            [ 2]  832 	ldw	y, (0x06, sp)
+      00036D 89               [ 2]  833 	pushw	x
+      00036E 90 89            [ 2]  834 	pushw	y
+      000370 CDr00r00         [ 4]  835 	call	_strcmp
+      000373 5B 04            [ 2]  836 	addw	sp, #4
+      000375 1F 0A            [ 2]  837 	ldw	(0x0a, sp), x
+      000377 1E 0A            [ 2]  838 	ldw	x, (0x0a, sp)
+      000379 26 0B            [ 1]  839 	jrne	00183$
+                                    840 ;	main.c: 250: uart_write_str("MODEL: " MODEL "\r\n");
+      00037B AEr0ErC5         [ 2]  841 	ldw	x, #___str_26+0
+      00037E 89               [ 2]  842 	pushw	x
+      00037F CDr00r00         [ 4]  843 	call	_uart_write_str
+      000382 85               [ 2]  844 	popw	x
+      000383 CCr0ArED         [ 2]  845 	jp	00184$
+      000386                        846 00183$:
+                                    847 ;	main.c: 251: } else if (strcmp(uart_read_buf, "VERSION") == 0) {
+      000386 AEr0ErD4         [ 2]  848 	ldw	x, #___str_27+0
+      000389 16 06            [ 2]  849 	ldw	y, (0x06, sp)
+      00038B 89               [ 2]  850 	pushw	x
+      00038C 90 89            [ 2]  851 	pushw	y
+      00038E CDr00r00         [ 4]  852 	call	_strcmp
+      000391 5B 04            [ 2]  853 	addw	sp, #4
+      000393 5D               [ 2]  854 	tnzw	x
+      000394 26 0B            [ 1]  855 	jrne	00180$
+                                    856 ;	main.c: 252: uart_write_str("VERSION: " FW_VERSION "\r\n");
+      000396 AEr0ErDC         [ 2]  857 	ldw	x, #___str_28+0
+      000399 89               [ 2]  858 	pushw	x
+      00039A CDr00r00         [ 4]  859 	call	_uart_write_str
+      00039D 85               [ 2]  860 	popw	x
+      00039E CCr0ArED         [ 2]  861 	jp	00184$
+      0003A1                        862 00180$:
+                                    863 ;	main.c: 253: } else if (strcmp(uart_read_buf, "SYSTEM") == 0) {
+      0003A1 AEr0ErED         [ 2]  864 	ldw	x, #___str_29+0
+      0003A4 16 06            [ 2]  865 	ldw	y, (0x06, sp)
+      0003A6 89               [ 2]  866 	pushw	x
+      0003A7 90 89            [ 2]  867 	pushw	y
+      0003A9 CDr00r00         [ 4]  868 	call	_strcmp
+      0003AC 5B 04            [ 2]  869 	addw	sp, #4
+      0003AE 5D               [ 2]  870 	tnzw	x
+      0003AF 26 3B            [ 1]  871 	jrne	00177$
+                                    872 ;	main.c: 254: uart_write_str("MODEL: " MODEL "\r\n" "VERSION: " FW_VERSION "\r\n");
+      0003B1 AEr0ErF4         [ 2]  873 	ldw	x, #___str_30+0
+      0003B4 89               [ 2]  874 	pushw	x
+      0003B5 CDr00r00         [ 4]  875 	call	_uart_write_str
+      0003B8 85               [ 2]  876 	popw	x
+                                    877 ;	main.c: 256: write_str("NAME: ", cfg_system.name);
+      0003B9 AEr00r00         [ 2]  878 	ldw	x, #_cfg_system+0
+      0003BC 1F 0C            [ 2]  879 	ldw	(0x0c, sp), x
+      0003BE 1E 0C            [ 2]  880 	ldw	x, (0x0c, sp)
+      0003C0 5C               [ 2]  881 	incw	x
+      0003C1 90 AEr0Fr13      [ 2]  882 	ldw	y, #___str_31+0
+      0003C5 89               [ 2]  883 	pushw	x
+      0003C6 90 89            [ 2]  884 	pushw	y
+      0003C8 CDr02r25         [ 4]  885 	call	_write_str
+      0003CB 5B 04            [ 2]  886 	addw	sp, #4
+                                    887 ;	main.c: 257: write_onoff("ONSTARTUP: ", cfg_system.default_on);
+      0003CD 1E 0C            [ 2]  888 	ldw	x, (0x0c, sp)
+      0003CF E6 12            [ 1]  889 	ld	a, (0x12, x)
+      0003D1 AEr0Fr1A         [ 2]  890 	ldw	x, #___str_32+0
+      0003D4 88               [ 1]  891 	push	a
+      0003D5 89               [ 2]  892 	pushw	x
+      0003D6 CDr02r3C         [ 4]  893 	call	_write_onoff
+      0003D9 5B 03            [ 2]  894 	addw	sp, #3
+                                    895 ;	main.c: 258: write_onoff("AUTOCOMMIT: ", cfg_system.autocommit);
+      0003DB 1E 0C            [ 2]  896 	ldw	x, (0x0c, sp)
+      0003DD E6 14            [ 1]  897 	ld	a, (0x14, x)
+      0003DF AEr0Fr26         [ 2]  898 	ldw	x, #___str_33+0
+      0003E2 88               [ 1]  899 	push	a
+      0003E3 89               [ 2]  900 	pushw	x
+      0003E4 CDr02r3C         [ 4]  901 	call	_write_onoff
+      0003E7 5B 03            [ 2]  902 	addw	sp, #3
+      0003E9 CCr0ArED         [ 2]  903 	jp	00184$
+      0003EC                        904 00177$:
+                                    905 ;	main.c: 259: } else if (strcmp(uart_read_buf, "CALIBRATION") == 0) {
+      0003EC AEr0Fr33         [ 2]  906 	ldw	x, #___str_34+0
+      0003EF 16 06            [ 2]  907 	ldw	y, (0x06, sp)
+      0003F1 89               [ 2]  908 	pushw	x
+      0003F2 90 89            [ 2]  909 	pushw	y
+      0003F4 CDr00r00         [ 4]  910 	call	_strcmp
+      0003F7 5B 04            [ 2]  911 	addw	sp, #4
+      0003F9 5D               [ 2]  912 	tnzw	x
+      0003FA 27 03            [ 1]  913 	jreq	00325$
+      0003FC CCr05r1F         [ 2]  914 	jp	00174$
+      0003FF                        915 00325$:
+                                    916 ;	main.c: 260: uart_write_str("CALIBRATE VIN ADC: ");
+      0003FF AEr0Fr3F         [ 2]  917 	ldw	x, #___str_35+0
+      000402 89               [ 2]  918 	pushw	x
+      000403 CDr00r00         [ 4]  919 	call	_uart_write_str
+      000406 85               [ 2]  920 	popw	x
+                                    921 ;	main.c: 261: uart_write_fixed_point(cfg_system.vin_adc.a);
+      000407 AEr00r00         [ 2]  922 	ldw	x, #_cfg_system+0
+      00040A 1F 10            [ 2]  923 	ldw	(0x10, sp), x
+      00040C 1E 10            [ 2]  924 	ldw	x, (0x10, sp)
+      00040E 89               [ 2]  925 	pushw	x
+      00040F EE 17            [ 2]  926 	ldw	x, (0x17, x)
+      000411 51               [ 1]  927 	exgw	x, y
+      000412 85               [ 2]  928 	popw	x
+      000413 EE 15            [ 2]  929 	ldw	x, (0x15, x)
+      000415 90 89            [ 2]  930 	pushw	y
+      000417 89               [ 2]  931 	pushw	x
+      000418 CDr00r00         [ 4]  932 	call	_uart_write_fixed_point
+      00041B 5B 04            [ 2]  933 	addw	sp, #4
+                                    934 ;	main.c: 262: uart_write_ch('/');
+      00041D 4B 2F            [ 1]  935 	push	#0x2f
+      00041F CDr00r00         [ 4]  936 	call	_uart_write_ch
+      000422 84               [ 1]  937 	pop	a
+                                    938 ;	main.c: 263: uart_write_fixed_point(cfg_system.vin_adc.b);
+      000423 1E 10            [ 2]  939 	ldw	x, (0x10, sp)
+      000425 89               [ 2]  940 	pushw	x
+      000426 EE 1B            [ 2]  941 	ldw	x, (0x1b, x)
+      000428 51               [ 1]  942 	exgw	x, y
+      000429 85               [ 2]  943 	popw	x
+      00042A EE 19            [ 2]  944 	ldw	x, (0x19, x)
+      00042C 90 89            [ 2]  945 	pushw	y
+      00042E 89               [ 2]  946 	pushw	x
+      00042F CDr00r00         [ 4]  947 	call	_uart_write_fixed_point
+      000432 5B 04            [ 2]  948 	addw	sp, #4
+                                    949 ;	main.c: 264: uart_write_str("\r\n");
+      000434 AEr0Dr47         [ 2]  950 	ldw	x, #___str_1+0
+      000437 1F 18            [ 2]  951 	ldw	(0x18, sp), x
+      000439 1E 18            [ 2]  952 	ldw	x, (0x18, sp)
+      00043B 89               [ 2]  953 	pushw	x
+      00043C CDr00r00         [ 4]  954 	call	_uart_write_str
+      00043F 85               [ 2]  955 	popw	x
+                                    956 ;	main.c: 265: uart_write_str("CALIBRATE VOUT ADC: ");
+      000440 AEr0Fr53         [ 2]  957 	ldw	x, #___str_36+0
+      000443 89               [ 2]  958 	pushw	x
+      000444 CDr00r00         [ 4]  959 	call	_uart_write_str
+      000447 85               [ 2]  960 	popw	x
+                                    961 ;	main.c: 266: uart_write_fixed_point(cfg_system.vout_adc.a);
+      000448 1E 10            [ 2]  962 	ldw	x, (0x10, sp)
+      00044A 89               [ 2]  963 	pushw	x
+      00044B EE 1F            [ 2]  964 	ldw	x, (0x1f, x)
+      00044D 51               [ 1]  965 	exgw	x, y
+      00044E 85               [ 2]  966 	popw	x
+      00044F EE 1D            [ 2]  967 	ldw	x, (0x1d, x)
+      000451 90 89            [ 2]  968 	pushw	y
+      000453 89               [ 2]  969 	pushw	x
+      000454 CDr00r00         [ 4]  970 	call	_uart_write_fixed_point
+      000457 5B 04            [ 2]  971 	addw	sp, #4
+                                    972 ;	main.c: 267: uart_write_ch('/');
+      000459 4B 2F            [ 1]  973 	push	#0x2f
+      00045B CDr00r00         [ 4]  974 	call	_uart_write_ch
+      00045E 84               [ 1]  975 	pop	a
+                                    976 ;	main.c: 268: uart_write_fixed_point(cfg_system.vout_adc.b);
+      00045F 1E 10            [ 2]  977 	ldw	x, (0x10, sp)
+      000461 89               [ 2]  978 	pushw	x
+      000462 EE 23            [ 2]  979 	ldw	x, (0x23, x)
+      000464 51               [ 1]  980 	exgw	x, y
+      000465 85               [ 2]  981 	popw	x
+      000466 EE 21            [ 2]  982 	ldw	x, (0x21, x)
+      000468 90 89            [ 2]  983 	pushw	y
+      00046A 89               [ 2]  984 	pushw	x
+      00046B CDr00r00         [ 4]  985 	call	_uart_write_fixed_point
+      00046E 5B 04            [ 2]  986 	addw	sp, #4
+                                    987 ;	main.c: 269: uart_write_str("\r\n");
+      000470 1E 18            [ 2]  988 	ldw	x, (0x18, sp)
+      000472 89               [ 2]  989 	pushw	x
+      000473 CDr00r00         [ 4]  990 	call	_uart_write_str
+      000476 85               [ 2]  991 	popw	x
+                                    992 ;	main.c: 270: uart_write_str("CALIBRATE COUT ADC: ");
+      000477 AEr0Fr68         [ 2]  993 	ldw	x, #___str_37+0
+      00047A 89               [ 2]  994 	pushw	x
+      00047B CDr00r00         [ 4]  995 	call	_uart_write_str
+      00047E 85               [ 2]  996 	popw	x
+                                    997 ;	main.c: 271: uart_write_fixed_point(cfg_system.cout_adc.a);
+      00047F 1E 10            [ 2]  998 	ldw	x, (0x10, sp)
+      000481 89               [ 2]  999 	pushw	x
+      000482 EE 27            [ 2] 1000 	ldw	x, (0x27, x)
+      000484 51               [ 1] 1001 	exgw	x, y
+      000485 85               [ 2] 1002 	popw	x
+      000486 EE 25            [ 2] 1003 	ldw	x, (0x25, x)
+      000488 90 89            [ 2] 1004 	pushw	y
+      00048A 89               [ 2] 1005 	pushw	x
+      00048B CDr00r00         [ 4] 1006 	call	_uart_write_fixed_point
+      00048E 5B 04            [ 2] 1007 	addw	sp, #4
+                                   1008 ;	main.c: 272: uart_write_ch('/');
+      000490 4B 2F            [ 1] 1009 	push	#0x2f
+      000492 CDr00r00         [ 4] 1010 	call	_uart_write_ch
+      000495 84               [ 1] 1011 	pop	a
+                                   1012 ;	main.c: 273: uart_write_fixed_point(cfg_system.cout_adc.b);
+      000496 1E 10            [ 2] 1013 	ldw	x, (0x10, sp)
+      000498 89               [ 2] 1014 	pushw	x
+      000499 EE 2B            [ 2] 1015 	ldw	x, (0x2b, x)
+      00049B 51               [ 1] 1016 	exgw	x, y
+      00049C 85               [ 2] 1017 	popw	x
+      00049D EE 29            [ 2] 1018 	ldw	x, (0x29, x)
+      00049F 90 89            [ 2] 1019 	pushw	y
+      0004A1 89               [ 2] 1020 	pushw	x
+      0004A2 CDr00r00         [ 4] 1021 	call	_uart_write_fixed_point
+      0004A5 5B 04            [ 2] 1022 	addw	sp, #4
+                                   1023 ;	main.c: 274: uart_write_str("\r\n");
+      0004A7 1E 18            [ 2] 1024 	ldw	x, (0x18, sp)
+      0004A9 89               [ 2] 1025 	pushw	x
+      0004AA CDr00r00         [ 4] 1026 	call	_uart_write_str
+      0004AD 85               [ 2] 1027 	popw	x
+                                   1028 ;	main.c: 275: uart_write_str("CALIBRATE VOUT PWM: ");
+      0004AE AEr0Fr7D         [ 2] 1029 	ldw	x, #___str_38+0
+      0004B1 89               [ 2] 1030 	pushw	x
+      0004B2 CDr00r00         [ 4] 1031 	call	_uart_write_str
+      0004B5 85               [ 2] 1032 	popw	x
+                                   1033 ;	main.c: 276: uart_write_fixed_point(cfg_system.vout_pwm.a);
+      0004B6 1E 10            [ 2] 1034 	ldw	x, (0x10, sp)
+      0004B8 89               [ 2] 1035 	pushw	x
+      0004B9 EE 2F            [ 2] 1036 	ldw	x, (0x2f, x)
+      0004BB 51               [ 1] 1037 	exgw	x, y
+      0004BC 85               [ 2] 1038 	popw	x
+      0004BD EE 2D            [ 2] 1039 	ldw	x, (0x2d, x)
+      0004BF 90 89            [ 2] 1040 	pushw	y
+      0004C1 89               [ 2] 1041 	pushw	x
+      0004C2 CDr00r00         [ 4] 1042 	call	_uart_write_fixed_point
+      0004C5 5B 04            [ 2] 1043 	addw	sp, #4
+                                   1044 ;	main.c: 277: uart_write_ch('/');
+      0004C7 4B 2F            [ 1] 1045 	push	#0x2f
+      0004C9 CDr00r00         [ 4] 1046 	call	_uart_write_ch
+      0004CC 84               [ 1] 1047 	pop	a
+                                   1048 ;	main.c: 278: uart_write_fixed_point(cfg_system.vout_pwm.b);
+      0004CD 1E 10            [ 2] 1049 	ldw	x, (0x10, sp)
+      0004CF 89               [ 2] 1050 	pushw	x
+      0004D0 EE 33            [ 2] 1051 	ldw	x, (0x33, x)
+      0004D2 51               [ 1] 1052 	exgw	x, y
+      0004D3 85               [ 2] 1053 	popw	x
+      0004D4 EE 31            [ 2] 1054 	ldw	x, (0x31, x)
+      0004D6 90 89            [ 2] 1055 	pushw	y
+      0004D8 89               [ 2] 1056 	pushw	x
+      0004D9 CDr00r00         [ 4] 1057 	call	_uart_write_fixed_point
+      0004DC 5B 04            [ 2] 1058 	addw	sp, #4
+                                   1059 ;	main.c: 279: uart_write_str("\r\n");
+      0004DE 1E 18            [ 2] 1060 	ldw	x, (0x18, sp)
+      0004E0 89               [ 2] 1061 	pushw	x
+      0004E1 CDr00r00         [ 4] 1062 	call	_uart_write_str
+      0004E4 85               [ 2] 1063 	popw	x
+                                   1064 ;	main.c: 280: uart_write_str("CALIBRATE COUT PWM: ");
+      0004E5 AEr0Fr92         [ 2] 1065 	ldw	x, #___str_39+0
+      0004E8 89               [ 2] 1066 	pushw	x
+      0004E9 CDr00r00         [ 4] 1067 	call	_uart_write_str
+      0004EC 85               [ 2] 1068 	popw	x
+                                   1069 ;	main.c: 281: uart_write_fixed_point(cfg_system.cout_pwm.a);
+      0004ED 1E 10            [ 2] 1070 	ldw	x, (0x10, sp)
+      0004EF 89               [ 2] 1071 	pushw	x
+      0004F0 EE 37            [ 2] 1072 	ldw	x, (0x37, x)
+      0004F2 51               [ 1] 1073 	exgw	x, y
+      0004F3 85               [ 2] 1074 	popw	x
+      0004F4 EE 35            [ 2] 1075 	ldw	x, (0x35, x)
+      0004F6 90 89            [ 2] 1076 	pushw	y
+      0004F8 89               [ 2] 1077 	pushw	x
+      0004F9 CDr00r00         [ 4] 1078 	call	_uart_write_fixed_point
+      0004FC 5B 04            [ 2] 1079 	addw	sp, #4
+                                   1080 ;	main.c: 282: uart_write_ch('/');
+      0004FE 4B 2F            [ 1] 1081 	push	#0x2f
+      000500 CDr00r00         [ 4] 1082 	call	_uart_write_ch
+      000503 84               [ 1] 1083 	pop	a
+                                   1084 ;	main.c: 283: uart_write_fixed_point(cfg_system.cout_pwm.b);
+      000504 1E 10            [ 2] 1085 	ldw	x, (0x10, sp)
+      000506 89               [ 2] 1086 	pushw	x
+      000507 EE 3B            [ 2] 1087 	ldw	x, (0x3b, x)
+      000509 51               [ 1] 1088 	exgw	x, y
+      00050A 85               [ 2] 1089 	popw	x
+      00050B EE 39            [ 2] 1090 	ldw	x, (0x39, x)
+      00050D 90 89            [ 2] 1091 	pushw	y
+      00050F 89               [ 2] 1092 	pushw	x
+      000510 CDr00r00         [ 4] 1093 	call	_uart_write_fixed_point
+      000513 5B 04            [ 2] 1094 	addw	sp, #4
+                                   1095 ;	main.c: 284: uart_write_str("\r\n");
+      000515 1E 18            [ 2] 1096 	ldw	x, (0x18, sp)
+      000517 89               [ 2] 1097 	pushw	x
+      000518 CDr00r00         [ 4] 1098 	call	_uart_write_str
+      00051B 85               [ 2] 1099 	popw	x
+      00051C CCr0ArED         [ 2] 1100 	jp	00184$
+      00051F                       1101 00174$:
+                                   1102 ;	main.c: 285: } else if (strcmp(uart_read_buf, "RCALIBRATION") == 0) {
+      00051F AEr0FrA7         [ 2] 1103 	ldw	x, #___str_40+0
+      000522 16 06            [ 2] 1104 	ldw	y, (0x06, sp)
+      000524 89               [ 2] 1105 	pushw	x
+      000525 90 89            [ 2] 1106 	pushw	y
+      000527 CDr00r00         [ 4] 1107 	call	_strcmp
+      00052A 5B 04            [ 2] 1108 	addw	sp, #4
+      00052C 5D               [ 2] 1109 	tnzw	x
+      00052D 27 03            [ 1] 1110 	jreq	00326$
+      00052F CCr06r51         [ 2] 1111 	jp	00171$
+      000532                       1112 00326$:
+                                   1113 ;	main.c: 286: uart_write_str("CALIBRATE VIN ADC: ");
+      000532 AEr0Fr3F         [ 2] 1114 	ldw	x, #___str_35+0
+      000535 89               [ 2] 1115 	pushw	x
+      000536 CDr00r00         [ 4] 1116 	call	_uart_write_str
+      000539 85               [ 2] 1117 	popw	x
+                                   1118 ;	main.c: 287: uart_write_int32(cfg_system.vin_adc.a);
+      00053A AEr00r00         [ 2] 1119 	ldw	x, #_cfg_system+0
+      00053D 1F 1C            [ 2] 1120 	ldw	(0x1c, sp), x
+      00053F 1E 1C            [ 2] 1121 	ldw	x, (0x1c, sp)
+      000541 89               [ 2] 1122 	pushw	x
+      000542 EE 17            [ 2] 1123 	ldw	x, (0x17, x)
+      000544 51               [ 1] 1124 	exgw	x, y
+      000545 85               [ 2] 1125 	popw	x
+      000546 EE 15            [ 2] 1126 	ldw	x, (0x15, x)
+      000548 90 89            [ 2] 1127 	pushw	y
+      00054A 89               [ 2] 1128 	pushw	x
+      00054B CDr00r00         [ 4] 1129 	call	_uart_write_int32
+      00054E 5B 04            [ 2] 1130 	addw	sp, #4
+                                   1131 ;	main.c: 288: uart_write_ch('/');
+      000550 4B 2F            [ 1] 1132 	push	#0x2f
+      000552 CDr00r00         [ 4] 1133 	call	_uart_write_ch
+      000555 84               [ 1] 1134 	pop	a
+                                   1135 ;	main.c: 289: uart_write_int32(cfg_system.vin_adc.b);
+      000556 1E 1C            [ 2] 1136 	ldw	x, (0x1c, sp)
+      000558 89               [ 2] 1137 	pushw	x
+      000559 EE 1B            [ 2] 1138 	ldw	x, (0x1b, x)
+      00055B 51               [ 1] 1139 	exgw	x, y
+      00055C 85               [ 2] 1140 	popw	x
+      00055D EE 19            [ 2] 1141 	ldw	x, (0x19, x)
+      00055F 90 89            [ 2] 1142 	pushw	y
+      000561 89               [ 2] 1143 	pushw	x
+      000562 CDr00r00         [ 4] 1144 	call	_uart_write_int32
+      000565 5B 04            [ 2] 1145 	addw	sp, #4
+                                   1146 ;	main.c: 290: uart_write_str("\r\n");
+      000567 AEr0Dr47         [ 2] 1147 	ldw	x, #___str_1+0
+      00056A 1F 08            [ 2] 1148 	ldw	(0x08, sp), x
+      00056C 1E 08            [ 2] 1149 	ldw	x, (0x08, sp)
+      00056E 89               [ 2] 1150 	pushw	x
+      00056F CDr00r00         [ 4] 1151 	call	_uart_write_str
+      000572 85               [ 2] 1152 	popw	x
+                                   1153 ;	main.c: 291: uart_write_str("CALIBRATE VOUT ADC: ");
+      000573 AEr0Fr53         [ 2] 1154 	ldw	x, #___str_36+0
+      000576 89               [ 2] 1155 	pushw	x
+      000577 CDr00r00         [ 4] 1156 	call	_uart_write_str
+      00057A 85               [ 2] 1157 	popw	x
+                                   1158 ;	main.c: 292: uart_write_int32(cfg_system.vout_adc.a);
+      00057B 1E 1C            [ 2] 1159 	ldw	x, (0x1c, sp)
+      00057D 89               [ 2] 1160 	pushw	x
+      00057E EE 1F            [ 2] 1161 	ldw	x, (0x1f, x)
+      000580 51               [ 1] 1162 	exgw	x, y
+      000581 85               [ 2] 1163 	popw	x
+      000582 EE 1D            [ 2] 1164 	ldw	x, (0x1d, x)
+      000584 90 89            [ 2] 1165 	pushw	y
+      000586 89               [ 2] 1166 	pushw	x
+      000587 CDr00r00         [ 4] 1167 	call	_uart_write_int32
+      00058A 5B 04            [ 2] 1168 	addw	sp, #4
+                                   1169 ;	main.c: 293: uart_write_ch('/');
+      00058C 4B 2F            [ 1] 1170 	push	#0x2f
+      00058E CDr00r00         [ 4] 1171 	call	_uart_write_ch
+      000591 84               [ 1] 1172 	pop	a
+                                   1173 ;	main.c: 294: uart_write_int32(cfg_system.vout_adc.b);
+      000592 1E 1C            [ 2] 1174 	ldw	x, (0x1c, sp)
+      000594 89               [ 2] 1175 	pushw	x
+      000595 EE 23            [ 2] 1176 	ldw	x, (0x23, x)
+      000597 51               [ 1] 1177 	exgw	x, y
+      000598 85               [ 2] 1178 	popw	x
+      000599 EE 21            [ 2] 1179 	ldw	x, (0x21, x)
+      00059B 90 89            [ 2] 1180 	pushw	y
+      00059D 89               [ 2] 1181 	pushw	x
+      00059E CDr00r00         [ 4] 1182 	call	_uart_write_int32
+      0005A1 5B 04            [ 2] 1183 	addw	sp, #4
+                                   1184 ;	main.c: 295: uart_write_str("\r\n");
+      0005A3 1E 08            [ 2] 1185 	ldw	x, (0x08, sp)
+      0005A5 89               [ 2] 1186 	pushw	x
+      0005A6 CDr00r00         [ 4] 1187 	call	_uart_write_str
+      0005A9 85               [ 2] 1188 	popw	x
+                                   1189 ;	main.c: 296: uart_write_str("CALIBRATE COUT ADC: ");
+      0005AA AEr0Fr68         [ 2] 1190 	ldw	x, #___str_37+0
+      0005AD 89               [ 2] 1191 	pushw	x
+      0005AE CDr00r00         [ 4] 1192 	call	_uart_write_str
+      0005B1 85               [ 2] 1193 	popw	x
+                                   1194 ;	main.c: 297: uart_write_int32(cfg_system.cout_adc.a);
+      0005B2 1E 1C            [ 2] 1195 	ldw	x, (0x1c, sp)
+      0005B4 89               [ 2] 1196 	pushw	x
+      0005B5 EE 27            [ 2] 1197 	ldw	x, (0x27, x)
+      0005B7 51               [ 1] 1198 	exgw	x, y
+      0005B8 85               [ 2] 1199 	popw	x
+      0005B9 EE 25            [ 2] 1200 	ldw	x, (0x25, x)
+      0005BB 90 89            [ 2] 1201 	pushw	y
+      0005BD 89               [ 2] 1202 	pushw	x
+      0005BE CDr00r00         [ 4] 1203 	call	_uart_write_int32
+      0005C1 5B 04            [ 2] 1204 	addw	sp, #4
+                                   1205 ;	main.c: 298: uart_write_ch('/');
+      0005C3 4B 2F            [ 1] 1206 	push	#0x2f
+      0005C5 CDr00r00         [ 4] 1207 	call	_uart_write_ch
+      0005C8 84               [ 1] 1208 	pop	a
+                                   1209 ;	main.c: 299: uart_write_int32(cfg_system.cout_adc.b);
+      0005C9 1E 1C            [ 2] 1210 	ldw	x, (0x1c, sp)
+      0005CB 89               [ 2] 1211 	pushw	x
+      0005CC EE 2B            [ 2] 1212 	ldw	x, (0x2b, x)
+      0005CE 51               [ 1] 1213 	exgw	x, y
+      0005CF 85               [ 2] 1214 	popw	x
+      0005D0 EE 29            [ 2] 1215 	ldw	x, (0x29, x)
+      0005D2 90 89            [ 2] 1216 	pushw	y
+      0005D4 89               [ 2] 1217 	pushw	x
+      0005D5 CDr00r00         [ 4] 1218 	call	_uart_write_int32
+      0005D8 5B 04            [ 2] 1219 	addw	sp, #4
+                                   1220 ;	main.c: 300: uart_write_str("\r\n");
+      0005DA 1E 08            [ 2] 1221 	ldw	x, (0x08, sp)
+      0005DC 89               [ 2] 1222 	pushw	x
+      0005DD CDr00r00         [ 4] 1223 	call	_uart_write_str
+      0005E0 85               [ 2] 1224 	popw	x
+                                   1225 ;	main.c: 301: uart_write_str("CALIBRATE VOUT PWM: ");
+      0005E1 AEr0Fr7D         [ 2] 1226 	ldw	x, #___str_38+0
+      0005E4 89               [ 2] 1227 	pushw	x
+      0005E5 CDr00r00         [ 4] 1228 	call	_uart_write_str
+      0005E8 85               [ 2] 1229 	popw	x
+                                   1230 ;	main.c: 302: uart_write_int32(cfg_system.vout_pwm.a);
+      0005E9 1E 1C            [ 2] 1231 	ldw	x, (0x1c, sp)
+      0005EB 89               [ 2] 1232 	pushw	x
+      0005EC EE 2F            [ 2] 1233 	ldw	x, (0x2f, x)
+      0005EE 51               [ 1] 1234 	exgw	x, y
+      0005EF 85               [ 2] 1235 	popw	x
+      0005F0 EE 2D            [ 2] 1236 	ldw	x, (0x2d, x)
+      0005F2 90 89            [ 2] 1237 	pushw	y
+      0005F4 89               [ 2] 1238 	pushw	x
+      0005F5 CDr00r00         [ 4] 1239 	call	_uart_write_int32
+      0005F8 5B 04            [ 2] 1240 	addw	sp, #4
+                                   1241 ;	main.c: 303: uart_write_ch('/');
+      0005FA 4B 2F            [ 1] 1242 	push	#0x2f
+      0005FC CDr00r00         [ 4] 1243 	call	_uart_write_ch
+      0005FF 84               [ 1] 1244 	pop	a
+                                   1245 ;	main.c: 304: uart_write_int32(cfg_system.vout_pwm.b);
+      000600 1E 1C            [ 2] 1246 	ldw	x, (0x1c, sp)
+      000602 89               [ 2] 1247 	pushw	x
+      000603 EE 33            [ 2] 1248 	ldw	x, (0x33, x)
+      000605 51               [ 1] 1249 	exgw	x, y
+      000606 85               [ 2] 1250 	popw	x
+      000607 EE 31            [ 2] 1251 	ldw	x, (0x31, x)
+      000609 90 89            [ 2] 1252 	pushw	y
+      00060B 89               [ 2] 1253 	pushw	x
+      00060C CDr00r00         [ 4] 1254 	call	_uart_write_int32
+      00060F 5B 04            [ 2] 1255 	addw	sp, #4
+                                   1256 ;	main.c: 305: uart_write_str("\r\n");
+      000611 1E 08            [ 2] 1257 	ldw	x, (0x08, sp)
+      000613 89               [ 2] 1258 	pushw	x
+      000614 CDr00r00         [ 4] 1259 	call	_uart_write_str
+      000617 85               [ 2] 1260 	popw	x
+                                   1261 ;	main.c: 306: uart_write_str("CALIBRATE COUT PWM: ");
+      000618 AEr0Fr92         [ 2] 1262 	ldw	x, #___str_39+0
+      00061B 89               [ 2] 1263 	pushw	x
+      00061C CDr00r00         [ 4] 1264 	call	_uart_write_str
+      00061F 85               [ 2] 1265 	popw	x
+                                   1266 ;	main.c: 307: uart_write_int32(cfg_system.cout_pwm.a);
+      000620 1E 1C            [ 2] 1267 	ldw	x, (0x1c, sp)
+      000622 89               [ 2] 1268 	pushw	x
+      000623 EE 37            [ 2] 1269 	ldw	x, (0x37, x)
+      000625 51               [ 1] 1270 	exgw	x, y
+      000626 85               [ 2] 1271 	popw	x
+      000627 EE 35            [ 2] 1272 	ldw	x, (0x35, x)
+      000629 90 89            [ 2] 1273 	pushw	y
+      00062B 89               [ 2] 1274 	pushw	x
+      00062C CDr00r00         [ 4] 1275 	call	_uart_write_int32
+      00062F 5B 04            [ 2] 1276 	addw	sp, #4
+                                   1277 ;	main.c: 308: uart_write_ch('/');
+      000631 4B 2F            [ 1] 1278 	push	#0x2f
+      000633 CDr00r00         [ 4] 1279 	call	_uart_write_ch
+      000636 84               [ 1] 1280 	pop	a
+                                   1281 ;	main.c: 309: uart_write_int32(cfg_system.cout_pwm.b);
+      000637 1E 1C            [ 2] 1282 	ldw	x, (0x1c, sp)
+      000639 89               [ 2] 1283 	pushw	x
+      00063A EE 3B            [ 2] 1284 	ldw	x, (0x3b, x)
+      00063C 51               [ 1] 1285 	exgw	x, y
+      00063D 85               [ 2] 1286 	popw	x
+      00063E EE 39            [ 2] 1287 	ldw	x, (0x39, x)
+      000640 90 89            [ 2] 1288 	pushw	y
+      000642 89               [ 2] 1289 	pushw	x
+      000643 CDr00r00         [ 4] 1290 	call	_uart_write_int32
+      000646 5B 04            [ 2] 1291 	addw	sp, #4
+                                   1292 ;	main.c: 310: uart_write_ch('\r');
+      000648 4B 0D            [ 1] 1293 	push	#0x0d
+      00064A CDr00r00         [ 4] 1294 	call	_uart_write_ch
+      00064D 84               [ 1] 1295 	pop	a
+      00064E CCr0ArED         [ 2] 1296 	jp	00184$
+      000651                       1297 00171$:
+                                   1298 ;	main.c: 311: } else if (strcmp(uart_read_buf, "LIMITS") == 0) {
+      000651 AEr0FrB4         [ 2] 1299 	ldw	x, #___str_41+0
+      000654 16 06            [ 2] 1300 	ldw	y, (0x06, sp)
+      000656 89               [ 2] 1301 	pushw	x
+      000657 90 89            [ 2] 1302 	pushw	y
+      000659 CDr00r00         [ 4] 1303 	call	_strcmp
+      00065C 5B 04            [ 2] 1304 	addw	sp, #4
+      00065E 5D               [ 2] 1305 	tnzw	x
+      00065F 26 59            [ 1] 1306 	jrne	00168$
+                                   1307 ;	main.c: 312: uart_write_str("LIMITS:\r\n");
+      000661 AEr0FrBB         [ 2] 1308 	ldw	x, #___str_42+0
+      000664 89               [ 2] 1309 	pushw	x
+      000665 CDr00r00         [ 4] 1310 	call	_uart_write_str
+      000668 85               [ 2] 1311 	popw	x
+                                   1312 ;	main.c: 313: write_millivolt("VMIN: ", CAP_VMIN);
+      000669 AEr0FrC5         [ 2] 1313 	ldw	x, #___str_43+0
+      00066C 4B 0A            [ 1] 1314 	push	#0x0a
+      00066E 4B 00            [ 1] 1315 	push	#0x00
+      000670 89               [ 2] 1316 	pushw	x
+      000671 CDr02r52         [ 4] 1317 	call	_write_millivolt
+      000674 5B 04            [ 2] 1318 	addw	sp, #4
+                                   1319 ;	main.c: 314: write_millivolt("VMAX: ", CAP_VMAX);
+      000676 AEr0FrCC         [ 2] 1320 	ldw	x, #___str_44+0
+      000679 4B B8            [ 1] 1321 	push	#0xb8
+      00067B 4B 88            [ 1] 1322 	push	#0x88
+      00067D 89               [ 2] 1323 	pushw	x
+      00067E CDr02r52         [ 4] 1324 	call	_write_millivolt
+      000681 5B 04            [ 2] 1325 	addw	sp, #4
+                                   1326 ;	main.c: 315: write_millivolt("VSTEP: ", CAP_VSTEP);
+      000683 AEr0FrD3         [ 2] 1327 	ldw	x, #___str_45+0
+      000686 4B 0A            [ 1] 1328 	push	#0x0a
+      000688 4B 00            [ 1] 1329 	push	#0x00
+      00068A 89               [ 2] 1330 	pushw	x
+      00068B CDr02r52         [ 4] 1331 	call	_write_millivolt
+      00068E 5B 04            [ 2] 1332 	addw	sp, #4
+                                   1333 ;	main.c: 316: write_milliamp("CMIN: ", CAP_CMIN);
+      000690 AEr0FrDB         [ 2] 1334 	ldw	x, #___str_46+0
+      000693 4B 01            [ 1] 1335 	push	#0x01
+      000695 4B 00            [ 1] 1336 	push	#0x00
+      000697 89               [ 2] 1337 	pushw	x
+      000698 CDr02r69         [ 4] 1338 	call	_write_milliamp
+      00069B 5B 04            [ 2] 1339 	addw	sp, #4
+                                   1340 ;	main.c: 317: write_milliamp("CMAX: ", CAP_CMAX);
+      00069D AEr0FrE2         [ 2] 1341 	ldw	x, #___str_47+0
+      0006A0 4B B8            [ 1] 1342 	push	#0xb8
+      0006A2 4B 0B            [ 1] 1343 	push	#0x0b
+      0006A4 89               [ 2] 1344 	pushw	x
+      0006A5 CDr02r69         [ 4] 1345 	call	_write_milliamp
+      0006A8 5B 04            [ 2] 1346 	addw	sp, #4
+                                   1347 ;	main.c: 318: write_milliamp("CSTEP: ", CAP_CSTEP);
+      0006AA AEr0FrE9         [ 2] 1348 	ldw	x, #___str_48+0
+      0006AD 4B 01            [ 1] 1349 	push	#0x01
+      0006AF 4B 00            [ 1] 1350 	push	#0x00
+      0006B1 89               [ 2] 1351 	pushw	x
+      0006B2 CDr02r69         [ 4] 1352 	call	_write_milliamp
+      0006B5 5B 04            [ 2] 1353 	addw	sp, #4
+      0006B7 CCr0ArED         [ 2] 1354 	jp	00184$
+      0006BA                       1355 00168$:
+                                   1356 ;	main.c: 319: } else if (strcmp(uart_read_buf, "CONFIG") == 0) {
+      0006BA AEr0FrF1         [ 2] 1357 	ldw	x, #___str_49+0
+      0006BD 16 06            [ 2] 1358 	ldw	y, (0x06, sp)
+      0006BF 89               [ 2] 1359 	pushw	x
+      0006C0 90 89            [ 2] 1360 	pushw	y
+      0006C2 CDr00r00         [ 4] 1361 	call	_strcmp
+      0006C5 5B 04            [ 2] 1362 	addw	sp, #4
+      0006C7 5D               [ 2] 1363 	tnzw	x
+      0006C8 26 5E            [ 1] 1364 	jrne	00165$
+                                   1365 ;	main.c: 320: uart_write_str("CONFIG:\r\n");
+      0006CA AEr0FrF8         [ 2] 1366 	ldw	x, #___str_50+0
+      0006CD 89               [ 2] 1367 	pushw	x
+      0006CE CDr00r00         [ 4] 1368 	call	_uart_write_str
+      0006D1 85               [ 2] 1369 	popw	x
+                                   1370 ;	main.c: 321: write_onoff("OUTPUT: ", cfg_system.output);
+      0006D2 AEr00r13         [ 2] 1371 	ldw	x, #_cfg_system+19
+      0006D5 F6               [ 1] 1372 	ld	a, (x)
+      0006D6 AEr10r02         [ 2] 1373 	ldw	x, #___str_51+0
+      0006D9 88               [ 1] 1374 	push	a
+      0006DA 89               [ 2] 1375 	pushw	x
+      0006DB CDr02r3C         [ 4] 1376 	call	_write_onoff
+      0006DE 5B 03            [ 2] 1377 	addw	sp, #3
+                                   1378 ;	main.c: 322: write_millivolt("VSET: ", cfg_output.vset);
+      0006E0 AEr00r3D         [ 2] 1379 	ldw	x, #_cfg_output+0
+      0006E3 1F 16            [ 2] 1380 	ldw	(0x16, sp), x
+      0006E5 1E 16            [ 2] 1381 	ldw	x, (0x16, sp)
+      0006E7 EE 01            [ 2] 1382 	ldw	x, (0x1, x)
+      0006E9 90 AEr10r0B      [ 2] 1383 	ldw	y, #___str_52+0
+      0006ED 89               [ 2] 1384 	pushw	x
+      0006EE 90 89            [ 2] 1385 	pushw	y
+      0006F0 CDr02r52         [ 4] 1386 	call	_write_millivolt
+      0006F3 5B 04            [ 2] 1387 	addw	sp, #4
+                                   1388 ;	main.c: 323: write_milliamp("CSET: ", cfg_output.cset);
+      0006F5 1E 16            [ 2] 1389 	ldw	x, (0x16, sp)
+      0006F7 EE 03            [ 2] 1390 	ldw	x, (0x3, x)
+      0006F9 90 AEr10r12      [ 2] 1391 	ldw	y, #___str_53+0
+      0006FD 89               [ 2] 1392 	pushw	x
+      0006FE 90 89            [ 2] 1393 	pushw	y
+      000700 CDr02r69         [ 4] 1394 	call	_write_milliamp
+      000703 5B 04            [ 2] 1395 	addw	sp, #4
+                                   1396 ;	main.c: 324: write_millivolt("VSHUTDOWN: ", cfg_output.vshutdown);
+      000705 1E 16            [ 2] 1397 	ldw	x, (0x16, sp)
+      000707 EE 05            [ 2] 1398 	ldw	x, (0x5, x)
+      000709 90 AEr10r19      [ 2] 1399 	ldw	y, #___str_54+0
+      00070D 89               [ 2] 1400 	pushw	x
+      00070E 90 89            [ 2] 1401 	pushw	y
+      000710 CDr02r52         [ 4] 1402 	call	_write_millivolt
+      000713 5B 04            [ 2] 1403 	addw	sp, #4
+                                   1404 ;	main.c: 325: write_millivolt("CSHUTDOWN: ", cfg_output.cshutdown);
+      000715 1E 16            [ 2] 1405 	ldw	x, (0x16, sp)
+      000717 EE 07            [ 2] 1406 	ldw	x, (0x7, x)
+      000719 90 AEr10r25      [ 2] 1407 	ldw	y, #___str_55+0
+      00071D 89               [ 2] 1408 	pushw	x
+      00071E 90 89            [ 2] 1409 	pushw	y
+      000720 CDr02r52         [ 4] 1410 	call	_write_millivolt
+      000723 5B 04            [ 2] 1411 	addw	sp, #4
+      000725 CCr0ArED         [ 2] 1412 	jp	00184$
+      000728                       1413 00165$:
+                                   1414 ;	main.c: 326: } else if (strcmp(uart_read_buf, "STATUS") == 0) {
+      000728 AEr10r31         [ 2] 1415 	ldw	x, #___str_56+0
+      00072B 16 06            [ 2] 1416 	ldw	y, (0x06, sp)
+      00072D 89               [ 2] 1417 	pushw	x
+      00072E 90 89            [ 2] 1418 	pushw	y
+      000730 CDr00r00         [ 4] 1419 	call	_strcmp
+      000733 5B 04            [ 2] 1420 	addw	sp, #4
+      000735 5D               [ 2] 1421 	tnzw	x
+      000736 26 6C            [ 1] 1422 	jrne	00162$
+                                   1423 ;	main.c: 327: uart_write_str("STATUS:\r\n");
+      000738 AEr10r38         [ 2] 1424 	ldw	x, #___str_57+0
+      00073B 89               [ 2] 1425 	pushw	x
+      00073C CDr00r00         [ 4] 1426 	call	_uart_write_str
+      00073F 85               [ 2] 1427 	popw	x
+                                   1428 ;	main.c: 328: write_onoff("OUTPUT: ", cfg_system.output);
+      000740 AEr00r13         [ 2] 1429 	ldw	x, #_cfg_system+19
+      000743 F6               [ 1] 1430 	ld	a, (x)
+      000744 AEr10r02         [ 2] 1431 	ldw	x, #___str_51+0
+      000747 88               [ 1] 1432 	push	a
+      000748 89               [ 2] 1433 	pushw	x
+      000749 CDr02r3C         [ 4] 1434 	call	_write_onoff
+      00074C 5B 03            [ 2] 1435 	addw	sp, #3
+                                   1436 ;	main.c: 329: write_millivolt("VIN: ", state.vin);
+      00074E AEr00r46         [ 2] 1437 	ldw	x, #_state+0
+      000751 1F 1A            [ 2] 1438 	ldw	(0x1a, sp), x
+      000753 1E 1A            [ 2] 1439 	ldw	x, (0x1a, sp)
+      000755 EE 06            [ 2] 1440 	ldw	x, (0x6, x)
+      000757 90 AEr10r42      [ 2] 1441 	ldw	y, #___str_58+0
+      00075B 89               [ 2] 1442 	pushw	x
+      00075C 90 89            [ 2] 1443 	pushw	y
+      00075E CDr02r52         [ 4] 1444 	call	_write_millivolt
+      000761 5B 04            [ 2] 1445 	addw	sp, #4
+                                   1446 ;	main.c: 330: write_millivolt("VOUT: ", state.vout);
+      000763 1E 1A            [ 2] 1447 	ldw	x, (0x1a, sp)
+      000765 EE 08            [ 2] 1448 	ldw	x, (0x8, x)
+      000767 90 AEr10r48      [ 2] 1449 	ldw	y, #___str_59+0
+      00076B 89               [ 2] 1450 	pushw	x
+      00076C 90 89            [ 2] 1451 	pushw	y
+      00076E CDr02r52         [ 4] 1452 	call	_write_millivolt
+      000771 5B 04            [ 2] 1453 	addw	sp, #4
+                                   1454 ;	main.c: 331: write_milliamp("COUT: ", state.cout);
+      000773 1E 1A            [ 2] 1455 	ldw	x, (0x1a, sp)
+      000775 EE 0A            [ 2] 1456 	ldw	x, (0xa, x)
+      000777 90 AEr10r4F      [ 2] 1457 	ldw	y, #___str_60+0
+      00077B 89               [ 2] 1458 	pushw	x
+      00077C 90 89            [ 2] 1459 	pushw	y
+      00077E CDr02r69         [ 4] 1460 	call	_write_milliamp
+      000781 5B 04            [ 2] 1461 	addw	sp, #4
+                                   1462 ;	main.c: 332: write_str("CONSTANT: ", state.constant_current ? "CURRENT" : "VOLTAGE");
+      000783 1E 1A            [ 2] 1463 	ldw	x, (0x1a, sp)
+      000785 E6 0C            [ 1] 1464 	ld	a, (0xc, x)
+      000787 6B 05            [ 1] 1465 	ld	(0x05, sp), a
+      000789 0D 05            [ 1] 1466 	tnz	(0x05, sp)
+      00078B 27 05            [ 1] 1467 	jreq	00190$
+      00078D AEr10r61         [ 2] 1468 	ldw	x, #___str_62+0
+      000790 20 03            [ 2] 1469 	jra	00191$
+      000792                       1470 00190$:
+      000792 AEr10r69         [ 2] 1471 	ldw	x, #___str_63+0
+      000795                       1472 00191$:
+      000795 90 AEr10r56      [ 2] 1473 	ldw	y, #___str_61+0
+      000799 89               [ 2] 1474 	pushw	x
+      00079A 90 89            [ 2] 1475 	pushw	y
+      00079C CDr02r25         [ 4] 1476 	call	_write_str
+      00079F 5B 04            [ 2] 1477 	addw	sp, #4
+      0007A1 CCr0ArED         [ 2] 1478 	jp	00184$
+      0007A4                       1479 00162$:
+                                   1480 ;	main.c: 333: } else if (strcmp(uart_read_buf, "RSTATUS") == 0) {
+      0007A4 AEr10r71         [ 2] 1481 	ldw	x, #___str_64+0
+      0007A7 16 06            [ 2] 1482 	ldw	y, (0x06, sp)
+      0007A9 89               [ 2] 1483 	pushw	x
+      0007AA 90 89            [ 2] 1484 	pushw	y
+      0007AC CDr00r00         [ 4] 1485 	call	_strcmp
+      0007AF 5B 04            [ 2] 1486 	addw	sp, #4
+      0007B1 5D               [ 2] 1487 	tnzw	x
+      0007B2 27 03            [ 1] 1488 	jreq	00331$
+      0007B4 CCr08r53         [ 2] 1489 	jp	00159$
+      0007B7                       1490 00331$:
+                                   1491 ;	main.c: 334: uart_write_str("RSTATUS:\r\n");
+      0007B7 AEr10r79         [ 2] 1492 	ldw	x, #___str_65+0
+      0007BA 89               [ 2] 1493 	pushw	x
+      0007BB CDr00r00         [ 4] 1494 	call	_uart_write_str
+      0007BE 85               [ 2] 1495 	popw	x
+                                   1496 ;	main.c: 335: write_onoff("OUTPUT: ", cfg_system.output);
+      0007BF AEr00r13         [ 2] 1497 	ldw	x, #_cfg_system+19
+      0007C2 F6               [ 1] 1498 	ld	a, (x)
+      0007C3 AEr10r02         [ 2] 1499 	ldw	x, #___str_51+0
+      0007C6 88               [ 1] 1500 	push	a
+      0007C7 89               [ 2] 1501 	pushw	x
+      0007C8 CDr02r3C         [ 4] 1502 	call	_write_onoff
+      0007CB 5B 03            [ 2] 1503 	addw	sp, #3
+                                   1504 ;	main.c: 336: write_int("VIN ADC: ", state.vin_raw);
+      0007CD AEr00r46         [ 2] 1505 	ldw	x, #_state+0
+      0007D0 FE               [ 2] 1506 	ldw	x, (x)
+      0007D1 90 AEr10r84      [ 2] 1507 	ldw	y, #___str_66+0
+      0007D5 89               [ 2] 1508 	pushw	x
+      0007D6 90 89            [ 2] 1509 	pushw	y
+      0007D8 CDr02r80         [ 4] 1510 	call	_write_int
+      0007DB 5B 04            [ 2] 1511 	addw	sp, #4
+                                   1512 ;	main.c: 337: write_millivolt("VIN: ", state.vin);
+      0007DD AEr00r46         [ 2] 1513 	ldw	x, #_state+0
+      0007E0 1F 03            [ 2] 1514 	ldw	(0x03, sp), x
+      0007E2 1E 03            [ 2] 1515 	ldw	x, (0x03, sp)
+      0007E4 EE 06            [ 2] 1516 	ldw	x, (0x6, x)
+      0007E6 90 AEr10r42      [ 2] 1517 	ldw	y, #___str_58+0
+      0007EA 89               [ 2] 1518 	pushw	x
+      0007EB 90 89            [ 2] 1519 	pushw	y
+      0007ED CDr02r52         [ 4] 1520 	call	_write_millivolt
+      0007F0 5B 04            [ 2] 1521 	addw	sp, #4
+                                   1522 ;	main.c: 338: write_int("VOUT ADC: ", state.vout_raw);
+      0007F2 1E 03            [ 2] 1523 	ldw	x, (0x03, sp)
+      0007F4 EE 02            [ 2] 1524 	ldw	x, (0x2, x)
+      0007F6 90 AEr10r8E      [ 2] 1525 	ldw	y, #___str_67+0
+      0007FA 89               [ 2] 1526 	pushw	x
+      0007FB 90 89            [ 2] 1527 	pushw	y
+      0007FD CDr02r80         [ 4] 1528 	call	_write_int
+      000800 5B 04            [ 2] 1529 	addw	sp, #4
+                                   1530 ;	main.c: 339: write_millivolt("VOUT: ", state.vout);
+      000802 1E 03            [ 2] 1531 	ldw	x, (0x03, sp)
+      000804 EE 08            [ 2] 1532 	ldw	x, (0x8, x)
+      000806 90 AEr10r48      [ 2] 1533 	ldw	y, #___str_59+0
+      00080A 89               [ 2] 1534 	pushw	x
+      00080B 90 89            [ 2] 1535 	pushw	y
+      00080D CDr02r52         [ 4] 1536 	call	_write_millivolt
+      000810 5B 04            [ 2] 1537 	addw	sp, #4
+                                   1538 ;	main.c: 340: write_int("COUT ADC: ", state.cout_raw);
+      000812 1E 03            [ 2] 1539 	ldw	x, (0x03, sp)
+      000814 EE 04            [ 2] 1540 	ldw	x, (0x4, x)
+      000816 90 AEr10r99      [ 2] 1541 	ldw	y, #___str_68+0
+      00081A 89               [ 2] 1542 	pushw	x
+      00081B 90 89            [ 2] 1543 	pushw	y
+      00081D CDr02r80         [ 4] 1544 	call	_write_int
+      000820 5B 04            [ 2] 1545 	addw	sp, #4
+                                   1546 ;	main.c: 341: write_milliamp("COUT: ", state.cout);
+      000822 1E 03            [ 2] 1547 	ldw	x, (0x03, sp)
+      000824 EE 0A            [ 2] 1548 	ldw	x, (0xa, x)
+      000826 90 AEr10r4F      [ 2] 1549 	ldw	y, #___str_60+0
+      00082A 89               [ 2] 1550 	pushw	x
+      00082B 90 89            [ 2] 1551 	pushw	y
+      00082D CDr02r69         [ 4] 1552 	call	_write_milliamp
+      000830 5B 04            [ 2] 1553 	addw	sp, #4
+                                   1554 ;	main.c: 342: write_str("CONSTANT: ", state.constant_current ? "CURRENT" : "VOLTAGE");
+      000832 1E 03            [ 2] 1555 	ldw	x, (0x03, sp)
+      000834 E6 0C            [ 1] 1556 	ld	a, (0xc, x)
+      000836 6B 0E            [ 1] 1557 	ld	(0x0e, sp), a
+      000838 0D 0E            [ 1] 1558 	tnz	(0x0e, sp)
+      00083A 27 05            [ 1] 1559 	jreq	00192$
+      00083C AEr10r61         [ 2] 1560 	ldw	x, #___str_62+0
+      00083F 20 03            [ 2] 1561 	jra	00193$
+      000841                       1562 00192$:
+      000841 AEr10r69         [ 2] 1563 	ldw	x, #___str_63+0
+      000844                       1564 00193$:
+      000844 90 AEr10r56      [ 2] 1565 	ldw	y, #___str_61+0
+      000848 89               [ 2] 1566 	pushw	x
+      000849 90 89            [ 2] 1567 	pushw	y
+      00084B CDr02r25         [ 4] 1568 	call	_write_str
+      00084E 5B 04            [ 2] 1569 	addw	sp, #4
+      000850 CCr0ArED         [ 2] 1570 	jp	00184$
+      000853                       1571 00159$:
+                                   1572 ;	main.c: 343: } else if (strcmp(uart_read_buf, "COMMIT") == 0) {
+      000853 AEr10rA4         [ 2] 1573 	ldw	x, #___str_69+0
+      000856 16 06            [ 2] 1574 	ldw	y, (0x06, sp)
+      000858 89               [ 2] 1575 	pushw	x
+      000859 90 89            [ 2] 1576 	pushw	y
+      00085B CDr00r00         [ 4] 1577 	call	_strcmp
+      00085E 5B 04            [ 2] 1578 	addw	sp, #4
+      000860 5D               [ 2] 1579 	tnzw	x
+      000861 26 06            [ 1] 1580 	jrne	00156$
+                                   1581 ;	main.c: 344: commit_output();
+      000863 CDr00r00         [ 4] 1582 	call	_commit_output
+      000866 CCr0ArED         [ 2] 1583 	jp	00184$
+      000869                       1584 00156$:
+                                   1585 ;	main.c: 345: } else if (strcmp(uart_read_buf, "SAVE") == 0) {
+      000869 AEr10rAB         [ 2] 1586 	ldw	x, #___str_70+0
+      00086C 16 06            [ 2] 1587 	ldw	y, (0x06, sp)
+      00086E 89               [ 2] 1588 	pushw	x
+      00086F 90 89            [ 2] 1589 	pushw	y
+      000871 CDr00r00         [ 4] 1590 	call	_strcmp
+      000874 5B 04            [ 2] 1591 	addw	sp, #4
+      000876 5D               [ 2] 1592 	tnzw	x
+      000877 26 1B            [ 1] 1593 	jrne	00153$
+                                   1594 ;	main.c: 346: config_save_system(&cfg_system);
+      000879 AEr00r00         [ 2] 1595 	ldw	x, #_cfg_system+0
+      00087C 89               [ 2] 1596 	pushw	x
+      00087D CDr00r00         [ 4] 1597 	call	_config_save_system
+      000880 85               [ 2] 1598 	popw	x
+                                   1599 ;	main.c: 347: config_save_output(&cfg_output);
+      000881 AEr00r3D         [ 2] 1600 	ldw	x, #_cfg_output+0
+      000884 89               [ 2] 1601 	pushw	x
+      000885 CDr00r00         [ 4] 1602 	call	_config_save_output
+      000888 85               [ 2] 1603 	popw	x
+                                   1604 ;	main.c: 348: uart_write_str("SAVED\r\n");
+      000889 AEr10rB0         [ 2] 1605 	ldw	x, #___str_71+0
+      00088C 89               [ 2] 1606 	pushw	x
+      00088D CDr00r00         [ 4] 1607 	call	_uart_write_str
+      000890 85               [ 2] 1608 	popw	x
+      000891 CCr0ArED         [ 2] 1609 	jp	00184$
+      000894                       1610 00153$:
+                                   1611 ;	main.c: 349: } else if (strcmp(uart_read_buf, "LOAD") == 0) {
+      000894 AEr10rB8         [ 2] 1612 	ldw	x, #___str_72+0
+      000897 16 06            [ 2] 1613 	ldw	y, (0x06, sp)
+      000899 89               [ 2] 1614 	pushw	x
+      00089A 90 89            [ 2] 1615 	pushw	y
+      00089C CDr00r00         [ 4] 1616 	call	_strcmp
+      00089F 5B 04            [ 2] 1617 	addw	sp, #4
+      0008A1 5D               [ 2] 1618 	tnzw	x
+      0008A2 26 16            [ 1] 1619 	jrne	00150$
+                                   1620 ;	main.c: 350: config_load_system(&cfg_system);
+      0008A4 AEr00r00         [ 2] 1621 	ldw	x, #_cfg_system+0
+      0008A7 89               [ 2] 1622 	pushw	x
+      0008A8 CDr00r00         [ 4] 1623 	call	_config_load_system
+      0008AB 85               [ 2] 1624 	popw	x
+                                   1625 ;	main.c: 351: config_load_output(&cfg_output);
+      0008AC AEr00r3D         [ 2] 1626 	ldw	x, #_cfg_output+0
+      0008AF 89               [ 2] 1627 	pushw	x
+      0008B0 CDr00r00         [ 4] 1628 	call	_config_load_output
+      0008B3 85               [ 2] 1629 	popw	x
+                                   1630 ;	main.c: 352: autocommit();
+      0008B4 CDr00r76         [ 4] 1631 	call	_autocommit
+      0008B7 CCr0ArED         [ 2] 1632 	jp	00184$
+      0008BA                       1633 00150$:
+                                   1634 ;	main.c: 353: } else if (strcmp(uart_read_buf, "RESTORE") == 0) {
+      0008BA AEr10rBD         [ 2] 1635 	ldw	x, #___str_73+0
+      0008BD 16 06            [ 2] 1636 	ldw	y, (0x06, sp)
+      0008BF 89               [ 2] 1637 	pushw	x
+      0008C0 90 89            [ 2] 1638 	pushw	y
+      0008C2 CDr00r00         [ 4] 1639 	call	_strcmp
+      0008C5 5B 04            [ 2] 1640 	addw	sp, #4
+      0008C7 5D               [ 2] 1641 	tnzw	x
+      0008C8 26 16            [ 1] 1642 	jrne	00147$
+                                   1643 ;	main.c: 354: config_default_system(&cfg_system);
+      0008CA AEr00r00         [ 2] 1644 	ldw	x, #_cfg_system+0
+      0008CD 89               [ 2] 1645 	pushw	x
+      0008CE CDr00r00         [ 4] 1646 	call	_config_default_system
+      0008D1 85               [ 2] 1647 	popw	x
+                                   1648 ;	main.c: 355: config_default_output(&cfg_output);
+      0008D2 AEr00r3D         [ 2] 1649 	ldw	x, #_cfg_output+0
+      0008D5 89               [ 2] 1650 	pushw	x
+      0008D6 CDr00r00         [ 4] 1651 	call	_config_default_output
+      0008D9 85               [ 2] 1652 	popw	x
+                                   1653 ;	main.c: 356: autocommit();
+      0008DA CDr00r76         [ 4] 1654 	call	_autocommit
+      0008DD CCr0ArED         [ 2] 1655 	jp	00184$
+      0008E0                       1656 00147$:
+                                   1657 ;	main.c: 367: uint8_t space_found = 0;
+      0008E0 0F 01            [ 1] 1658 	clr	(0x01, sp)
+                                   1659 ;	main.c: 369: for (idx = 0; idx < uart_read_len; idx++) {
+      0008E2 0F 02            [ 1] 1660 	clr	(0x02, sp)
+      0008E4 0F 0F            [ 1] 1661 	clr	(0x0f, sp)
+      0008E6                       1662 00186$:
+      0008E6 7B 0F            [ 1] 1663 	ld	a, (0x0f, sp)
+      0008E8 C1u00u00         [ 1] 1664 	cp	a, _uart_read_len+0
+      0008EB 24 1B            [ 1] 1665 	jrnc	00103$
+                                   1666 ;	main.c: 370: if (uart_read_buf[idx] == ' ') {
+      0008ED 5F               [ 1] 1667 	clrw	x
+      0008EE 7B 0F            [ 1] 1668 	ld	a, (0x0f, sp)
+      0008F0 97               [ 1] 1669 	ld	xl, a
+      0008F1 72 FB 06         [ 2] 1670 	addw	x, (0x06, sp)
+      0008F4 F6               [ 1] 1671 	ld	a, (x)
+      0008F5 A1 20            [ 1] 1672 	cp	a, #0x20
+      0008F7 26 07            [ 1] 1673 	jrne	00187$
+                                   1674 ;	main.c: 371: uart_read_buf[idx] = 0;
+      0008F9 7F               [ 1] 1675 	clr	(x)
+                                   1676 ;	main.c: 372: space_found = 1;
+      0008FA A6 01            [ 1] 1677 	ld	a, #0x01
+      0008FC 6B 01            [ 1] 1678 	ld	(0x01, sp), a
+                                   1679 ;	main.c: 373: break;
+      0008FE 20 08            [ 2] 1680 	jra	00103$
+      000900                       1681 00187$:
+                                   1682 ;	main.c: 369: for (idx = 0; idx < uart_read_len; idx++) {
+      000900 0C 0F            [ 1] 1683 	inc	(0x0f, sp)
+      000902 7B 0F            [ 1] 1684 	ld	a, (0x0f, sp)
+      000904 6B 02            [ 1] 1685 	ld	(0x02, sp), a
+      000906 20 DE            [ 2] 1686 	jra	00186$
+      000908                       1687 00103$:
+                                   1688 ;	main.c: 377: if (space_found) {
+      000908 0D 01            [ 1] 1689 	tnz	(0x01, sp)
+      00090A 26 03            [ 1] 1690 	jrne	00341$
+      00090C CCr0ArE5         [ 2] 1691 	jp	00144$
+      00090F                       1692 00341$:
+                                   1693 ;	main.c: 378: if (strcmp(uart_read_buf, "SNAME") == 0) {
+      00090F AEr10rC5         [ 2] 1694 	ldw	x, #___str_74+0
+      000912 16 06            [ 2] 1695 	ldw	y, (0x06, sp)
+      000914 89               [ 2] 1696 	pushw	x
+      000915 90 89            [ 2] 1697 	pushw	y
+      000917 CDr00r00         [ 4] 1698 	call	_strcmp
+      00091A 5B 04            [ 2] 1699 	addw	sp, #4
+      00091C 1F 12            [ 2] 1700 	ldw	(0x12, sp), x
+                                   1701 ;	main.c: 379: set_name(uart_read_buf + idx + 1);
+      00091E 5F               [ 1] 1702 	clrw	x
+      00091F 7B 02            [ 1] 1703 	ld	a, (0x02, sp)
+      000921 97               [ 1] 1704 	ld	xl, a
+      000922 72 FB 06         [ 2] 1705 	addw	x, (0x06, sp)
+      000925 5C               [ 2] 1706 	incw	x
+      000926 1F 14            [ 2] 1707 	ldw	(0x14, sp), x
+                                   1708 ;	main.c: 378: if (strcmp(uart_read_buf, "SNAME") == 0) {
+      000928 1E 12            [ 2] 1709 	ldw	x, (0x12, sp)
+      00092A 26 0A            [ 1] 1710 	jrne	00141$
+                                   1711 ;	main.c: 379: set_name(uart_read_buf + idx + 1);
+      00092C 1E 14            [ 2] 1712 	ldw	x, (0x14, sp)
+      00092E 89               [ 2] 1713 	pushw	x
+      00092F CDr00r15         [ 4] 1714 	call	_set_name
+      000932 85               [ 2] 1715 	popw	x
+      000933 CCr0ArED         [ 2] 1716 	jp	00184$
+      000936                       1717 00141$:
+                                   1718 ;	main.c: 380: } else if (strcmp(uart_read_buf, "OUTPUT") == 0) {
+      000936 AEr10rCB         [ 2] 1719 	ldw	x, #___str_75+0
+      000939 16 06            [ 2] 1720 	ldw	y, (0x06, sp)
+      00093B 89               [ 2] 1721 	pushw	x
+      00093C 90 89            [ 2] 1722 	pushw	y
+      00093E CDr00r00         [ 4] 1723 	call	_strcmp
+      000941 5B 04            [ 2] 1724 	addw	sp, #4
+      000943 5D               [ 2] 1725 	tnzw	x
+      000944 26 0A            [ 1] 1726 	jrne	00138$
+                                   1727 ;	main.c: 381: set_output(uart_read_buf + idx + 1);
+      000946 1E 14            [ 2] 1728 	ldw	x, (0x14, sp)
+      000948 89               [ 2] 1729 	pushw	x
+      000949 CDr00r8B         [ 4] 1730 	call	_set_output
+      00094C 85               [ 2] 1731 	popw	x
+      00094D CCr0ArED         [ 2] 1732 	jp	00184$
+      000950                       1733 00138$:
+                                   1734 ;	main.c: 382: } else if (strcmp(uart_read_buf, "VOLTAGE") == 0) {
+      000950 AEr10r69         [ 2] 1735 	ldw	x, #___str_63+0
+      000953 16 06            [ 2] 1736 	ldw	y, (0x06, sp)
+      000955 89               [ 2] 1737 	pushw	x
+      000956 90 89            [ 2] 1738 	pushw	y
+      000958 CDr00r00         [ 4] 1739 	call	_strcmp
+      00095B 5B 04            [ 2] 1740 	addw	sp, #4
+      00095D 5D               [ 2] 1741 	tnzw	x
+      00095E 26 0A            [ 1] 1742 	jrne	00135$
+                                   1743 ;	main.c: 383: set_voltage(uart_read_buf + idx + 1);
+      000960 1E 14            [ 2] 1744 	ldw	x, (0x14, sp)
+      000962 89               [ 2] 1745 	pushw	x
+      000963 CDr00rF5         [ 4] 1746 	call	_set_voltage
+      000966 85               [ 2] 1747 	popw	x
+      000967 CCr0ArED         [ 2] 1748 	jp	00184$
+      00096A                       1749 00135$:
+                                   1750 ;	main.c: 384: } else if (strcmp(uart_read_buf, "CURRENT") == 0) {
+      00096A AEr10r61         [ 2] 1751 	ldw	x, #___str_62+0
+      00096D 16 06            [ 2] 1752 	ldw	y, (0x06, sp)
+      00096F 89               [ 2] 1753 	pushw	x
+      000970 90 89            [ 2] 1754 	pushw	y
+      000972 CDr00r00         [ 4] 1755 	call	_strcmp
+      000975 5B 04            [ 2] 1756 	addw	sp, #4
+      000977 5D               [ 2] 1757 	tnzw	x
+      000978 26 0A            [ 1] 1758 	jrne	00132$
+                                   1759 ;	main.c: 385: set_current(uart_read_buf + idx + 1);
+      00097A 1E 14            [ 2] 1760 	ldw	x, (0x14, sp)
+      00097C 89               [ 2] 1761 	pushw	x
+      00097D CDr01r5D         [ 4] 1762 	call	_set_current
+      000980 85               [ 2] 1763 	popw	x
+      000981 CCr0ArED         [ 2] 1764 	jp	00184$
+      000984                       1765 00132$:
+                                   1766 ;	main.c: 386: } else if (strcmp(uart_read_buf, "AUTOCOMMIT") == 0) {
+      000984 AEr10rD2         [ 2] 1767 	ldw	x, #___str_76+0
+      000987 16 06            [ 2] 1768 	ldw	y, (0x06, sp)
+      000989 89               [ 2] 1769 	pushw	x
+      00098A 90 89            [ 2] 1770 	pushw	y
+      00098C CDr00r00         [ 4] 1771 	call	_strcmp
+      00098F 5B 04            [ 2] 1772 	addw	sp, #4
+      000991 5D               [ 2] 1773 	tnzw	x
+      000992 26 0A            [ 1] 1774 	jrne	00129$
+                                   1775 ;	main.c: 387: set_autocommit(uart_read_buf + idx + 1);
+      000994 1E 14            [ 2] 1776 	ldw	x, (0x14, sp)
+      000996 89               [ 2] 1777 	pushw	x
+      000997 CDr01rB3         [ 4] 1778 	call	_set_autocommit
+      00099A 85               [ 2] 1779 	popw	x
+      00099B CCr0ArED         [ 2] 1780 	jp	00184$
+      00099E                       1781 00129$:
+                                   1782 ;	main.c: 400: } else if (strcmp(uart_read_buf, "CALVOUTADCA") == 0) {
+      00099E AEr10rDD         [ 2] 1783 	ldw	x, #___str_77+0
+      0009A1 16 06            [ 2] 1784 	ldw	y, (0x06, sp)
+      0009A3 89               [ 2] 1785 	pushw	x
+      0009A4 90 89            [ 2] 1786 	pushw	y
+      0009A6 CDr00r00         [ 4] 1787 	call	_strcmp
+      0009A9 5B 04            [ 2] 1788 	addw	sp, #4
+      0009AB 5D               [ 2] 1789 	tnzw	x
+      0009AC 26 18            [ 1] 1790 	jrne	00126$
+                                   1791 ;	main.c: 401: parse_uint("ADC VOUT A", &cfg_system.vout_adc.a, uart_read_buf+idx+1);
+      0009AE 90 AEr00r1D      [ 2] 1792 	ldw	y, #_cfg_system+29
+      0009B2 AEr10rE9         [ 2] 1793 	ldw	x, #___str_78+0
+      0009B5 7B 15            [ 1] 1794 	ld	a, (0x15, sp)
+      0009B7 88               [ 1] 1795 	push	a
+      0009B8 7B 15            [ 1] 1796 	ld	a, (0x15, sp)
+      0009BA 88               [ 1] 1797 	push	a
+      0009BB 90 89            [ 2] 1798 	pushw	y
+      0009BD 89               [ 2] 1799 	pushw	x
+      0009BE CDr02rFA         [ 4] 1800 	call	_parse_uint
+      0009C1 5B 06            [ 2] 1801 	addw	sp, #6
+      0009C3 CCr0ArED         [ 2] 1802 	jp	00184$
+      0009C6                       1803 00126$:
+                                   1804 ;	main.c: 402: } else if (strcmp(uart_read_buf, "CALVOUTADCB") == 0) {
+      0009C6 AEr10rF4         [ 2] 1805 	ldw	x, #___str_79+0
+      0009C9 16 06            [ 2] 1806 	ldw	y, (0x06, sp)
+      0009CB 89               [ 2] 1807 	pushw	x
+      0009CC 90 89            [ 2] 1808 	pushw	y
+      0009CE CDr00r00         [ 4] 1809 	call	_strcmp
+      0009D1 5B 04            [ 2] 1810 	addw	sp, #4
+      0009D3 5D               [ 2] 1811 	tnzw	x
+      0009D4 26 18            [ 1] 1812 	jrne	00123$
+                                   1813 ;	main.c: 403: parse_uint("ADC VOUT B", &cfg_system.vout_adc.b, uart_read_buf+idx+1);
+      0009D6 90 AEr00r21      [ 2] 1814 	ldw	y, #_cfg_system+33
+      0009DA AEr11r00         [ 2] 1815 	ldw	x, #___str_80+0
+      0009DD 7B 15            [ 1] 1816 	ld	a, (0x15, sp)
+      0009DF 88               [ 1] 1817 	push	a
+      0009E0 7B 15            [ 1] 1818 	ld	a, (0x15, sp)
+      0009E2 88               [ 1] 1819 	push	a
+      0009E3 90 89            [ 2] 1820 	pushw	y
+      0009E5 89               [ 2] 1821 	pushw	x
+      0009E6 CDr02rFA         [ 4] 1822 	call	_parse_uint
+      0009E9 5B 06            [ 2] 1823 	addw	sp, #6
+      0009EB CCr0ArED         [ 2] 1824 	jp	00184$
+      0009EE                       1825 00123$:
+                                   1826 ;	main.c: 404: } else if (strcmp(uart_read_buf, "CALVOUTPWMA") == 0) {
+      0009EE AEr11r0B         [ 2] 1827 	ldw	x, #___str_81+0
+      0009F1 16 06            [ 2] 1828 	ldw	y, (0x06, sp)
+      0009F3 89               [ 2] 1829 	pushw	x
+      0009F4 90 89            [ 2] 1830 	pushw	y
+      0009F6 CDr00r00         [ 4] 1831 	call	_strcmp
+      0009F9 5B 04            [ 2] 1832 	addw	sp, #4
+      0009FB 5D               [ 2] 1833 	tnzw	x
+      0009FC 26 18            [ 1] 1834 	jrne	00120$
+                                   1835 ;	main.c: 405: parse_uint("PWM VOUT A", &cfg_system.vout_pwm.a, uart_read_buf+idx+1);
+      0009FE 90 AEr00r2D      [ 2] 1836 	ldw	y, #_cfg_system+45
+      000A02 AEr11r17         [ 2] 1837 	ldw	x, #___str_82+0
+      000A05 7B 15            [ 1] 1838 	ld	a, (0x15, sp)
+      000A07 88               [ 1] 1839 	push	a
+      000A08 7B 15            [ 1] 1840 	ld	a, (0x15, sp)
+      000A0A 88               [ 1] 1841 	push	a
+      000A0B 90 89            [ 2] 1842 	pushw	y
+      000A0D 89               [ 2] 1843 	pushw	x
+      000A0E CDr02rFA         [ 4] 1844 	call	_parse_uint
+      000A11 5B 06            [ 2] 1845 	addw	sp, #6
+      000A13 CCr0ArED         [ 2] 1846 	jp	00184$
+      000A16                       1847 00120$:
+                                   1848 ;	main.c: 406: } else if (strcmp(uart_read_buf, "CALVOUTPWMB") == 0) {
+      000A16 AEr11r22         [ 2] 1849 	ldw	x, #___str_83+0
+      000A19 16 06            [ 2] 1850 	ldw	y, (0x06, sp)
+      000A1B 89               [ 2] 1851 	pushw	x
+      000A1C 90 89            [ 2] 1852 	pushw	y
+      000A1E CDr00r00         [ 4] 1853 	call	_strcmp
+      000A21 5B 04            [ 2] 1854 	addw	sp, #4
+      000A23 5D               [ 2] 1855 	tnzw	x
+      000A24 26 18            [ 1] 1856 	jrne	00117$
+                                   1857 ;	main.c: 407: parse_uint("PWM VOUT B", &cfg_system.vout_pwm.b, uart_read_buf+idx+1);
+      000A26 90 AEr00r31      [ 2] 1858 	ldw	y, #_cfg_system+49
+      000A2A AEr11r2E         [ 2] 1859 	ldw	x, #___str_84+0
+      000A2D 7B 15            [ 1] 1860 	ld	a, (0x15, sp)
+      000A2F 88               [ 1] 1861 	push	a
+      000A30 7B 15            [ 1] 1862 	ld	a, (0x15, sp)
+      000A32 88               [ 1] 1863 	push	a
+      000A33 90 89            [ 2] 1864 	pushw	y
+      000A35 89               [ 2] 1865 	pushw	x
+      000A36 CDr02rFA         [ 4] 1866 	call	_parse_uint
+      000A39 5B 06            [ 2] 1867 	addw	sp, #6
+      000A3B CCr0ArED         [ 2] 1868 	jp	00184$
+      000A3E                       1869 00117$:
+                                   1870 ;	main.c: 408: } else if (strcmp(uart_read_buf, "CALCOUTADCA") == 0) {
+      000A3E AEr11r39         [ 2] 1871 	ldw	x, #___str_85+0
+      000A41 16 06            [ 2] 1872 	ldw	y, (0x06, sp)
+      000A43 89               [ 2] 1873 	pushw	x
+      000A44 90 89            [ 2] 1874 	pushw	y
+      000A46 CDr00r00         [ 4] 1875 	call	_strcmp
+      000A49 5B 04            [ 2] 1876 	addw	sp, #4
+      000A4B 5D               [ 2] 1877 	tnzw	x
+      000A4C 26 18            [ 1] 1878 	jrne	00114$
+                                   1879 ;	main.c: 409: parse_uint("ADC COUT A", &cfg_system.cout_adc.a, uart_read_buf+idx+1);
+      000A4E 90 AEr00r25      [ 2] 1880 	ldw	y, #_cfg_system+37
+      000A52 AEr11r45         [ 2] 1881 	ldw	x, #___str_86+0
+      000A55 7B 15            [ 1] 1882 	ld	a, (0x15, sp)
+      000A57 88               [ 1] 1883 	push	a
+      000A58 7B 15            [ 1] 1884 	ld	a, (0x15, sp)
+      000A5A 88               [ 1] 1885 	push	a
+      000A5B 90 89            [ 2] 1886 	pushw	y
+      000A5D 89               [ 2] 1887 	pushw	x
+      000A5E CDr02rFA         [ 4] 1888 	call	_parse_uint
+      000A61 5B 06            [ 2] 1889 	addw	sp, #6
+      000A63 CCr0ArED         [ 2] 1890 	jp	00184$
+      000A66                       1891 00114$:
+                                   1892 ;	main.c: 410: } else if (strcmp(uart_read_buf, "CALCOUTADCB") == 0) {
+      000A66 AEr11r50         [ 2] 1893 	ldw	x, #___str_87+0
+      000A69 16 06            [ 2] 1894 	ldw	y, (0x06, sp)
+      000A6B 89               [ 2] 1895 	pushw	x
+      000A6C 90 89            [ 2] 1896 	pushw	y
+      000A6E CDr00r00         [ 4] 1897 	call	_strcmp
+      000A71 5B 04            [ 2] 1898 	addw	sp, #4
+      000A73 5D               [ 2] 1899 	tnzw	x
+      000A74 26 17            [ 1] 1900 	jrne	00111$
+                                   1901 ;	main.c: 411: parse_uint("ADC COUT B", &cfg_system.cout_adc.b, uart_read_buf+idx+1);
+      000A76 90 AEr00r29      [ 2] 1902 	ldw	y, #_cfg_system+41
+      000A7A AEr11r5C         [ 2] 1903 	ldw	x, #___str_88+0
+      000A7D 7B 15            [ 1] 1904 	ld	a, (0x15, sp)
+      000A7F 88               [ 1] 1905 	push	a
+      000A80 7B 15            [ 1] 1906 	ld	a, (0x15, sp)
+      000A82 88               [ 1] 1907 	push	a
+      000A83 90 89            [ 2] 1908 	pushw	y
+      000A85 89               [ 2] 1909 	pushw	x
+      000A86 CDr02rFA         [ 4] 1910 	call	_parse_uint
+      000A89 5B 06            [ 2] 1911 	addw	sp, #6
+      000A8B 20 60            [ 2] 1912 	jra	00184$
+      000A8D                       1913 00111$:
+                                   1914 ;	main.c: 412: } else if (strcmp(uart_read_buf, "CALCOUTPWMA") == 0) {
+      000A8D AEr11r67         [ 2] 1915 	ldw	x, #___str_89+0
+      000A90 16 06            [ 2] 1916 	ldw	y, (0x06, sp)
+      000A92 89               [ 2] 1917 	pushw	x
+      000A93 90 89            [ 2] 1918 	pushw	y
+      000A95 CDr00r00         [ 4] 1919 	call	_strcmp
+      000A98 5B 04            [ 2] 1920 	addw	sp, #4
+      000A9A 5D               [ 2] 1921 	tnzw	x
+      000A9B 26 17            [ 1] 1922 	jrne	00108$
+                                   1923 ;	main.c: 413: parse_uint("PWM COUT A", &cfg_system.cout_pwm.a, uart_read_buf+idx+1);
+      000A9D 90 AEr00r35      [ 2] 1924 	ldw	y, #_cfg_system+53
+      000AA1 AEr11r73         [ 2] 1925 	ldw	x, #___str_90+0
+      000AA4 7B 15            [ 1] 1926 	ld	a, (0x15, sp)
+      000AA6 88               [ 1] 1927 	push	a
+      000AA7 7B 15            [ 1] 1928 	ld	a, (0x15, sp)
+      000AA9 88               [ 1] 1929 	push	a
+      000AAA 90 89            [ 2] 1930 	pushw	y
+      000AAC 89               [ 2] 1931 	pushw	x
+      000AAD CDr02rFA         [ 4] 1932 	call	_parse_uint
+      000AB0 5B 06            [ 2] 1933 	addw	sp, #6
+      000AB2 20 39            [ 2] 1934 	jra	00184$
+      000AB4                       1935 00108$:
+                                   1936 ;	main.c: 414: } else if (strcmp(uart_read_buf, "CALCOUTPWMB") == 0) {
+      000AB4 AEr11r7E         [ 2] 1937 	ldw	x, #___str_91+0
+      000AB7 16 06            [ 2] 1938 	ldw	y, (0x06, sp)
+      000AB9 89               [ 2] 1939 	pushw	x
+      000ABA 90 89            [ 2] 1940 	pushw	y
+      000ABC CDr00r00         [ 4] 1941 	call	_strcmp
+      000ABF 5B 04            [ 2] 1942 	addw	sp, #4
+      000AC1 5D               [ 2] 1943 	tnzw	x
+      000AC2 26 17            [ 1] 1944 	jrne	00105$
+                                   1945 ;	main.c: 415: parse_uint("PWM COUT B", &cfg_system.cout_pwm.b, uart_read_buf+idx+1);
+      000AC4 90 AEr00r39      [ 2] 1946 	ldw	y, #_cfg_system+57
+      000AC8 AEr11r8A         [ 2] 1947 	ldw	x, #___str_92+0
+      000ACB 7B 15            [ 1] 1948 	ld	a, (0x15, sp)
+      000ACD 88               [ 1] 1949 	push	a
+      000ACE 7B 15            [ 1] 1950 	ld	a, (0x15, sp)
+      000AD0 88               [ 1] 1951 	push	a
+      000AD1 90 89            [ 2] 1952 	pushw	y
+      000AD3 89               [ 2] 1953 	pushw	x
+      000AD4 CDr02rFA         [ 4] 1954 	call	_parse_uint
+      000AD7 5B 06            [ 2] 1955 	addw	sp, #6
+      000AD9 20 12            [ 2] 1956 	jra	00184$
+      000ADB                       1957 00105$:
+                                   1958 ;	main.c: 417: uart_write_str("UNKNOWN COMMAND!\r\n");
+      000ADB AEr11r95         [ 2] 1959 	ldw	x, #___str_93+0
+      000ADE 89               [ 2] 1960 	pushw	x
+      000ADF CDr00r00         [ 4] 1961 	call	_uart_write_str
+      000AE2 85               [ 2] 1962 	popw	x
+      000AE3 20 08            [ 2] 1963 	jra	00184$
+      000AE5                       1964 00144$:
+                                   1965 ;	main.c: 420: uart_write_str("UNKNOWN COMMAND\r\n");
+      000AE5 AEr11rA8         [ 2] 1966 	ldw	x, #___str_94+0
+      000AE8 89               [ 2] 1967 	pushw	x
+      000AE9 CDr00r00         [ 4] 1968 	call	_uart_write_str
+      000AEC 85               [ 2] 1969 	popw	x
+      000AED                       1970 00184$:
+                                   1971 ;	main.c: 423: uart_write_str("DONE\r\n");
+      000AED AEr11rBA         [ 2] 1972 	ldw	x, #___str_95+0
+      000AF0 89               [ 2] 1973 	pushw	x
+      000AF1 CDr00r00         [ 4] 1974 	call	_uart_write_str
+      000AF4 85               [ 2] 1975 	popw	x
+                                   1976 ;	main.c: 425: uart_read_len = 0;
+      000AF5 72 5Fu00u00      [ 1] 1977 	clr	_uart_read_len+0
+                                   1978 ;	main.c: 426: read_newline = 0;
+      000AF9 72 5Fu00u00      [ 1] 1979 	clr	_read_newline+0
+      000AFD 5B 1D            [ 2] 1980 	addw	sp, #29
+      000AFF 81               [ 4] 1981 	ret
+                                   1982 ;	main.c: 470: void config_load(void)
+                                   1983 ;	-----------------------------------------
+                                   1984 ;	 function config_load
+                                   1985 ;	-----------------------------------------
+      000B00                       1986 _config_load:
+      000B00 52 03            [ 2] 1987 	sub	sp, #3
+                                   1988 ;	main.c: 472: config_load_system(&cfg_system);
+      000B02 AEr00r00         [ 2] 1989 	ldw	x, #_cfg_system+0
+      000B05 1F 02            [ 2] 1990 	ldw	(0x02, sp), x
+      000B07 1E 02            [ 2] 1991 	ldw	x, (0x02, sp)
+      000B09 89               [ 2] 1992 	pushw	x
+      000B0A CDr00r00         [ 4] 1993 	call	_config_load_system
+      000B0D 85               [ 2] 1994 	popw	x
+                                   1995 ;	main.c: 473: config_load_output(&cfg_output);
+      000B0E AEr00r3D         [ 2] 1996 	ldw	x, #_cfg_output+0
+      000B11 89               [ 2] 1997 	pushw	x
+      000B12 CDr00r00         [ 4] 1998 	call	_config_load_output
+      000B15 85               [ 2] 1999 	popw	x
+                                   2000 ;	main.c: 475: if (cfg_system.default_on)
+      000B16 1E 02            [ 2] 2001 	ldw	x, (0x02, sp)
+      000B18 E6 12            [ 1] 2002 	ld	a, (0x12, x)
+      000B1A 6B 01            [ 1] 2003 	ld	(0x01, sp), a
+                                   2004 ;	main.c: 476: cfg_system.output = 1;
+      000B1C 1E 02            [ 2] 2005 	ldw	x, (0x02, sp)
+      000B1E 1C 00 13         [ 2] 2006 	addw	x, #0x0013
+                                   2007 ;	main.c: 475: if (cfg_system.default_on)
+      000B21 0D 01            [ 1] 2008 	tnz	(0x01, sp)
+      000B23 27 05            [ 1] 2009 	jreq	00102$
+                                   2010 ;	main.c: 476: cfg_system.output = 1;
+      000B25 A6 01            [ 1] 2011 	ld	a, #0x01
+      000B27 F7               [ 1] 2012 	ld	(x), a
+      000B28 20 01            [ 2] 2013 	jra	00103$
+      000B2A                       2014 00102$:
+                                   2015 ;	main.c: 478: cfg_system.output = 0;
+      000B2A 7F               [ 1] 2016 	clr	(x)
+      000B2B                       2017 00103$:
+                                   2018 ;	main.c: 480: state.pc3 = 1;
+      000B2B AEr00r53         [ 2] 2019 	ldw	x, #_state+13
+      000B2E A6 01            [ 1] 2020 	ld	a, #0x01
+      000B30 F7               [ 1] 2021 	ld	(x), a
+      000B31 5B 03            [ 2] 2022 	addw	sp, #3
+      000B33 81               [ 4] 2023 	ret
+                                   2024 ;	main.c: 483: void read_state(void)
+                                   2025 ;	-----------------------------------------
+                                   2026 ;	 function read_state
+                                   2027 ;	-----------------------------------------
+      000B34                       2028 _read_state:
+      000B34 52 13            [ 2] 2029 	sub	sp, #19
+                                   2030 ;	main.c: 487: tmp = (PC_IDR & (1<<3)) ? 1 : 0;
+      000B36 AE 50 0B         [ 2] 2031 	ldw	x, #0x500b
+      000B39 F6               [ 1] 2032 	ld	a, (x)
+      000B3A A5 08            [ 1] 2033 	bcp	a, #0x08
+      000B3C 27 03            [ 1] 2034 	jreq	00113$
+      000B3E A6 01            [ 1] 2035 	ld	a, #0x01
+      000B40 21                    2036 	.byte 0x21
+      000B41                       2037 00113$:
+      000B41 4F               [ 1] 2038 	clr	a
+      000B42                       2039 00114$:
+      000B42 6B 13            [ 1] 2040 	ld	(0x13, sp), a
+                                   2041 ;	main.c: 488: if (state.pc3 != tmp) {
+      000B44 AEr00r46         [ 2] 2042 	ldw	x, #_state+0
+      000B47 1F 09            [ 2] 2043 	ldw	(0x09, sp), x
+      000B49 1E 09            [ 2] 2044 	ldw	x, (0x09, sp)
+      000B4B 1C 00 0D         [ 2] 2045 	addw	x, #0x000d
+      000B4E 1F 0D            [ 2] 2046 	ldw	(0x0d, sp), x
+      000B50 1E 0D            [ 2] 2047 	ldw	x, (0x0d, sp)
+      000B52 F6               [ 1] 2048 	ld	a, (x)
+      000B53 11 13            [ 1] 2049 	cp	a, (0x13, sp)
+      000B55 27 1E            [ 1] 2050 	jreq	00102$
+                                   2051 ;	main.c: 489: uart_write_str("PC3 is now ");
+      000B57 AEr11rC1         [ 2] 2052 	ldw	x, #___str_96+0
+      000B5A 89               [ 2] 2053 	pushw	x
+      000B5B CDr00r00         [ 4] 2054 	call	_uart_write_str
+      000B5E 85               [ 2] 2055 	popw	x
+                                   2056 ;	main.c: 490: uart_write_ch('0' + tmp);
+      000B5F 7B 13            [ 1] 2057 	ld	a, (0x13, sp)
+      000B61 AB 30            [ 1] 2058 	add	a, #0x30
+      000B63 88               [ 1] 2059 	push	a
+      000B64 CDr00r00         [ 4] 2060 	call	_uart_write_ch
+      000B67 84               [ 1] 2061 	pop	a
+                                   2062 ;	main.c: 491: uart_write_str("\r\n");
+      000B68 AEr0Dr47         [ 2] 2063 	ldw	x, #___str_1+0
+      000B6B 89               [ 2] 2064 	pushw	x
+      000B6C CDr00r00         [ 4] 2065 	call	_uart_write_str
+      000B6F 85               [ 2] 2066 	popw	x
+                                   2067 ;	main.c: 492: state.pc3 = tmp;
+      000B70 1E 0D            [ 2] 2068 	ldw	x, (0x0d, sp)
+      000B72 7B 13            [ 1] 2069 	ld	a, (0x13, sp)
+      000B74 F7               [ 1] 2070 	ld	(x), a
+      000B75                       2071 00102$:
+                                   2072 ;	main.c: 495: tmp = (PB_IDR & (1<<5)) ? 1 : 0;
+      000B75 AE 50 06         [ 2] 2073 	ldw	x, #0x5006
+      000B78 F6               [ 1] 2074 	ld	a, (x)
+      000B79 A5 20            [ 1] 2075 	bcp	a, #0x20
+      000B7B 27 03            [ 1] 2076 	jreq	00115$
+      000B7D A6 01            [ 1] 2077 	ld	a, #0x01
+      000B7F 21                    2078 	.byte 0x21
+      000B80                       2079 00115$:
+      000B80 4F               [ 1] 2080 	clr	a
+      000B81                       2081 00116$:
+      000B81 6B 06            [ 1] 2082 	ld	(0x06, sp), a
+                                   2083 ;	main.c: 496: if (state.constant_current != tmp) {
+      000B83 1E 09            [ 2] 2084 	ldw	x, (0x09, sp)
+      000B85 1C 00 0C         [ 2] 2085 	addw	x, #0x000c
+      000B88 F6               [ 1] 2086 	ld	a, (x)
+      000B89 11 06            [ 1] 2087 	cp	a, (0x06, sp)
+      000B8B 27 0F            [ 1] 2088 	jreq	00104$
+                                   2089 ;	main.c: 497: state.constant_current = tmp;
+      000B8D 7B 06            [ 1] 2090 	ld	a, (0x06, sp)
+      000B8F F7               [ 1] 2091 	ld	(x), a
+                                   2092 ;	main.c: 498: output_check_state(&cfg_system, state.constant_current);
+      000B90 AEr00r00         [ 2] 2093 	ldw	x, #_cfg_system+0
+      000B93 7B 06            [ 1] 2094 	ld	a, (0x06, sp)
+      000B95 88               [ 1] 2095 	push	a
+      000B96 89               [ 2] 2096 	pushw	x
+      000B97 CDr00r00         [ 4] 2097 	call	_output_check_state
+      000B9A 5B 03            [ 2] 2098 	addw	sp, #3
+      000B9C                       2099 00104$:
+                                   2100 ;	main.c: 501: if (adc_ready()) {
+      000B9C CDr00r00         [ 4] 2101 	call	_adc_ready
+      000B9F 4D               [ 1] 2102 	tnz	a
+      000BA0 26 03            [ 1] 2103 	jrne	00157$
+      000BA2 CCr0Cr95         [ 2] 2104 	jp	00111$
+      000BA5                       2105 00157$:
+                                   2106 ;	main.c: 502: uint16_t val = adc_read();
+      000BA5 CDr00r00         [ 4] 2107 	call	_adc_read
+      000BA8 1F 03            [ 2] 2108 	ldw	(0x03, sp), x
+                                   2109 ;	main.c: 503: uint8_t ch = adc_channel();
+      000BAA CDr00r00         [ 4] 2110 	call	_adc_channel
+      000BAD 6B 05            [ 1] 2111 	ld	(0x05, sp), a
+                                   2112 ;	main.c: 505: switch (ch) {
+      000BAF 7B 05            [ 1] 2113 	ld	a, (0x05, sp)
+      000BB1 A1 02            [ 1] 2114 	cp	a, #0x02
+      000BB3 27 0F            [ 1] 2115 	jreq	00105$
+      000BB5 7B 05            [ 1] 2116 	ld	a, (0x05, sp)
+      000BB7 A1 03            [ 1] 2117 	cp	a, #0x03
+      000BB9 27 2D            [ 1] 2118 	jreq	00106$
+      000BBB 7B 05            [ 1] 2119 	ld	a, (0x05, sp)
+      000BBD A1 04            [ 1] 2120 	cp	a, #0x04
+      000BBF 27 4C            [ 1] 2121 	jreq	00107$
+      000BC1 CCr0Cr8E         [ 2] 2122 	jp	00108$
+                                   2123 ;	main.c: 506: case 2:
+      000BC4                       2124 00105$:
+                                   2125 ;	main.c: 507: state.cout_raw = val;
+      000BC4 1E 09            [ 2] 2126 	ldw	x, (0x09, sp)
+      000BC6 16 03            [ 2] 2127 	ldw	y, (0x03, sp)
+      000BC8 EF 04            [ 2] 2128 	ldw	(0x0004, x), y
+                                   2129 ;	main.c: 509: state.cout = adc_to_volt(val, &cfg_system.cout_adc);
+      000BCA 1E 09            [ 2] 2130 	ldw	x, (0x09, sp)
+      000BCC 1C 00 0A         [ 2] 2131 	addw	x, #0x000a
+      000BCF 1F 07            [ 2] 2132 	ldw	(0x07, sp), x
+      000BD1 AEr00r25         [ 2] 2133 	ldw	x, #_cfg_system+37
+      000BD4 89               [ 2] 2134 	pushw	x
+      000BD5 1E 05            [ 2] 2135 	ldw	x, (0x05, sp)
+      000BD7 89               [ 2] 2136 	pushw	x
+      000BD8 CDr00r00         [ 4] 2137 	call	_adc_to_volt
+      000BDB 5B 04            [ 2] 2138 	addw	sp, #4
+      000BDD 16 07            [ 2] 2139 	ldw	y, (0x07, sp)
+      000BDF 90 FF            [ 2] 2140 	ldw	(y), x
+                                   2141 ;	main.c: 510: ch = 3;
+      000BE1 A6 03            [ 1] 2142 	ld	a, #0x03
+      000BE3 6B 05            [ 1] 2143 	ld	(0x05, sp), a
+                                   2144 ;	main.c: 511: break;
+      000BE5 CCr0Cr8E         [ 2] 2145 	jp	00108$
+                                   2146 ;	main.c: 512: case 3:
+      000BE8                       2147 00106$:
+                                   2148 ;	main.c: 513: state.vout_raw = val;
+      000BE8 1E 09            [ 2] 2149 	ldw	x, (0x09, sp)
+      000BEA 5C               [ 2] 2150 	incw	x
+      000BEB 5C               [ 2] 2151 	incw	x
+      000BEC 16 03            [ 2] 2152 	ldw	y, (0x03, sp)
+      000BEE FF               [ 2] 2153 	ldw	(x), y
+                                   2154 ;	main.c: 515: state.vout = adc_to_volt(val, &cfg_system.vout_adc);
+      000BEF 1E 09            [ 2] 2155 	ldw	x, (0x09, sp)
+      000BF1 1C 00 08         [ 2] 2156 	addw	x, #0x0008
+      000BF4 1F 11            [ 2] 2157 	ldw	(0x11, sp), x
+      000BF6 AEr00r1D         [ 2] 2158 	ldw	x, #_cfg_system+29
+      000BF9 89               [ 2] 2159 	pushw	x
+      000BFA 1E 05            [ 2] 2160 	ldw	x, (0x05, sp)
+      000BFC 89               [ 2] 2161 	pushw	x
+      000BFD CDr00r00         [ 4] 2162 	call	_adc_to_volt
+      000C00 5B 04            [ 2] 2163 	addw	sp, #4
+      000C02 16 11            [ 2] 2164 	ldw	y, (0x11, sp)
+      000C04 90 FF            [ 2] 2165 	ldw	(y), x
+                                   2166 ;	main.c: 516: ch = 4;
+      000C06 A6 04            [ 1] 2167 	ld	a, #0x04
+      000C08 6B 05            [ 1] 2168 	ld	(0x05, sp), a
+                                   2169 ;	main.c: 517: break;
+      000C0A CCr0Cr8E         [ 2] 2170 	jp	00108$
+                                   2171 ;	main.c: 518: case 4:
+      000C0D                       2172 00107$:
+                                   2173 ;	main.c: 519: state.vin_raw = val;
+      000C0D 1E 09            [ 2] 2174 	ldw	x, (0x09, sp)
+      000C0F 16 03            [ 2] 2175 	ldw	y, (0x03, sp)
+      000C11 FF               [ 2] 2176 	ldw	(x), y
+                                   2177 ;	main.c: 521: state.vin = adc_to_volt(val, &cfg_system.vin_adc);
+      000C12 1E 09            [ 2] 2178 	ldw	x, (0x09, sp)
+      000C14 1C 00 06         [ 2] 2179 	addw	x, #0x0006
+      000C17 1F 0B            [ 2] 2180 	ldw	(0x0b, sp), x
+      000C19 AEr00r15         [ 2] 2181 	ldw	x, #_cfg_system+21
+      000C1C 89               [ 2] 2182 	pushw	x
+      000C1D 1E 05            [ 2] 2183 	ldw	x, (0x05, sp)
+      000C1F 89               [ 2] 2184 	pushw	x
+      000C20 CDr00r00         [ 4] 2185 	call	_adc_to_volt
+      000C23 5B 04            [ 2] 2186 	addw	sp, #4
+      000C25 16 0B            [ 2] 2187 	ldw	y, (0x0b, sp)
+      000C27 90 FF            [ 2] 2188 	ldw	(y), x
+                                   2189 ;	main.c: 522: ch = 2;
+      000C29 A6 02            [ 1] 2190 	ld	a, #0x02
+      000C2B 6B 05            [ 1] 2191 	ld	(0x05, sp), a
+                                   2192 ;	main.c: 529: ch1 = '0' + (val / 10000) % 10;
+      000C2D 1E 03            [ 2] 2193 	ldw	x, (0x03, sp)
+      000C2F 90 AE 27 10      [ 2] 2194 	ldw	y, #0x2710
+      000C33 65               [ 2] 2195 	divw	x, y
+      000C34 90 AE 00 0A      [ 2] 2196 	ldw	y, #0x000a
+      000C38 65               [ 2] 2197 	divw	x, y
+      000C39 90 9F            [ 1] 2198 	ld	a, yl
+      000C3B AB 30            [ 1] 2199 	add	a, #0x30
+      000C3D 6B 02            [ 1] 2200 	ld	(0x02, sp), a
+                                   2201 ;	main.c: 530: ch2 = '0' + (val / 1000) % 10;
+      000C3F 1E 03            [ 2] 2202 	ldw	x, (0x03, sp)
+      000C41 90 AE 03 E8      [ 2] 2203 	ldw	y, #0x03e8
+      000C45 65               [ 2] 2204 	divw	x, y
+      000C46 90 AE 00 0A      [ 2] 2205 	ldw	y, #0x000a
+      000C4A 65               [ 2] 2206 	divw	x, y
+      000C4B 90 9F            [ 1] 2207 	ld	a, yl
+      000C4D AB 30            [ 1] 2208 	add	a, #0x30
+      000C4F 6B 01            [ 1] 2209 	ld	(0x01, sp), a
+                                   2210 ;	main.c: 531: ch3 = '0' + (val / 100) % 10;
+      000C51 1E 03            [ 2] 2211 	ldw	x, (0x03, sp)
+      000C53 90 AE 00 64      [ 2] 2212 	ldw	y, #0x0064
+      000C57 65               [ 2] 2213 	divw	x, y
+      000C58 90 AE 00 0A      [ 2] 2214 	ldw	y, #0x000a
+      000C5C 65               [ 2] 2215 	divw	x, y
+      000C5D 90 9F            [ 1] 2216 	ld	a, yl
+      000C5F AB 30            [ 1] 2217 	add	a, #0x30
+      000C61 95               [ 1] 2218 	ld	xh, a
+                                   2219 ;	main.c: 532: ch4 = '0' + (val / 10 ) % 10;
+      000C62 89               [ 2] 2220 	pushw	x
+      000C63 1E 05            [ 2] 2221 	ldw	x, (0x05, sp)
+      000C65 90 AE 00 0A      [ 2] 2222 	ldw	y, #0x000a
+      000C69 65               [ 2] 2223 	divw	x, y
+      000C6A 1F 11            [ 2] 2224 	ldw	(0x11, sp), x
+      000C6C 1E 11            [ 2] 2225 	ldw	x, (0x11, sp)
+      000C6E 90 AE 00 0A      [ 2] 2226 	ldw	y, #0x000a
+      000C72 65               [ 2] 2227 	divw	x, y
+      000C73 90 9F            [ 1] 2228 	ld	a, yl
+      000C75 85               [ 2] 2229 	popw	x
+      000C76 AB 30            [ 1] 2230 	add	a, #0x30
+                                   2231 ;	main.c: 534: display_show(ch1, 0, ch2, 1, ch3, 0, ch4, 0);
+      000C78 4B 00            [ 1] 2232 	push	#0x00
+      000C7A 88               [ 1] 2233 	push	a
+      000C7B 4B 00            [ 1] 2234 	push	#0x00
+      000C7D 9E               [ 1] 2235 	ld	a, xh
+      000C7E 88               [ 1] 2236 	push	a
+      000C7F 4B 01            [ 1] 2237 	push	#0x01
+      000C81 7B 06            [ 1] 2238 	ld	a, (0x06, sp)
+      000C83 88               [ 1] 2239 	push	a
+      000C84 4B 00            [ 1] 2240 	push	#0x00
+      000C86 7B 09            [ 1] 2241 	ld	a, (0x09, sp)
+      000C88 88               [ 1] 2242 	push	a
+      000C89 CDr00r00         [ 4] 2243 	call	_display_show
+      000C8C 5B 08            [ 2] 2244 	addw	sp, #8
+                                   2245 ;	main.c: 537: }
+      000C8E                       2246 00108$:
+                                   2247 ;	main.c: 539: adc_start(ch);
+      000C8E 7B 05            [ 1] 2248 	ld	a, (0x05, sp)
+      000C90 88               [ 1] 2249 	push	a
+      000C91 CDr00r00         [ 4] 2250 	call	_adc_start
+      000C94 84               [ 1] 2251 	pop	a
+      000C95                       2252 00111$:
+      000C95 5B 13            [ 2] 2253 	addw	sp, #19
+      000C97 81               [ 4] 2254 	ret
+                                   2255 ;	main.c: 543: void ensure_afr0_set(void)
+                                   2256 ;	-----------------------------------------
+                                   2257 ;	 function ensure_afr0_set
+                                   2258 ;	-----------------------------------------
+      000C98                       2259 _ensure_afr0_set:
+                                   2260 ;	main.c: 545: if ((OPT2 & 1) == 0) {
+      000C98 AE 48 03         [ 2] 2261 	ldw	x, #0x4803
+      000C9B F6               [ 1] 2262 	ld	a, (x)
+      000C9C 44               [ 1] 2263 	srl	a
+      000C9D 25 22            [ 1] 2264 	jrc	00110$
+                                   2265 ;	main.c: 546: uart_flush_writes();
+      000C9F CDr00r00         [ 4] 2266 	call	_uart_flush_writes
+                                   2267 ;	main.c: 547: if (eeprom_set_afr0()) {
+      000CA2 CDr00r00         [ 4] 2268 	call	_eeprom_set_afr0
+      000CA5 4D               [ 1] 2269 	tnz	a
+      000CA6 27 11            [ 1] 2270 	jreq	00105$
+                                   2271 ;	main.c: 548: uart_write_str("AFR0 set, reseting the unit\r\n");
+      000CA8 AEr11rCD         [ 2] 2272 	ldw	x, #___str_97+0
+      000CAB 89               [ 2] 2273 	pushw	x
+      000CAC CDr00r00         [ 4] 2274 	call	_uart_write_str
+      000CAF 85               [ 2] 2275 	popw	x
+                                   2276 ;	main.c: 549: uart_flush_writes();
+      000CB0 CDr00r00         [ 4] 2277 	call	_uart_flush_writes
+                                   2278 ;	main.c: 50: IWDG_KR = 0xCC; // Enable IWDG
+      000CB3 35 CC 50 E0      [ 1] 2279 	mov	0x50e0+0, #0xcc
+                                   2280 ;	main.c: 551: while (1); // Force a reset in a few msec
+      000CB7                       2281 00102$:
+      000CB7 20 FE            [ 2] 2282 	jra	00102$
+      000CB9                       2283 00105$:
+                                   2284 ;	main.c: 554: uart_write_str("AFR0 not set and programming failed!\r\n");
+      000CB9 AEr11rEB         [ 2] 2285 	ldw	x, #___str_98+0
+      000CBC 89               [ 2] 2286 	pushw	x
+      000CBD CDr00r00         [ 4] 2287 	call	_uart_write_str
+      000CC0 85               [ 2] 2288 	popw	x
+      000CC1                       2289 00110$:
+      000CC1 81               [ 4] 2290 	ret
+                                   2291 ;	main.c: 559: int main()
+                                   2292 ;	-----------------------------------------
+                                   2293 ;	 function main
+                                   2294 ;	-----------------------------------------
+      000CC2                       2295 _main:
+                                   2296 ;	main.c: 439: PA_ODR = 0;
+      000CC2 35 00 50 00      [ 1] 2297 	mov	0x5000+0, #0x00
+                                   2298 ;	main.c: 440: PA_DDR = (1<<1) | (1<<2);
+      000CC6 35 06 50 02      [ 1] 2299 	mov	0x5002+0, #0x06
+                                   2300 ;	main.c: 441: PA_CR1 = (1<<1) | (1<<2) | (1<<3);
+      000CCA 35 0E 50 03      [ 1] 2301 	mov	0x5003+0, #0x0e
+                                   2302 ;	main.c: 442: PA_CR2 = (1<<1) | (1<<2) | (1<<3);
+      000CCE 35 0E 50 04      [ 1] 2303 	mov	0x5004+0, #0x0e
+                                   2304 ;	main.c: 446: PB_ODR = (1<<4); // For safety we start with off-state
+      000CD2 35 10 50 05      [ 1] 2305 	mov	0x5005+0, #0x10
+                                   2306 ;	main.c: 447: PB_DDR = (1<<4);
+      000CD6 35 10 50 07      [ 1] 2307 	mov	0x5007+0, #0x10
+                                   2308 ;	main.c: 448: PB_CR1 = (1<<4);
+      000CDA 35 10 50 08      [ 1] 2309 	mov	0x5008+0, #0x10
+                                   2310 ;	main.c: 449: PB_CR2 = 0;
+      000CDE 35 00 50 09      [ 1] 2311 	mov	0x5009+0, #0x00
+                                   2312 ;	main.c: 456: PC_ODR = 0;
+      000CE2 35 00 50 0A      [ 1] 2313 	mov	0x500a+0, #0x00
+                                   2314 ;	main.c: 457: PC_DDR = (1<<5) || (1<<6);
+      000CE6 35 01 50 0C      [ 1] 2315 	mov	0x500c+0, #0x01
+                                   2316 ;	main.c: 458: PC_CR1 = (1<<7); // For the button
+      000CEA 35 80 50 0D      [ 1] 2317 	mov	0x500d+0, #0x80
+                                   2318 ;	main.c: 459: PC_CR2 = (1<<5) | (1<<6);
+      000CEE 35 60 50 0E      [ 1] 2319 	mov	0x500e+0, #0x60
+                                   2320 ;	main.c: 465: PD_DDR = (1<<4);
+      000CF2 35 10 50 11      [ 1] 2321 	mov	0x5011+0, #0x10
+                                   2322 ;	main.c: 466: PD_CR1 = (1<<1) | (1<<4); // For the button
+      000CF6 35 12 50 12      [ 1] 2323 	mov	0x5012+0, #0x12
+                                   2324 ;	main.c: 467: PD_CR2 = (1<<4);
+      000CFA 35 10 50 13      [ 1] 2325 	mov	0x5013+0, #0x10
+                                   2326 ;	main.c: 431: CLK_CKDIVR = 0x00; // Set the frequency to 16 MHz
+      000CFE 35 00 50 C6      [ 1] 2327 	mov	0x50c6+0, #0x00
+                                   2328 ;	main.c: 565: uart_init();
+      000D02 CDr00r00         [ 4] 2329 	call	_uart_init
+                                   2330 ;	main.c: 566: pwm_init();
+      000D05 CDr00r00         [ 4] 2331 	call	_pwm_init
+                                   2332 ;	main.c: 567: adc_init();
+      000D08 CDr00r00         [ 4] 2333 	call	_adc_init
+                                   2334 ;	main.c: 569: config_load();
+      000D0B CDr0Br00         [ 4] 2335 	call	_config_load
+                                   2336 ;	main.c: 571: uart_write_str("\r\n" MODEL " starting: Version " FW_VERSION "\r\n");
+      000D0E AEr12r12         [ 2] 2337 	ldw	x, #___str_99+0
+      000D11 89               [ 2] 2338 	pushw	x
+      000D12 CDr00r00         [ 4] 2339 	call	_uart_write_str
+      000D15 85               [ 2] 2340 	popw	x
+                                   2341 ;	main.c: 573: ensure_afr0_set();
+      000D16 CDr0Cr98         [ 4] 2342 	call	_ensure_afr0_set
+                                   2343 ;	main.c: 50: IWDG_KR = 0xCC; // Enable IWDG
+      000D19 35 CC 50 E0      [ 1] 2344 	mov	0x50e0+0, #0xcc
+                                   2345 ;	main.c: 576: adc_start(4);
+      000D1D 4B 04            [ 1] 2346 	push	#0x04
+      000D1F CDr00r00         [ 4] 2347 	call	_adc_start
+      000D22 84               [ 1] 2348 	pop	a
+                                   2349 ;	main.c: 577: commit_output();
+      000D23 CDr00r00         [ 4] 2350 	call	_commit_output
+                                   2351 ;	main.c: 579: do {
+      000D26                       2352 00103$:
+                                   2353 ;	main.c: 56: IWDG_KR = 0xAA; // Reset the counter
+      000D26 35 AA 50 E0      [ 1] 2354 	mov	0x50e0+0, #0xaa
+                                   2355 ;	main.c: 581: read_state();
+      000D2A CDr0Br34         [ 4] 2356 	call	_read_state
+                                   2357 ;	main.c: 582: display_refresh();
+      000D2D CDr00r00         [ 4] 2358 	call	_display_refresh
+                                   2359 ;	main.c: 583: uart_drive();
+      000D30 CDr00r00         [ 4] 2360 	call	_uart_drive
+                                   2361 ;	main.c: 584: if (read_newline) {
+      000D33 72 5Du00u00      [ 1] 2362 	tnz	_read_newline+0
+      000D37 27 ED            [ 1] 2363 	jreq	00103$
+                                   2364 ;	main.c: 585: process_input();
+      000D39 CDr03r57         [ 4] 2365 	call	_process_input
+                                   2366 ;	main.c: 587: } while(1);
+      000D3C 20 E8            [ 2] 2367 	jra	00103$
+      000D3E 81               [ 4] 2368 	ret
+                                   2369 	.area CODE
+      000D3F                       2370 ___str_0:
+      000D3F 53 4E 41 4D 45 3A 20  2371 	.ascii "SNAME: "
+      000D46 00                    2372 	.db 0x00
+      000D47                       2373 ___str_1:
+      000D47 0D                    2374 	.db 0x0D
+      000D48 0A                    2375 	.db 0x0A
+      000D49 00                    2376 	.db 0x00
+      000D4A                       2377 ___str_2:
+      000D4A 41 55 54 4F 43 4F 4D  2378 	.ascii "AUTOCOMMIT OFF: CHANGE PENDING ON COMMIT"
+             4D 49 54 20 4F 46 46
+             3A 20 43 48 41 4E 47
+             45 20 50 45 4E 44 49
+             4E 47 20 4F 4E 20 43
+             4F 4D 4D 49 54
+      000D72 0D                    2379 	.db 0x0D
+      000D73 0A                    2380 	.db 0x0A
+      000D74 00                    2381 	.db 0x00
+      000D75                       2382 ___str_3:
+      000D75 4F 55 54 50 55 54 20  2383 	.ascii "OUTPUT takes either 0 for OFF or 1 for ON, received: "
+             74 61 6B 65 73 20 65
+             69 74 68 65 72 20 30
+             20 66 6F 72 20 4F 46
+             46 20 6F 72 20 31 20
+             66 6F 72 20 4F 4E 2C
+             20 72 65 63 65 69 76
+             65 64 3A 20
+      000DAA 22                    2384 	.db 0x22
+      000DAB 00                    2385 	.db 0x00
+      000DAC                       2386 ___str_4:
+      000DAC 22                    2387 	.db 0x22
+      000DAD 0D                    2388 	.db 0x0D
+      000DAE 0A                    2389 	.db 0x0A
+      000DAF 00                    2390 	.db 0x00
+      000DB0                       2391 ___str_5:
+      000DB0 4F 55 54 50 55 54 3A  2392 	.ascii "OUTPUT: OFF"
+             20 4F 46 46
+      000DBB 0D                    2393 	.db 0x0D
+      000DBC 0A                    2394 	.db 0x0A
+      000DBD 00                    2395 	.db 0x00
+      000DBE                       2396 ___str_6:
+      000DBE 4F 55 54 50 55 54 3A  2397 	.ascii "OUTPUT: ON"
+             20 4F 4E
+      000DC8 0D                    2398 	.db 0x0D
+      000DC9 0A                    2399 	.db 0x0A
+      000DCA 00                    2400 	.db 0x00
+      000DCB                       2401 ___str_7:
+      000DCB 56 4F 4C 54 41 47 45  2402 	.ascii "VOLTAGE VALUE TOO HIGH"
+             20 56 41 4C 55 45 20
+             54 4F 4F 20 48 49 47
+             48
+      000DE1 0D                    2403 	.db 0x0D
+      000DE2 0A                    2404 	.db 0x0A
+      000DE3 00                    2405 	.db 0x00
+      000DE4                       2406 ___str_8:
+      000DE4 56 4F 4C 54 41 47 45  2407 	.ascii "VOLTAGE VALUE TOO LOW"
+             20 56 41 4C 55 45 20
+             54 4F 4F 20 4C 4F 57
+      000DF9 0D                    2408 	.db 0x0D
+      000DFA 0A                    2409 	.db 0x0A
+      000DFB 00                    2410 	.db 0x00
+      000DFC                       2411 ___str_9:
+      000DFC 56 4F 4C 54 41 47 45  2412 	.ascii "VOLTAGE: SET "
+             3A 20 53 45 54 20
+      000E09 00                    2413 	.db 0x00
+      000E0A                       2414 ___str_10:
+      000E0A 43 55 52 52 45 4E 54  2415 	.ascii "CURRENT VALUE TOO HIGH"
+             20 56 41 4C 55 45 20
+             54 4F 4F 20 48 49 47
+             48
+      000E20 0D                    2416 	.db 0x0D
+      000E21 0A                    2417 	.db 0x0A
+      000E22 00                    2418 	.db 0x00
+      000E23                       2419 ___str_11:
+      000E23 43 55 52 52 45 4E 54  2420 	.ascii "CURRENT VALUE TOO LOW"
+             20 56 41 4C 55 45 20
+             54 4F 4F 20 4C 4F 57
+      000E38 0D                    2421 	.db 0x0D
+      000E39 0A                    2422 	.db 0x0A
+      000E3A 00                    2423 	.db 0x00
+      000E3B                       2424 ___str_12:
+      000E3B 43 55 52 52 45 4E 54  2425 	.ascii "CURRENT: SET "
+             3A 20 53 45 54 20
+      000E48 00                    2426 	.db 0x00
+      000E49                       2427 ___str_13:
+      000E49 31                    2428 	.ascii "1"
+      000E4A 00                    2429 	.db 0x00
+      000E4B                       2430 ___str_14:
+      000E4B 59 45 53              2431 	.ascii "YES"
+      000E4E 00                    2432 	.db 0x00
+      000E4F                       2433 ___str_15:
+      000E4F 41 55 54 4F 43 4F 4D  2434 	.ascii "AUTOCOMMIT: YES"
+             4D 49 54 3A 20 59 45
+             53
+      000E5E 0D                    2435 	.db 0x0D
+      000E5F 0A                    2436 	.db 0x0A
+      000E60 00                    2437 	.db 0x00
+      000E61                       2438 ___str_16:
+      000E61 30                    2439 	.ascii "0"
+      000E62 00                    2440 	.db 0x00
+      000E63                       2441 ___str_17:
+      000E63 4E 4F                 2442 	.ascii "NO"
+      000E65 00                    2443 	.db 0x00
+      000E66                       2444 ___str_18:
+      000E66 41 55 54 4F 43 4F 4D  2445 	.ascii "AUTOCOMMIT: NO"
+             4D 49 54 3A 20 4E 4F
+      000E74 0D                    2446 	.db 0x0D
+      000E75 0A                    2447 	.db 0x0A
+      000E76 00                    2448 	.db 0x00
+      000E77                       2449 ___str_19:
+      000E77 55 4E 4B 4E 4F 57 4E  2450 	.ascii "UNKNOWN AUTOCOMMIT ARG: "
+             20 41 55 54 4F 43 4F
+             4D 4D 49 54 20 41 52
+             47 3A 20
+      000E8F 00                    2451 	.db 0x00
+      000E90                       2452 ___str_20:
+      000E90 4F 4E                 2453 	.ascii "ON"
+      000E92 00                    2454 	.db 0x00
+      000E93                       2455 ___str_21:
+      000E93 4F 46 46              2456 	.ascii "OFF"
+      000E96 00                    2457 	.db 0x00
+      000E97                       2458 ___str_22:
+      000E97 46 41 49 4C 45 44 20  2459 	.ascii "FAILED TO PARSE "
+             54 4F 20 50 41 52 53
+             45 20
+      000EA7 00                    2460 	.db 0x00
+      000EA8                       2461 ___str_23:
+      000EA8 20 46 4F 52 20        2462 	.ascii " FOR "
+      000EAD 00                    2463 	.db 0x00
+      000EAE                       2464 ___str_24:
+      000EAE 43 41 4C 49 42 52 41  2465 	.ascii "CALIBRATION SET "
+             54 49 4F 4E 20 53 45
+             54 20
+      000EBE 00                    2466 	.db 0x00
+      000EBF                       2467 ___str_25:
+      000EBF 4D 4F 44 45 4C        2468 	.ascii "MODEL"
+      000EC4 00                    2469 	.db 0x00
+      000EC5                       2470 ___str_26:
+      000EC5 4D 4F 44 45 4C 3A 20  2471 	.ascii "MODEL: B3603"
+             42 33 36 30 33
+      000ED1 0D                    2472 	.db 0x0D
+      000ED2 0A                    2473 	.db 0x0A
+      000ED3 00                    2474 	.db 0x00
+      000ED4                       2475 ___str_27:
+      000ED4 56 45 52 53 49 4F 4E  2476 	.ascii "VERSION"
+      000EDB 00                    2477 	.db 0x00
+      000EDC                       2478 ___str_28:
+      000EDC 56 45 52 53 49 4F 4E  2479 	.ascii "VERSION: 1.0.1"
+             3A 20 31 2E 30 2E 31
+      000EEA 0D                    2480 	.db 0x0D
+      000EEB 0A                    2481 	.db 0x0A
+      000EEC 00                    2482 	.db 0x00
+      000EED                       2483 ___str_29:
+      000EED 53 59 53 54 45 4D     2484 	.ascii "SYSTEM"
+      000EF3 00                    2485 	.db 0x00
+      000EF4                       2486 ___str_30:
+      000EF4 4D 4F 44 45 4C 3A 20  2487 	.ascii "MODEL: B3603"
+             42 33 36 30 33
+      000F00 0D                    2488 	.db 0x0D
+      000F01 0A                    2489 	.db 0x0A
+      000F02 56 45 52 53 49 4F 4E  2490 	.ascii "VERSION: 1.0.1"
+             3A 20 31 2E 30 2E 31
+      000F10 0D                    2491 	.db 0x0D
+      000F11 0A                    2492 	.db 0x0A
+      000F12 00                    2493 	.db 0x00
+      000F13                       2494 ___str_31:
+      000F13 4E 41 4D 45 3A 20     2495 	.ascii "NAME: "
+      000F19 00                    2496 	.db 0x00
+      000F1A                       2497 ___str_32:
+      000F1A 4F 4E 53 54 41 52 54  2498 	.ascii "ONSTARTUP: "
+             55 50 3A 20
+      000F25 00                    2499 	.db 0x00
+      000F26                       2500 ___str_33:
+      000F26 41 55 54 4F 43 4F 4D  2501 	.ascii "AUTOCOMMIT: "
+             4D 49 54 3A 20
+      000F32 00                    2502 	.db 0x00
+      000F33                       2503 ___str_34:
+      000F33 43 41 4C 49 42 52 41  2504 	.ascii "CALIBRATION"
+             54 49 4F 4E
+      000F3E 00                    2505 	.db 0x00
+      000F3F                       2506 ___str_35:
+      000F3F 43 41 4C 49 42 52 41  2507 	.ascii "CALIBRATE VIN ADC: "
+             54 45 20 56 49 4E 20
+             41 44 43 3A 20
+      000F52 00                    2508 	.db 0x00
+      000F53                       2509 ___str_36:
+      000F53 43 41 4C 49 42 52 41  2510 	.ascii "CALIBRATE VOUT ADC: "
+             54 45 20 56 4F 55 54
+             20 41 44 43 3A 20
+      000F67 00                    2511 	.db 0x00
+      000F68                       2512 ___str_37:
+      000F68 43 41 4C 49 42 52 41  2513 	.ascii "CALIBRATE COUT ADC: "
+             54 45 20 43 4F 55 54
+             20 41 44 43 3A 20
+      000F7C 00                    2514 	.db 0x00
+      000F7D                       2515 ___str_38:
+      000F7D 43 41 4C 49 42 52 41  2516 	.ascii "CALIBRATE VOUT PWM: "
+             54 45 20 56 4F 55 54
+             20 50 57 4D 3A 20
+      000F91 00                    2517 	.db 0x00
+      000F92                       2518 ___str_39:
+      000F92 43 41 4C 49 42 52 41  2519 	.ascii "CALIBRATE COUT PWM: "
+             54 45 20 43 4F 55 54
+             20 50 57 4D 3A 20
+      000FA6 00                    2520 	.db 0x00
+      000FA7                       2521 ___str_40:
+      000FA7 52 43 41 4C 49 42 52  2522 	.ascii "RCALIBRATION"
+             41 54 49 4F 4E
+      000FB3 00                    2523 	.db 0x00
+      000FB4                       2524 ___str_41:
+      000FB4 4C 49 4D 49 54 53     2525 	.ascii "LIMITS"
+      000FBA 00                    2526 	.db 0x00
+      000FBB                       2527 ___str_42:
+      000FBB 4C 49 4D 49 54 53 3A  2528 	.ascii "LIMITS:"
+      000FC2 0D                    2529 	.db 0x0D
+      000FC3 0A                    2530 	.db 0x0A
+      000FC4 00                    2531 	.db 0x00
+      000FC5                       2532 ___str_43:
+      000FC5 56 4D 49 4E 3A 20     2533 	.ascii "VMIN: "
+      000FCB 00                    2534 	.db 0x00
+      000FCC                       2535 ___str_44:
+      000FCC 56 4D 41 58 3A 20     2536 	.ascii "VMAX: "
+      000FD2 00                    2537 	.db 0x00
+      000FD3                       2538 ___str_45:
+      000FD3 56 53 54 45 50 3A 20  2539 	.ascii "VSTEP: "
+      000FDA 00                    2540 	.db 0x00
+      000FDB                       2541 ___str_46:
+      000FDB 43 4D 49 4E 3A 20     2542 	.ascii "CMIN: "
+      000FE1 00                    2543 	.db 0x00
+      000FE2                       2544 ___str_47:
+      000FE2 43 4D 41 58 3A 20     2545 	.ascii "CMAX: "
+      000FE8 00                    2546 	.db 0x00
+      000FE9                       2547 ___str_48:
+      000FE9 43 53 54 45 50 3A 20  2548 	.ascii "CSTEP: "
+      000FF0 00                    2549 	.db 0x00
+      000FF1                       2550 ___str_49:
+      000FF1 43 4F 4E 46 49 47     2551 	.ascii "CONFIG"
+      000FF7 00                    2552 	.db 0x00
+      000FF8                       2553 ___str_50:
+      000FF8 43 4F 4E 46 49 47 3A  2554 	.ascii "CONFIG:"
+      000FFF 0D                    2555 	.db 0x0D
+      001000 0A                    2556 	.db 0x0A
+      001001 00                    2557 	.db 0x00
+      001002                       2558 ___str_51:
+      001002 4F 55 54 50 55 54 3A  2559 	.ascii "OUTPUT: "
+             20
+      00100A 00                    2560 	.db 0x00
+      00100B                       2561 ___str_52:
+      00100B 56 53 45 54 3A 20     2562 	.ascii "VSET: "
+      001011 00                    2563 	.db 0x00
+      001012                       2564 ___str_53:
+      001012 43 53 45 54 3A 20     2565 	.ascii "CSET: "
+      001018 00                    2566 	.db 0x00
+      001019                       2567 ___str_54:
+      001019 56 53 48 55 54 44 4F  2568 	.ascii "VSHUTDOWN: "
+             57 4E 3A 20
+      001024 00                    2569 	.db 0x00
+      001025                       2570 ___str_55:
+      001025 43 53 48 55 54 44 4F  2571 	.ascii "CSHUTDOWN: "
+             57 4E 3A 20
+      001030 00                    2572 	.db 0x00
+      001031                       2573 ___str_56:
+      001031 53 54 41 54 55 53     2574 	.ascii "STATUS"
+      001037 00                    2575 	.db 0x00
+      001038                       2576 ___str_57:
+      001038 53 54 41 54 55 53 3A  2577 	.ascii "STATUS:"
+      00103F 0D                    2578 	.db 0x0D
+      001040 0A                    2579 	.db 0x0A
+      001041 00                    2580 	.db 0x00
+      001042                       2581 ___str_58:
+      001042 56 49 4E 3A 20        2582 	.ascii "VIN: "
+      001047 00                    2583 	.db 0x00
+      001048                       2584 ___str_59:
+      001048 56 4F 55 54 3A 20     2585 	.ascii "VOUT: "
+      00104E 00                    2586 	.db 0x00
+      00104F                       2587 ___str_60:
+      00104F 43 4F 55 54 3A 20     2588 	.ascii "COUT: "
+      001055 00                    2589 	.db 0x00
+      001056                       2590 ___str_61:
+      001056 43 4F 4E 53 54 41 4E  2591 	.ascii "CONSTANT: "
+             54 3A 20
+      001060 00                    2592 	.db 0x00
+      001061                       2593 ___str_62:
+      001061 43 55 52 52 45 4E 54  2594 	.ascii "CURRENT"
+      001068 00                    2595 	.db 0x00
+      001069                       2596 ___str_63:
+      001069 56 4F 4C 54 41 47 45  2597 	.ascii "VOLTAGE"
+      001070 00                    2598 	.db 0x00
+      001071                       2599 ___str_64:
+      001071 52 53 54 41 54 55 53  2600 	.ascii "RSTATUS"
+      001078 00                    2601 	.db 0x00
+      001079                       2602 ___str_65:
+      001079 52 53 54 41 54 55 53  2603 	.ascii "RSTATUS:"
+             3A
+      001081 0D                    2604 	.db 0x0D
+      001082 0A                    2605 	.db 0x0A
+      001083 00                    2606 	.db 0x00
+      001084                       2607 ___str_66:
+      001084 56 49 4E 20 41 44 43  2608 	.ascii "VIN ADC: "
+             3A 20
+      00108D 00                    2609 	.db 0x00
+      00108E                       2610 ___str_67:
+      00108E 56 4F 55 54 20 41 44  2611 	.ascii "VOUT ADC: "
+             43 3A 20
+      001098 00                    2612 	.db 0x00
+      001099                       2613 ___str_68:
+      001099 43 4F 55 54 20 41 44  2614 	.ascii "COUT ADC: "
+             43 3A 20
+      0010A3 00                    2615 	.db 0x00
+      0010A4                       2616 ___str_69:
+      0010A4 43 4F 4D 4D 49 54     2617 	.ascii "COMMIT"
+      0010AA 00                    2618 	.db 0x00
+      0010AB                       2619 ___str_70:
+      0010AB 53 41 56 45           2620 	.ascii "SAVE"
+      0010AF 00                    2621 	.db 0x00
+      0010B0                       2622 ___str_71:
+      0010B0 53 41 56 45 44        2623 	.ascii "SAVED"
+      0010B5 0D                    2624 	.db 0x0D
+      0010B6 0A                    2625 	.db 0x0A
+      0010B7 00                    2626 	.db 0x00
+      0010B8                       2627 ___str_72:
+      0010B8 4C 4F 41 44           2628 	.ascii "LOAD"
+      0010BC 00                    2629 	.db 0x00
+      0010BD                       2630 ___str_73:
+      0010BD 52 45 53 54 4F 52 45  2631 	.ascii "RESTORE"
+      0010C4 00                    2632 	.db 0x00
+      0010C5                       2633 ___str_74:
+      0010C5 53 4E 41 4D 45        2634 	.ascii "SNAME"
+      0010CA 00                    2635 	.db 0x00
+      0010CB                       2636 ___str_75:
+      0010CB 4F 55 54 50 55 54     2637 	.ascii "OUTPUT"
+      0010D1 00                    2638 	.db 0x00
+      0010D2                       2639 ___str_76:
+      0010D2 41 55 54 4F 43 4F 4D  2640 	.ascii "AUTOCOMMIT"
+             4D 49 54
+      0010DC 00                    2641 	.db 0x00
+      0010DD                       2642 ___str_77:
+      0010DD 43 41 4C 56 4F 55 54  2643 	.ascii "CALVOUTADCA"
+             41 44 43 41
+      0010E8 00                    2644 	.db 0x00
+      0010E9                       2645 ___str_78:
+      0010E9 41 44 43 20 56 4F 55  2646 	.ascii "ADC VOUT A"
+             54 20 41
+      0010F3 00                    2647 	.db 0x00
+      0010F4                       2648 ___str_79:
+      0010F4 43 41 4C 56 4F 55 54  2649 	.ascii "CALVOUTADCB"
+             41 44 43 42
+      0010FF 00                    2650 	.db 0x00
+      001100                       2651 ___str_80:
+      001100 41 44 43 20 56 4F 55  2652 	.ascii "ADC VOUT B"
+             54 20 42
+      00110A 00                    2653 	.db 0x00
+      00110B                       2654 ___str_81:
+      00110B 43 41 4C 56 4F 55 54  2655 	.ascii "CALVOUTPWMA"
+             50 57 4D 41
+      001116 00                    2656 	.db 0x00
+      001117                       2657 ___str_82:
+      001117 50 57 4D 20 56 4F 55  2658 	.ascii "PWM VOUT A"
+             54 20 41
+      001121 00                    2659 	.db 0x00
+      001122                       2660 ___str_83:
+      001122 43 41 4C 56 4F 55 54  2661 	.ascii "CALVOUTPWMB"
+             50 57 4D 42
+      00112D 00                    2662 	.db 0x00
+      00112E                       2663 ___str_84:
+      00112E 50 57 4D 20 56 4F 55  2664 	.ascii "PWM VOUT B"
+             54 20 42
+      001138 00                    2665 	.db 0x00
+      001139                       2666 ___str_85:
+      001139 43 41 4C 43 4F 55 54  2667 	.ascii "CALCOUTADCA"
+             41 44 43 41
+      001144 00                    2668 	.db 0x00
+      001145                       2669 ___str_86:
+      001145 41 44 43 20 43 4F 55  2670 	.ascii "ADC COUT A"
+             54 20 41
+      00114F 00                    2671 	.db 0x00
+      001150                       2672 ___str_87:
+      001150 43 41 4C 43 4F 55 54  2673 	.ascii "CALCOUTADCB"
+             41 44 43 42
+      00115B 00                    2674 	.db 0x00
+      00115C                       2675 ___str_88:
+      00115C 41 44 43 20 43 4F 55  2676 	.ascii "ADC COUT B"
+             54 20 42
+      001166 00                    2677 	.db 0x00
+      001167                       2678 ___str_89:
+      001167 43 41 4C 43 4F 55 54  2679 	.ascii "CALCOUTPWMA"
+             50 57 4D 41
+      001172 00                    2680 	.db 0x00
+      001173                       2681 ___str_90:
+      001173 50 57 4D 20 43 4F 55  2682 	.ascii "PWM COUT A"
+             54 20 41
+      00117D 00                    2683 	.db 0x00
+      00117E                       2684 ___str_91:
+      00117E 43 41 4C 43 4F 55 54  2685 	.ascii "CALCOUTPWMB"
+             50 57 4D 42
+      001189 00                    2686 	.db 0x00
+      00118A                       2687 ___str_92:
+      00118A 50 57 4D 20 43 4F 55  2688 	.ascii "PWM COUT B"
+             54 20 42
+      001194 00                    2689 	.db 0x00
+      001195                       2690 ___str_93:
+      001195 55 4E 4B 4E 4F 57 4E  2691 	.ascii "UNKNOWN COMMAND!"
+             20 43 4F 4D 4D 41 4E
+             44 21
+      0011A5 0D                    2692 	.db 0x0D
+      0011A6 0A                    2693 	.db 0x0A
+      0011A7 00                    2694 	.db 0x00
+      0011A8                       2695 ___str_94:
+      0011A8 55 4E 4B 4E 4F 57 4E  2696 	.ascii "UNKNOWN COMMAND"
+             20 43 4F 4D 4D 41 4E
+             44
+      0011B7 0D                    2697 	.db 0x0D
+      0011B8 0A                    2698 	.db 0x0A
+      0011B9 00                    2699 	.db 0x00
+      0011BA                       2700 ___str_95:
+      0011BA 44 4F 4E 45           2701 	.ascii "DONE"
+      0011BE 0D                    2702 	.db 0x0D
+      0011BF 0A                    2703 	.db 0x0A
+      0011C0 00                    2704 	.db 0x00
+      0011C1                       2705 ___str_96:
+      0011C1 50 43 33 20 69 73 20  2706 	.ascii "PC3 is now "
+             6E 6F 77 20
+      0011CC 00                    2707 	.db 0x00
+      0011CD                       2708 ___str_97:
+      0011CD 41 46 52 30 20 73 65  2709 	.ascii "AFR0 set, reseting the unit"
+             74 2C 20 72 65 73 65
+             74 69 6E 67 20 74 68
+             65 20 75 6E 69 74
+      0011E8 0D                    2710 	.db 0x0D
+      0011E9 0A                    2711 	.db 0x0A
+      0011EA 00                    2712 	.db 0x00
+      0011EB                       2713 ___str_98:
+      0011EB 41 46 52 30 20 6E 6F  2714 	.ascii "AFR0 not set and programming failed!"
+             74 20 73 65 74 20 61
+             6E 64 20 70 72 6F 67
+             72 61 6D 6D 69 6E 67
+             20 66 61 69 6C 65 64
+             21
+      00120F 0D                    2715 	.db 0x0D
+      001210 0A                    2716 	.db 0x0A
+      001211 00                    2717 	.db 0x00
+      001212                       2718 ___str_99:
+      001212 0D                    2719 	.db 0x0D
+      001213 0A                    2720 	.db 0x0A
+      001214 42 33 36 30 33 20 73  2721 	.ascii "B3603 starting: Version 1.0.1"
+             74 61 72 74 69 6E 67
+             3A 20 56 65 72 73 69
+             6F 6E 20 31 2E 30 2E
+             31
+      001231 0D                    2722 	.db 0x0D
+      001232 0A                    2723 	.db 0x0A
+      001233 00                    2724 	.db 0x00
+                                   2725 	.area INITIALIZER
+                                   2726 	.area CABS (ABS)

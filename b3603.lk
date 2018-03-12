@@ -1,0 +1,21 @@
+-muwx
+-i b3603.ihx
+-Y
+-C 0x2000
+-b HOME = 0x8000
+-b DATA = 0x0001
+-k /usr/bin/../share/sdcc/lib/stm8
+-k /usr/share/sdcc/lib/stm8
+-l stm8
+-l stm8
+main.rel
+display.rel
+uart.rel
+eeprom.rel
+outputs.rel
+config.rel
+fixedpoint.rel
+parse.rel
+adc.rel
+
+-e

@@ -1,0 +1,285 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Mar 24 2016) (Linux)
+                                      4 ; This file was generated Mon Mar 12 12:44:10 2018
+                                      5 ;--------------------------------------------------------
+                                      6 	.module config
+                                      7 	.optsdcc -mstm8
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _memcpy
+                                     13 	.globl _eeprom_save_data
+                                     14 	.globl _default_cfg_output
+                                     15 	.globl _default_cfg_system
+                                     16 	.globl _config_default_system
+                                     17 	.globl _config_load_system
+                                     18 	.globl _config_save_system
+                                     19 	.globl _config_default_output
+                                     20 	.globl _config_load_output
+                                     21 	.globl _config_save_output
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area DATA
+                                     26 ;--------------------------------------------------------
+                                     27 ; ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area INITIALIZED
+      000000                         30 _default_cfg_system::
+      000000                         31 	.ds 61
+      00003D                         32 _default_cfg_output::
+      00003D                         33 	.ds 9
+                                     34 ;--------------------------------------------------------
+                                     35 ; absolute external ram data
+                                     36 ;--------------------------------------------------------
+                                     37 	.area DABS (ABS)
+                                     38 ;--------------------------------------------------------
+                                     39 ; global & static initialisations
+                                     40 ;--------------------------------------------------------
+                                     41 	.area HOME
+                                     42 	.area GSINIT
+                                     43 	.area GSFINAL
+                                     44 	.area GSINIT
+                                     45 ;--------------------------------------------------------
+                                     46 ; Home
+                                     47 ;--------------------------------------------------------
+                                     48 	.area HOME
+                                     49 	.area HOME
+                                     50 ;--------------------------------------------------------
+                                     51 ; code
+                                     52 ;--------------------------------------------------------
+                                     53 	.area CODE
+                                     54 ;	config.c: 55: void config_default_system(cfg_system_t *sys)
+                                     55 ;	-----------------------------------------
+                                     56 ;	 function config_default_system
+                                     57 ;	-----------------------------------------
+      000000                         58 _config_default_system:
+                                     59 ;	config.c: 57: memcpy(sys, &default_cfg_system, sizeof(default_cfg_system));
+      000000 AEr00r00         [ 2]   60 	ldw	x, #_default_cfg_system+0
+      000003 16 03            [ 2]   61 	ldw	y, (0x03, sp)
+      000005 4B 3D            [ 1]   62 	push	#0x3d
+      000007 4B 00            [ 1]   63 	push	#0x00
+      000009 89               [ 2]   64 	pushw	x
+      00000A 90 89            [ 2]   65 	pushw	y
+      00000C CDr00r00         [ 4]   66 	call	_memcpy
+      00000F 5B 06            [ 2]   67 	addw	sp, #6
+      000011 81               [ 4]   68 	ret
+                                     69 ;	config.c: 77: void config_load_system(cfg_system_t *sys)
+                                     70 ;	-----------------------------------------
+                                     71 ;	 function config_load_system
+                                     72 ;	-----------------------------------------
+      000012                         73 _config_load_system:
+      000012 52 04            [ 2]   74 	sub	sp, #4
+                                     75 ;	config.c: 82: memcpy(sys, SYSTEM_CONFIG, sizeof(*sys));
+      000014 1E 07            [ 2]   76 	ldw	x, (0x07, sp)
+      000016 4B 3D            [ 1]   77 	push	#0x3d
+      000018 4B 00            [ 1]   78 	push	#0x00
+      00001A 4B 00            [ 1]   79 	push	#0x00
+      00001C 4B 40            [ 1]   80 	push	#0x40
+      00001E 89               [ 2]   81 	pushw	x
+      00001F CDr00r00         [ 4]   82 	call	_memcpy
+      000022 5B 06            [ 2]   83 	addw	sp, #6
+                                     84 ;	config.c: 84: validate_system_config(sys);
+      000024 16 07            [ 2]   85 	ldw	y, (0x07, sp)
+      000026 17 03            [ 2]   86 	ldw	(0x03, sp), y
+      000028 16 03            [ 2]   87 	ldw	y, (0x03, sp)
+      00002A 17 01            [ 2]   88 	ldw	(0x01, sp), y
+                                     89 ;	config.c: 62: if (sys->version != SYSTEM_CFG_VERSION ||
+      00002C 1E 03            [ 2]   90 	ldw	x, (0x03, sp)
+      00002E F6               [ 1]   91 	ld	a, (x)
+      00002F A1 02            [ 1]   92 	cp	a, #0x02
+      000031 26 57            [ 1]   93 	jrne	00107$
+                                     94 ;	config.c: 63: sys->name[0]  ||
+      000033 1E 03            [ 2]   95 	ldw	x, (0x03, sp)
+      000035 E6 01            [ 1]   96 	ld	a, (0x1, x)
+      000037 4D               [ 1]   97 	tnz	a
+      000038 26 50            [ 1]   98 	jrne	00107$
+                                     99 ;	config.c: 64: sys->vin_adc.a  ||
+      00003A 1E 03            [ 2]  100 	ldw	x, (0x03, sp)
+      00003C 89               [ 2]  101 	pushw	x
+      00003D EE 17            [ 2]  102 	ldw	x, (0x17, x)
+      00003F 51               [ 1]  103 	exgw	x, y
+      000040 85               [ 2]  104 	popw	x
+      000041 EE 15            [ 2]  105 	ldw	x, (0x15, x)
+      000043 90 5D            [ 2]  106 	tnzw	y
+      000045 26 43            [ 1]  107 	jrne	00107$
+      000047 5D               [ 2]  108 	tnzw	x
+      000048 26 40            [ 1]  109 	jrne	00107$
+                                    110 ;	config.c: 65: sys->vout_adc.a  ||
+      00004A 1E 03            [ 2]  111 	ldw	x, (0x03, sp)
+      00004C 89               [ 2]  112 	pushw	x
+      00004D EE 1F            [ 2]  113 	ldw	x, (0x1f, x)
+      00004F 51               [ 1]  114 	exgw	x, y
+      000050 85               [ 2]  115 	popw	x
+      000051 EE 1D            [ 2]  116 	ldw	x, (0x1d, x)
+      000053 90 5D            [ 2]  117 	tnzw	y
+      000055 26 33            [ 1]  118 	jrne	00107$
+      000057 5D               [ 2]  119 	tnzw	x
+      000058 26 30            [ 1]  120 	jrne	00107$
+                                    121 ;	config.c: 66: sys->cout_adc.a  ||
+      00005A 1E 03            [ 2]  122 	ldw	x, (0x03, sp)
+      00005C 89               [ 2]  123 	pushw	x
+      00005D EE 27            [ 2]  124 	ldw	x, (0x27, x)
+      00005F 51               [ 1]  125 	exgw	x, y
+      000060 85               [ 2]  126 	popw	x
+      000061 EE 25            [ 2]  127 	ldw	x, (0x25, x)
+      000063 90 5D            [ 2]  128 	tnzw	y
+      000065 26 23            [ 1]  129 	jrne	00107$
+      000067 5D               [ 2]  130 	tnzw	x
+      000068 26 20            [ 1]  131 	jrne	00107$
+                                    132 ;	config.c: 67: sys->vout_pwm.a  ||
+      00006A 1E 03            [ 2]  133 	ldw	x, (0x03, sp)
+      00006C 89               [ 2]  134 	pushw	x
+      00006D EE 2F            [ 2]  135 	ldw	x, (0x2f, x)
+      00006F 51               [ 1]  136 	exgw	x, y
+      000070 85               [ 2]  137 	popw	x
+      000071 EE 2D            [ 2]  138 	ldw	x, (0x2d, x)
+      000073 90 5D            [ 2]  139 	tnzw	y
+      000075 26 13            [ 1]  140 	jrne	00107$
+      000077 5D               [ 2]  141 	tnzw	x
+      000078 26 10            [ 1]  142 	jrne	00107$
+                                    143 ;	config.c: 68: sys->cout_pwm.a
+      00007A 1E 03            [ 2]  144 	ldw	x, (0x03, sp)
+      00007C 89               [ 2]  145 	pushw	x
+      00007D EE 37            [ 2]  146 	ldw	x, (0x37, x)
+      00007F 51               [ 1]  147 	exgw	x, y
+      000080 85               [ 2]  148 	popw	x
+      000081 EE 35            [ 2]  149 	ldw	x, (0x35, x)
+      000083 90 5D            [ 2]  150 	tnzw	y
+      000085 26 03            [ 1]  151 	jrne	00148$
+      000087 5D               [ 2]  152 	tnzw	x
+      000088 27 07            [ 1]  153 	jreq	00110$
+      00008A                        154 00148$:
+      00008A                        155 00107$:
+                                    156 ;	config.c: 71: config_default_system(sys);
+      00008A 1E 01            [ 2]  157 	ldw	x, (0x01, sp)
+      00008C 89               [ 2]  158 	pushw	x
+      00008D CDr00r00         [ 4]  159 	call	_config_default_system
+      000090 85               [ 2]  160 	popw	x
+                                    161 ;	config.c: 84: validate_system_config(sys);
+      000091                        162 00110$:
+      000091 5B 04            [ 2]  163 	addw	sp, #4
+      000093 81               [ 4]  164 	ret
+                                    165 ;	config.c: 87: void config_save_system(cfg_system_t *sys)
+                                    166 ;	-----------------------------------------
+                                    167 ;	 function config_save_system
+                                    168 ;	-----------------------------------------
+      000094                        169 _config_save_system:
+                                    170 ;	config.c: 89: eeprom_save_data((uint8_t*)SYSTEM_CONFIG, (uint8_t*)sys, sizeof(*sys));
+      000094 1E 03            [ 2]  171 	ldw	x, (0x03, sp)
+      000096 4B 3D            [ 1]  172 	push	#0x3d
+      000098 89               [ 2]  173 	pushw	x
+      000099 4B 00            [ 1]  174 	push	#0x00
+      00009B 4B 40            [ 1]  175 	push	#0x40
+      00009D CDr00r00         [ 4]  176 	call	_eeprom_save_data
+      0000A0 5B 05            [ 2]  177 	addw	sp, #5
+      0000A2 81               [ 4]  178 	ret
+                                    179 ;	config.c: 92: void config_default_output(cfg_output_t *cfg)
+                                    180 ;	-----------------------------------------
+                                    181 ;	 function config_default_output
+                                    182 ;	-----------------------------------------
+      0000A3                        183 _config_default_output:
+                                    184 ;	config.c: 94: memcpy(cfg, &default_cfg_output, sizeof(default_cfg_output));
+      0000A3 AEr00r3D         [ 2]  185 	ldw	x, #_default_cfg_output+0
+      0000A6 16 03            [ 2]  186 	ldw	y, (0x03, sp)
+      0000A8 4B 09            [ 1]  187 	push	#0x09
+      0000AA 4B 00            [ 1]  188 	push	#0x00
+      0000AC 89               [ 2]  189 	pushw	x
+      0000AD 90 89            [ 2]  190 	pushw	y
+      0000AF CDr00r00         [ 4]  191 	call	_memcpy
+      0000B2 5B 06            [ 2]  192 	addw	sp, #6
+      0000B4 81               [ 4]  193 	ret
+                                    194 ;	config.c: 104: void config_load_output(cfg_output_t *cfg)
+                                    195 ;	-----------------------------------------
+                                    196 ;	 function config_load_output
+                                    197 ;	-----------------------------------------
+      0000B5                        198 _config_load_output:
+      0000B5 52 04            [ 2]  199 	sub	sp, #4
+                                    200 ;	config.c: 109: memcpy(cfg, OUTPUT_CONFIG, sizeof(*cfg));
+      0000B7 1E 07            [ 2]  201 	ldw	x, (0x07, sp)
+      0000B9 4B 09            [ 1]  202 	push	#0x09
+      0000BB 4B 00            [ 1]  203 	push	#0x00
+      0000BD 4B 40            [ 1]  204 	push	#0x40
+      0000BF 4B 40            [ 1]  205 	push	#0x40
+      0000C1 89               [ 2]  206 	pushw	x
+      0000C2 CDr00r00         [ 4]  207 	call	_memcpy
+      0000C5 5B 06            [ 2]  208 	addw	sp, #6
+                                    209 ;	config.c: 111: validate_output_config(cfg);
+      0000C7 1E 07            [ 2]  210 	ldw	x, (0x07, sp)
+      0000C9 1F 01            [ 2]  211 	ldw	(0x01, sp), x
+                                    212 ;	config.c: 99: if (cfg->version != OUTPUT_CFG_VERSION || cfg->vset == 0 || cfg->cset == 0) {
+      0000CB F6               [ 1]  213 	ld	a, (x)
+      0000CC A1 01            [ 1]  214 	cp	a, #0x01
+      0000CE 26 10            [ 1]  215 	jrne	00103$
+      0000D0 1F 03            [ 2]  216 	ldw	(0x03, sp), x
+      0000D2 16 03            [ 2]  217 	ldw	y, (0x03, sp)
+      0000D4 90 EE 01         [ 2]  218 	ldw	y, (0x1, y)
+      0000D7 90 5D            [ 2]  219 	tnzw	y
+      0000D9 27 05            [ 1]  220 	jreq	00103$
+      0000DB EE 03            [ 2]  221 	ldw	x, (0x3, x)
+      0000DD 5D               [ 2]  222 	tnzw	x
+      0000DE 26 07            [ 1]  223 	jrne	00106$
+      0000E0                        224 00103$:
+                                    225 ;	config.c: 100: config_default_output(cfg);
+      0000E0 1E 01            [ 2]  226 	ldw	x, (0x01, sp)
+      0000E2 89               [ 2]  227 	pushw	x
+      0000E3 CDr00rA3         [ 4]  228 	call	_config_default_output
+      0000E6 85               [ 2]  229 	popw	x
+                                    230 ;	config.c: 111: validate_output_config(cfg);
+      0000E7                        231 00106$:
+      0000E7 5B 04            [ 2]  232 	addw	sp, #4
+      0000E9 81               [ 4]  233 	ret
+                                    234 ;	config.c: 114: void config_save_output(cfg_output_t *cfg)
+                                    235 ;	-----------------------------------------
+                                    236 ;	 function config_save_output
+                                    237 ;	-----------------------------------------
+      0000EA                        238 _config_save_output:
+                                    239 ;	config.c: 116: eeprom_save_data((uint8_t*)OUTPUT_CONFIG, (uint8_t*)cfg, sizeof(*cfg));
+      0000EA 1E 03            [ 2]  240 	ldw	x, (0x03, sp)
+      0000EC 4B 09            [ 1]  241 	push	#0x09
+      0000EE 89               [ 2]  242 	pushw	x
+      0000EF 4B 40            [ 1]  243 	push	#0x40
+      0000F1 4B 40            [ 1]  244 	push	#0x40
+      0000F3 CDr00r00         [ 4]  245 	call	_eeprom_save_data
+      0000F6 5B 05            [ 2]  246 	addw	sp, #5
+      0000F8 81               [ 4]  247 	ret
+                                    248 	.area CODE
+      0000F9                        249 ___str_0:
+      0000F9 55 6E 6E 61 6D 65 64   250 	.ascii "Unnamed"
+      000100 00                     251 	.db 0x00
+                                    252 	.area INITIALIZER
+      000000                        253 __xinit__default_cfg_system:
+      000000 02                     254 	.db #0x02	; 2
+      000001 55 6E 6E 61 6D 65 64   255 	.ascii "Unnamed"
+      000008 00                     256 	.db 0x00
+      000009 00                     257 	.db 0x00
+      00000A 00                     258 	.db 0x00
+      00000B 00                     259 	.db 0x00
+      00000C 00                     260 	.db 0x00
+      00000D 00                     261 	.db 0x00
+      00000E 00                     262 	.db 0x00
+      00000F 00                     263 	.db 0x00
+      000010 00                     264 	.db 0x00
+      000011 00                     265 	.db 0x00
+      000012 00                     266 	.db #0x00	; 0
+      000013 00                     267 	.db #0x00	; 0
+      000014 01                     268 	.db #0x01	; 1
+      000015 00 06 99 9A            269 	.byte #0x00,#0x06,#0x99,#0x9A	; 432538
+      000019 00 00 00 00            270 	.byte #0x00,#0x00,#0x00,#0x00	; 0
+      00001D 00 05 A6 93            271 	.byte #0x00,#0x05,#0xA6,#0x93	; 370323
+      000021 01 C4 00 00            272 	.byte #0x01,#0xC4,#0x00,#0x00	; 29622272
+      000025 00 00 84 00            273 	.byte #0x00,#0x00,#0x84,#0x00	; 33792
+      000029 00 C8 00 00            274 	.byte #0x00,#0xC8,#0x00,#0x00	; 13107200
+      00002D 00 00 2D 4E            275 	.byte #0x00,#0x00,#0x2D,#0x4E	; 11598
+      000031 00 21 00 00            276 	.byte #0x00,#0x21,#0x00,#0x00	; 2162688
+      000035 00 01 F0 7C            277 	.byte #0x00,#0x01,#0xF0,#0x7C	; 127100
+      000039 00 A0 00 00            278 	.byte #0x00,#0xA0,#0x00,#0x00	; 10485760
+      00003D                        279 __xinit__default_cfg_output:
+      00003D 01                     280 	.db #0x01	; 1
+      00003E 13 88                  281 	.dw #0x1388
+      000040 01 F4                  282 	.dw #0x01F4
+      000042 00 00                  283 	.dw #0x0000
+      000044 00 00                  284 	.dw #0x0000
+                                    285 	.area CABS (ABS)

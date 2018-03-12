@@ -1,0 +1,335 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Mar 24 2016) (Linux)
+                                      4 ; This file was generated Mon Mar 12 12:44:10 2018
+                                      5 ;--------------------------------------------------------
+                                      6 	.module outputs
+                                      7 	.optsdcc -mstm8
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _pwm_from_set
+                                     13 	.globl _uart_write_int
+                                     14 	.globl _uart_write_str
+                                     15 	.globl _fixed_round
+                                     16 	.globl _pwm_init
+                                     17 	.globl _output_commit
+                                     18 	.globl _output_check_state
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area DATA
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area INITIALIZED
+                                     27 ;--------------------------------------------------------
+                                     28 ; absolute external ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area DABS (ABS)
+                                     31 ;--------------------------------------------------------
+                                     32 ; global & static initialisations
+                                     33 ;--------------------------------------------------------
+                                     34 	.area HOME
+                                     35 	.area GSINIT
+                                     36 	.area GSFINAL
+                                     37 	.area GSINIT
+                                     38 ;--------------------------------------------------------
+                                     39 ; Home
+                                     40 ;--------------------------------------------------------
+                                     41 	.area HOME
+                                     42 	.area HOME
+                                     43 ;--------------------------------------------------------
+                                     44 ; code
+                                     45 ;--------------------------------------------------------
+                                     46 	.area CODE
+                                     47 ;	outputs.c: 29: void pwm_init(void)
+                                     48 ;	-----------------------------------------
+                                     49 ;	 function pwm_init
+                                     50 ;	-----------------------------------------
+      000000                         51 _pwm_init:
+                                     52 ;	outputs.c: 32: TIM1_CR1 = 0x10; // Down direction
+      000000 35 10 52 50      [ 1]   53 	mov	0x5250+0, #0x10
+                                     54 ;	outputs.c: 33: TIM1_ARRH = PWM_HIGH; // Reload counter = 16384
+      000004 35 20 52 62      [ 1]   55 	mov	0x5262+0, #0x20
+                                     56 ;	outputs.c: 34: TIM1_ARRL = PWM_LOW;
+      000008 35 00 52 63      [ 1]   57 	mov	0x5263+0, #0x00
+                                     58 ;	outputs.c: 35: TIM1_PSCRH = 0; // Prescaler 0 means division by 1
+      00000C 35 00 52 60      [ 1]   59 	mov	0x5260+0, #0x00
+                                     60 ;	outputs.c: 36: TIM1_PSCRL = 0;
+      000010 35 00 52 61      [ 1]   61 	mov	0x5261+0, #0x00
+                                     62 ;	outputs.c: 37: TIM1_RCR = 0; // Continuous
+      000014 35 00 52 64      [ 1]   63 	mov	0x5264+0, #0x00
+                                     64 ;	outputs.c: 39: TIM1_CCMR1 = 0x70;    //  Set up to use PWM mode 2.
+      000018 35 70 52 58      [ 1]   65 	mov	0x5258+0, #0x70
+                                     66 ;	outputs.c: 40: TIM1_CCER1 = 0x03;    //  Output is enabled for channel 1, active low
+      00001C 35 03 52 5C      [ 1]   67 	mov	0x525c+0, #0x03
+                                     68 ;	outputs.c: 41: TIM1_CCR1H = 0x00;      //  Start with the PWM signal off
+      000020 35 00 52 65      [ 1]   69 	mov	0x5265+0, #0x00
+                                     70 ;	outputs.c: 42: TIM1_CCR1L = 0x00;
+      000024 35 00 52 66      [ 1]   71 	mov	0x5266+0, #0x00
+                                     72 ;	outputs.c: 44: TIM1_BKR = 0x80;       //  Enable the main output.
+      000028 35 80 52 6D      [ 1]   73 	mov	0x526d+0, #0x80
+                                     74 ;	outputs.c: 47: TIM2_ARRH = PWM_HIGH; // Reload counter = 16384
+      00002C 35 20 53 0F      [ 1]   75 	mov	0x530f+0, #0x20
+                                     76 ;	outputs.c: 48: TIM2_ARRL = PWM_LOW;
+      000030 35 00 53 10      [ 1]   77 	mov	0x5310+0, #0x00
+                                     78 ;	outputs.c: 49: TIM2_PSCR = 0; // Prescaler 0 means division by 1
+      000034 35 00 53 0E      [ 1]   79 	mov	0x530e+0, #0x00
+                                     80 ;	outputs.c: 50: TIM2_CR1 = 0x00;
+      000038 35 00 53 00      [ 1]   81 	mov	0x5300+0, #0x00
+                                     82 ;	outputs.c: 52: TIM2_CCMR1 = 0x70;    //  Set up to use PWM mode 2.
+      00003C 35 70 53 07      [ 1]   83 	mov	0x5307+0, #0x70
+                                     84 ;	outputs.c: 53: TIM2_CCER1 = 0x03;    //  Output is enabled for channel 1, active low
+      000040 35 03 53 0A      [ 1]   85 	mov	0x530a+0, #0x03
+                                     86 ;	outputs.c: 54: TIM2_CCR1H = 0x00;      //  Start with the PWM signal off
+      000044 35 00 53 11      [ 1]   87 	mov	0x5311+0, #0x00
+                                     88 ;	outputs.c: 55: TIM2_CCR1L = 0x00;
+      000048 35 00 53 12      [ 1]   89 	mov	0x5312+0, #0x00
+      00004C 81               [ 4]   90 	ret
+                                     91 ;	outputs.c: 77: uint16_t pwm_from_set(fixed_t set, calibrate_t *cal)
+                                     92 ;	-----------------------------------------
+                                     93 ;	 function pwm_from_set
+                                     94 ;	-----------------------------------------
+      00004D                         95 _pwm_from_set:
+      00004D 52 0E            [ 2]   96 	sub	sp, #14
+                                     97 ;	outputs.c: 82: tmp = set * cal->a;
+      00004F 16 13            [ 2]   98 	ldw	y, (0x13, sp)
+      000051 17 0D            [ 2]   99 	ldw	(0x0d, sp), y
+      000053 1E 0D            [ 2]  100 	ldw	x, (0x0d, sp)
+      000055 89               [ 2]  101 	pushw	x
+      000056 EE 02            [ 2]  102 	ldw	x, (0x2, x)
+      000058 51               [ 1]  103 	exgw	x, y
+      000059 85               [ 2]  104 	popw	x
+      00005A FE               [ 2]  105 	ldw	x, (x)
+      00005B 1F 01            [ 2]  106 	ldw	(0x01, sp), x
+      00005D 1E 11            [ 2]  107 	ldw	x, (0x11, sp)
+      00005F 1F 07            [ 2]  108 	ldw	(0x07, sp), x
+      000061 5F               [ 1]  109 	clrw	x
+      000062 90 89            [ 2]  110 	pushw	y
+      000064 16 03            [ 2]  111 	ldw	y, (0x03, sp)
+      000066 90 89            [ 2]  112 	pushw	y
+      000068 16 0B            [ 2]  113 	ldw	y, (0x0b, sp)
+      00006A 90 89            [ 2]  114 	pushw	y
+      00006C 89               [ 2]  115 	pushw	x
+      00006D CDr00r00         [ 4]  116 	call	__mullong
+      000070 5B 08            [ 2]  117 	addw	sp, #8
+      000072 1F 0B            [ 2]  118 	ldw	(0x0b, sp), x
+      000074 17 09            [ 2]  119 	ldw	(0x09, sp), y
+                                    120 ;	outputs.c: 85: tmp += cal->b;
+      000076 1E 0D            [ 2]  121 	ldw	x, (0x0d, sp)
+      000078 89               [ 2]  122 	pushw	x
+      000079 EE 06            [ 2]  123 	ldw	x, (0x6, x)
+      00007B 51               [ 1]  124 	exgw	x, y
+      00007C 85               [ 2]  125 	popw	x
+      00007D EE 04            [ 2]  126 	ldw	x, (0x4, x)
+      00007F 72 F9 0B         [ 2]  127 	addw	y, (0x0b, sp)
+      000082 9F               [ 1]  128 	ld	a, xl
+      000083 19 0A            [ 1]  129 	adc	a, (0x0a, sp)
+      000085 02               [ 1]  130 	rlwa	x
+      000086 19 09            [ 1]  131 	adc	a, (0x09, sp)
+      000088 95               [ 1]  132 	ld	xh, a
+                                    133 ;	outputs.c: 91: return fixed_round(tmp);
+      000089 90 89            [ 2]  134 	pushw	y
+      00008B 89               [ 2]  135 	pushw	x
+      00008C CDr00r00         [ 4]  136 	call	_fixed_round
+      00008F 5B 12            [ 2]  137 	addw	sp, #18
+      000091 81               [ 4]  138 	ret
+                                    139 ;	outputs.c: 118: void output_commit(cfg_output_t *cfg, cfg_system_t *sys, uint8_t state_constant_current)
+                                    140 ;	-----------------------------------------
+                                    141 ;	 function output_commit
+                                    142 ;	-----------------------------------------
+      000092                        143 _output_commit:
+      000092 52 0D            [ 2]  144 	sub	sp, #13
+                                    145 ;	outputs.c: 121: if (sys->output) {
+      000094 16 12            [ 2]  146 	ldw	y, (0x12, sp)
+      000096 17 03            [ 2]  147 	ldw	(0x03, sp), y
+      000098 1E 03            [ 2]  148 	ldw	x, (0x03, sp)
+      00009A E6 13            [ 1]  149 	ld	a, (0x13, x)
+      00009C 6B 0B            [ 1]  150 	ld	(0x0b, sp), a
+      00009E 0D 0B            [ 1]  151 	tnz	(0x0b, sp)
+      0000A0 26 03            [ 1]  152 	jrne	00113$
+      0000A2 CCr01r43         [ 2]  153 	jp	00102$
+      0000A5                        154 00113$:
+                                    155 ;	outputs.c: 122: control_voltage(cfg, sys);
+      0000A5 1E 03            [ 2]  156 	ldw	x, (0x03, sp)
+      0000A7 16 10            [ 2]  157 	ldw	y, (0x10, sp)
+      0000A9 17 05            [ 2]  158 	ldw	(0x05, sp), y
+                                    159 ;	outputs.c: 96: uint16_t ctr = pwm_from_set(cfg->vset, &sys->vout_pwm);
+      0000AB 1C 00 2D         [ 2]  160 	addw	x, #0x002d
+      0000AE 16 05            [ 2]  161 	ldw	y, (0x05, sp)
+      0000B0 90 EE 01         [ 2]  162 	ldw	y, (0x1, y)
+      0000B3 89               [ 2]  163 	pushw	x
+      0000B4 90 89            [ 2]  164 	pushw	y
+      0000B6 CDr00r4D         [ 4]  165 	call	_pwm_from_set
+      0000B9 5B 04            [ 2]  166 	addw	sp, #4
+      0000BB 1F 01            [ 2]  167 	ldw	(0x01, sp), x
+                                    168 ;	outputs.c: 97: uart_write_str("PWM VOLTAGE ");
+      0000BD AEr01r98         [ 2]  169 	ldw	x, #___str_0+0
+      0000C0 89               [ 2]  170 	pushw	x
+      0000C1 CDr00r00         [ 4]  171 	call	_uart_write_str
+      0000C4 85               [ 2]  172 	popw	x
+                                    173 ;	outputs.c: 98: uart_write_int(ctr);
+      0000C5 1E 01            [ 2]  174 	ldw	x, (0x01, sp)
+      0000C7 89               [ 2]  175 	pushw	x
+      0000C8 CDr00r00         [ 4]  176 	call	_uart_write_int
+      0000CB 85               [ 2]  177 	popw	x
+                                    178 ;	outputs.c: 99: uart_write_str("\r\n");
+      0000CC AEr01rA5         [ 2]  179 	ldw	x, #___str_1+0
+      0000CF 1F 09            [ 2]  180 	ldw	(0x09, sp), x
+      0000D1 1E 09            [ 2]  181 	ldw	x, (0x09, sp)
+      0000D3 89               [ 2]  182 	pushw	x
+      0000D4 CDr00r00         [ 4]  183 	call	_uart_write_str
+      0000D7 85               [ 2]  184 	popw	x
+                                    185 ;	outputs.c: 101: TIM2_CCR1H = ctr >> 8;
+      0000D8 7B 01            [ 1]  186 	ld	a, (0x01, sp)
+      0000DA 0F 07            [ 1]  187 	clr	(0x07, sp)
+      0000DC AE 53 11         [ 2]  188 	ldw	x, #0x5311
+      0000DF F7               [ 1]  189 	ld	(x), a
+                                    190 ;	outputs.c: 102: TIM2_CCR1L = ctr & 0xFF;
+      0000E0 7B 02            [ 1]  191 	ld	a, (0x02, sp)
+      0000E2 95               [ 1]  192 	ld	xh, a
+      0000E3 4F               [ 1]  193 	clr	a
+      0000E4 9E               [ 1]  194 	ld	a, xh
+      0000E5 AE 53 12         [ 2]  195 	ldw	x, #0x5312
+      0000E8 F7               [ 1]  196 	ld	(x), a
+                                    197 ;	outputs.c: 103: TIM2_CR1 |= 0x01; // Enable timer
+      0000E9 AE 53 00         [ 2]  198 	ldw	x, #0x5300
+      0000EC F6               [ 1]  199 	ld	a, (x)
+      0000ED AA 01            [ 1]  200 	or	a, #0x01
+      0000EF F7               [ 1]  201 	ld	(x), a
+                                    202 ;	outputs.c: 108: uint16_t ctr = pwm_from_set(cfg->cset, &sys->cout_pwm);
+      0000F0 1E 03            [ 2]  203 	ldw	x, (0x03, sp)
+      0000F2 1C 00 35         [ 2]  204 	addw	x, #0x0035
+      0000F5 16 05            [ 2]  205 	ldw	y, (0x05, sp)
+      0000F7 90 EE 03         [ 2]  206 	ldw	y, (0x3, y)
+      0000FA 89               [ 2]  207 	pushw	x
+      0000FB 90 89            [ 2]  208 	pushw	y
+      0000FD CDr00r4D         [ 4]  209 	call	_pwm_from_set
+      000100 5B 04            [ 2]  210 	addw	sp, #4
+      000102 1F 05            [ 2]  211 	ldw	(0x05, sp), x
+                                    212 ;	outputs.c: 109: uart_write_str("PWM CURRENT ");
+      000104 AEr01rA8         [ 2]  213 	ldw	x, #___str_2+0
+      000107 89               [ 2]  214 	pushw	x
+      000108 CDr00r00         [ 4]  215 	call	_uart_write_str
+      00010B 85               [ 2]  216 	popw	x
+                                    217 ;	outputs.c: 110: uart_write_int(ctr);
+      00010C 1E 05            [ 2]  218 	ldw	x, (0x05, sp)
+      00010E 89               [ 2]  219 	pushw	x
+      00010F CDr00r00         [ 4]  220 	call	_uart_write_int
+      000112 85               [ 2]  221 	popw	x
+                                    222 ;	outputs.c: 111: uart_write_str("\r\n");
+      000113 1E 09            [ 2]  223 	ldw	x, (0x09, sp)
+      000115 89               [ 2]  224 	pushw	x
+      000116 CDr00r00         [ 4]  225 	call	_uart_write_str
+      000119 85               [ 2]  226 	popw	x
+                                    227 ;	outputs.c: 113: TIM1_CCR1H = ctr >> 8;
+      00011A 7B 05            [ 1]  228 	ld	a, (0x05, sp)
+      00011C 0F 0C            [ 1]  229 	clr	(0x0c, sp)
+      00011E AE 52 65         [ 2]  230 	ldw	x, #0x5265
+      000121 F7               [ 1]  231 	ld	(x), a
+                                    232 ;	outputs.c: 114: TIM1_CCR1L = ctr & 0xFF;
+      000122 7B 06            [ 1]  233 	ld	a, (0x06, sp)
+      000124 95               [ 1]  234 	ld	xh, a
+      000125 4F               [ 1]  235 	clr	a
+      000126 9E               [ 1]  236 	ld	a, xh
+      000127 AE 52 66         [ 2]  237 	ldw	x, #0x5266
+      00012A F7               [ 1]  238 	ld	(x), a
+                                    239 ;	outputs.c: 115: TIM1_CR1 |= 0x01; // Enable timer
+      00012B 72 10 52 50      [ 1]  240 	bset	0x5250, #0
+                                    241 ;	outputs.c: 126: PB_ODR &= ~(1<<4);
+      00012F AE 50 05         [ 2]  242 	ldw	x, #0x5005
+      000132 F6               [ 1]  243 	ld	a, (x)
+      000133 A4 EF            [ 1]  244 	and	a, #0xef
+      000135 F7               [ 1]  245 	ld	(x), a
+                                    246 ;	outputs.c: 127: output_check_state(sys, state_constant_current);
+      000136 7B 14            [ 1]  247 	ld	a, (0x14, sp)
+      000138 88               [ 1]  248 	push	a
+      000139 1E 04            [ 2]  249 	ldw	x, (0x04, sp)
+      00013B 89               [ 2]  250 	pushw	x
+      00013C CDr01r6C         [ 4]  251 	call	_output_check_state
+      00013F 5B 03            [ 2]  252 	addw	sp, #3
+      000141 20 26            [ 2]  253 	jra	00107$
+      000143                        254 00102$:
+                                    255 ;	outputs.c: 130: PB_ODR |= (1<<4);
+      000143 AE 50 05         [ 2]  256 	ldw	x, #0x5005
+      000146 F6               [ 1]  257 	ld	a, (x)
+      000147 AA 10            [ 1]  258 	or	a, #0x10
+      000149 F7               [ 1]  259 	ld	(x), a
+                                    260 ;	outputs.c: 133: TIM1_CCR1H = 0;
+      00014A 35 00 52 65      [ 1]  261 	mov	0x5265+0, #0x00
+                                    262 ;	outputs.c: 134: TIM1_CCR1L = 0;
+      00014E 35 00 52 66      [ 1]  263 	mov	0x5266+0, #0x00
+                                    264 ;	outputs.c: 135: TIM1_CR1 &= 0xFE; // Disable timer
+      000152 72 11 52 50      [ 1]  265 	bres	0x5250, #0
+                                    266 ;	outputs.c: 138: TIM2_CCR1H = 0;
+      000156 35 00 53 11      [ 1]  267 	mov	0x5311+0, #0x00
+                                    268 ;	outputs.c: 139: TIM2_CCR1L = 0;
+      00015A 35 00 53 12      [ 1]  269 	mov	0x5312+0, #0x00
+                                    270 ;	outputs.c: 140: TIM2_CR1 &= 0xFE; // Disable timer
+      00015E 72 11 53 00      [ 1]  271 	bres	0x5300, #0
+                                    272 ;	outputs.c: 74: PA_DDR &= ~(1<<3);
+      000162 AE 50 02         [ 2]  273 	ldw	x, #0x5002
+      000165 F6               [ 1]  274 	ld	a, (x)
+      000166 A4 F7            [ 1]  275 	and	a, #0xf7
+      000168 F7               [ 1]  276 	ld	(x), a
+                                    277 ;	outputs.c: 143: cvcc_led_off();
+      000169                        278 00107$:
+      000169 5B 0D            [ 2]  279 	addw	sp, #13
+      00016B 81               [ 4]  280 	ret
+                                    281 ;	outputs.c: 147: void output_check_state(cfg_system_t *sys, uint8_t state_constant_current)
+                                    282 ;	-----------------------------------------
+                                    283 ;	 function output_check_state
+                                    284 ;	-----------------------------------------
+      00016C                        285 _output_check_state:
+                                    286 ;	outputs.c: 149: if (sys->output) {
+      00016C 1E 03            [ 2]  287 	ldw	x, (0x03, sp)
+      00016E E6 13            [ 1]  288 	ld	a, (0x13, x)
+      000170 4D               [ 1]  289 	tnz	a
+      000171 27 24            [ 1]  290 	jreq	00108$
+                                    291 ;	outputs.c: 62: PA_ODR |= (1<<3);
+      000173 AE 50 00         [ 2]  292 	ldw	x, #0x5000
+      000176 F6               [ 1]  293 	ld	a, (x)
+                                    294 ;	outputs.c: 150: if (state_constant_current)
+      000177 0D 05            [ 1]  295 	tnz	(0x05, sp)
+      000179 27 0F            [ 1]  296 	jreq	00102$
+                                    297 ;	outputs.c: 62: PA_ODR |= (1<<3);
+      00017B AA 08            [ 1]  298 	or	a, #0x08
+      00017D AE 50 00         [ 2]  299 	ldw	x, #0x5000
+      000180 F7               [ 1]  300 	ld	(x), a
+                                    301 ;	outputs.c: 63: PA_DDR |= (1<<3);
+      000181 AE 50 02         [ 2]  302 	ldw	x, #0x5002
+      000184 F6               [ 1]  303 	ld	a, (x)
+      000185 AA 08            [ 1]  304 	or	a, #0x08
+      000187 F7               [ 1]  305 	ld	(x), a
+                                    306 ;	outputs.c: 151: cvcc_led_cc();
+      000188 20 0D            [ 2]  307 	jra	00108$
+      00018A                        308 00102$:
+                                    309 ;	outputs.c: 68: PA_ODR &= ~(1<<3);
+      00018A A4 F7            [ 1]  310 	and	a, #0xf7
+      00018C AE 50 00         [ 2]  311 	ldw	x, #0x5000
+      00018F F7               [ 1]  312 	ld	(x), a
+                                    313 ;	outputs.c: 69: PA_DDR |= (1<<3);
+      000190 AE 50 02         [ 2]  314 	ldw	x, #0x5002
+      000193 F6               [ 1]  315 	ld	a, (x)
+      000194 AA 08            [ 1]  316 	or	a, #0x08
+      000196 F7               [ 1]  317 	ld	(x), a
+                                    318 ;	outputs.c: 153: cvcc_led_cv();
+      000197                        319 00108$:
+      000197 81               [ 4]  320 	ret
+                                    321 	.area CODE
+      000198                        322 ___str_0:
+      000198 50 57 4D 20 56 4F 4C   323 	.ascii "PWM VOLTAGE "
+             54 41 47 45 20
+      0001A4 00                     324 	.db 0x00
+      0001A5                        325 ___str_1:
+      0001A5 0D                     326 	.db 0x0D
+      0001A6 0A                     327 	.db 0x0A
+      0001A7 00                     328 	.db 0x00
+      0001A8                        329 ___str_2:
+      0001A8 50 57 4D 20 43 55 52   330 	.ascii "PWM CURRENT "
+             52 45 4E 54 20
+      0001B4 00                     331 	.db 0x00
+                                    332 	.area INITIALIZER
+                                    333 	.area CABS (ABS)

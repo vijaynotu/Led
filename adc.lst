@@ -1,0 +1,265 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.5.0 #9253 (Mar 24 2016) (Linux)
+                                      4 ; This file was generated Mon Mar 12 12:44:11 2018
+                                      5 ;--------------------------------------------------------
+                                      6 	.module adc
+                                      7 	.optsdcc -mstm8
+                                      8 	
+                                      9 ;--------------------------------------------------------
+                                     10 ; Public variables in this module
+                                     11 ;--------------------------------------------------------
+                                     12 	.globl _fixed_round
+                                     13 	.globl _adc_init
+                                     14 	.globl _adc_start
+                                     15 	.globl _adc_to_volt
+                                     16 	.globl _adc_read
+                                     17 	.globl _adc_channel
+                                     18 	.globl _adc_ready
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area DATA
+      000000                         23 _sum:
+      000000                         24 	.ds 4
+      000004                         25 _count:
+      000004                         26 	.ds 1
+                                     27 ;--------------------------------------------------------
+                                     28 ; ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area INITIALIZED
+                                     31 ;--------------------------------------------------------
+                                     32 ; absolute external ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area DABS (ABS)
+                                     35 ;--------------------------------------------------------
+                                     36 ; global & static initialisations
+                                     37 ;--------------------------------------------------------
+                                     38 	.area HOME
+                                     39 	.area GSINIT
+                                     40 	.area GSFINAL
+                                     41 	.area GSINIT
+                                     42 ;--------------------------------------------------------
+                                     43 ; Home
+                                     44 ;--------------------------------------------------------
+                                     45 	.area HOME
+                                     46 	.area HOME
+                                     47 ;--------------------------------------------------------
+                                     48 ; code
+                                     49 ;--------------------------------------------------------
+                                     50 	.area CODE
+                                     51 ;	adc.c: 25: void adc_init(void)
+                                     52 ;	-----------------------------------------
+                                     53 ;	 function adc_init
+                                     54 ;	-----------------------------------------
+      000000                         55 _adc_init:
+                                     56 ;	adc.c: 27: ADC1_CR1 = 0x70; // Power down, clock/18
+      000000 35 70 54 01      [ 1]   57 	mov	0x5401+0, #0x70
+                                     58 ;	adc.c: 28: ADC1_CR2 = 0x08; // Right alignment
+      000004 35 08 54 02      [ 1]   59 	mov	0x5402+0, #0x08
+                                     60 ;	adc.c: 29: ADC1_CR3 = 0x00;
+      000008 35 00 54 03      [ 1]   61 	mov	0x5403+0, #0x00
+                                     62 ;	adc.c: 30: ADC1_CSR = 0x00;
+      00000C 35 00 54 00      [ 1]   63 	mov	0x5400+0, #0x00
+                                     64 ;	adc.c: 32: ADC1_TDRL = 0x0F;
+      000010 35 0F 54 07      [ 1]   65 	mov	0x5407+0, #0x0f
+                                     66 ;	adc.c: 34: ADC1_CR1 |= 0x01; // Turn on the ADC
+      000014 72 10 54 01      [ 1]   67 	bset	0x5401, #0
+      000018 81               [ 4]   68 	ret
+                                     69 ;	adc.c: 43: void adc_start(uint8_t channel)
+                                     70 ;	-----------------------------------------
+                                     71 ;	 function adc_start
+                                     72 ;	-----------------------------------------
+      000019                         73 _adc_start:
+                                     74 ;	adc.c: 45: uint8_t csr = ADC1_CSR;
+      000019 AE 54 00         [ 2]   75 	ldw	x, #0x5400
+      00001C F6               [ 1]   76 	ld	a, (x)
+                                     77 ;	adc.c: 46: csr &= 0x70; // Turn off EOC, Clear Channel
+      00001D A4 70            [ 1]   78 	and	a, #0x70
+                                     79 ;	adc.c: 47: csr |= channel; // Select channel
+      00001F 1A 03            [ 1]   80 	or	a, (0x03, sp)
+                                     81 ;	adc.c: 48: ADC1_CSR = csr;
+      000021 AE 54 00         [ 2]   82 	ldw	x, #0x5400
+      000024 F7               [ 1]   83 	ld	(x), a
+                                     84 ;	adc.c: 50: ADC1_CR1 |= 1; // Trigger conversion
+      000025 72 10 54 01      [ 1]   85 	bset	0x5401, #0
+                                     86 ;	adc.c: 52: sum = 0;
+      000029 5F               [ 1]   87 	clrw	x
+      00002A CFu00u02         [ 2]   88 	ldw	_sum+2, x
+      00002D CFu00u00         [ 2]   89 	ldw	_sum+0, x
+                                     90 ;	adc.c: 53: count = 0;
+      000030 72 5Fu00u04      [ 1]   91 	clr	_count+0
+      000034 81               [ 4]   92 	ret
+                                     93 ;	adc.c: 56: fixed_t adc_to_volt(uint16_t adc, calibrate_t *cal)
+                                     94 ;	-----------------------------------------
+                                     95 ;	 function adc_to_volt
+                                     96 ;	-----------------------------------------
+      000035                         97 _adc_to_volt:
+      000035 52 1A            [ 2]   98 	sub	sp, #26
+                                     99 ;	adc.c: 60: tmp = adc * cal->a;
+      000037 16 1F            [ 2]  100 	ldw	y, (0x1f, sp)
+      000039 17 15            [ 2]  101 	ldw	(0x15, sp), y
+      00003B 1E 15            [ 2]  102 	ldw	x, (0x15, sp)
+      00003D 89               [ 2]  103 	pushw	x
+      00003E EE 02            [ 2]  104 	ldw	x, (0x2, x)
+      000040 51               [ 1]  105 	exgw	x, y
+      000041 85               [ 2]  106 	popw	x
+      000042 FE               [ 2]  107 	ldw	x, (x)
+      000043 1F 05            [ 2]  108 	ldw	(0x05, sp), x
+      000045 1E 1D            [ 2]  109 	ldw	x, (0x1d, sp)
+      000047 1F 0B            [ 2]  110 	ldw	(0x0b, sp), x
+      000049 5F               [ 1]  111 	clrw	x
+      00004A 90 89            [ 2]  112 	pushw	y
+      00004C 16 07            [ 2]  113 	ldw	y, (0x07, sp)
+      00004E 90 89            [ 2]  114 	pushw	y
+      000050 16 0F            [ 2]  115 	ldw	y, (0x0f, sp)
+      000052 90 89            [ 2]  116 	pushw	y
+      000054 89               [ 2]  117 	pushw	x
+      000055 CDr00r00         [ 4]  118 	call	__mullong
+      000058 5B 08            [ 2]  119 	addw	sp, #8
+      00005A 1F 0F            [ 2]  120 	ldw	(0x0f, sp), x
+      00005C 17 0D            [ 2]  121 	ldw	(0x0d, sp), y
+                                    122 ;	adc.c: 62: if (tmp > cal->b)
+      00005E 1E 15            [ 2]  123 	ldw	x, (0x15, sp)
+      000060 E6 07            [ 1]  124 	ld	a, (0x7, x)
+      000062 6B 14            [ 1]  125 	ld	(0x14, sp), a
+      000064 E6 06            [ 1]  126 	ld	a, (0x6, x)
+      000066 6B 13            [ 1]  127 	ld	(0x13, sp), a
+      000068 EE 04            [ 2]  128 	ldw	x, (0x4, x)
+      00006A 1F 11            [ 2]  129 	ldw	(0x11, sp), x
+      00006C 1E 13            [ 2]  130 	ldw	x, (0x13, sp)
+      00006E 13 0F            [ 2]  131 	cpw	x, (0x0f, sp)
+      000070 7B 12            [ 1]  132 	ld	a, (0x12, sp)
+      000072 12 0E            [ 1]  133 	sbc	a, (0x0e, sp)
+      000074 7B 11            [ 1]  134 	ld	a, (0x11, sp)
+      000076 12 0D            [ 1]  135 	sbc	a, (0x0d, sp)
+      000078 24 1D            [ 1]  136 	jrnc	00102$
+                                    137 ;	adc.c: 63: tmp -= cal->b;
+      00007A 1E 0F            [ 2]  138 	ldw	x, (0x0f, sp)
+      00007C 72 F0 13         [ 2]  139 	subw	x, (0x13, sp)
+      00007F 1F 19            [ 2]  140 	ldw	(0x19, sp), x
+      000081 7B 0E            [ 1]  141 	ld	a, (0x0e, sp)
+      000083 12 12            [ 1]  142 	sbc	a, (0x12, sp)
+      000085 6B 18            [ 1]  143 	ld	(0x18, sp), a
+      000087 7B 0D            [ 1]  144 	ld	a, (0x0d, sp)
+      000089 12 11            [ 1]  145 	sbc	a, (0x11, sp)
+      00008B 6B 17            [ 1]  146 	ld	(0x17, sp), a
+      00008D 16 19            [ 2]  147 	ldw	y, (0x19, sp)
+      00008F 17 03            [ 2]  148 	ldw	(0x03, sp), y
+      000091 16 17            [ 2]  149 	ldw	y, (0x17, sp)
+      000093 17 01            [ 2]  150 	ldw	(0x01, sp), y
+      000095 20 05            [ 2]  151 	jra	00103$
+      000097                        152 00102$:
+                                    153 ;	adc.c: 65: tmp = 0;
+      000097 5F               [ 1]  154 	clrw	x
+      000098 1F 03            [ 2]  155 	ldw	(0x03, sp), x
+      00009A 1F 01            [ 2]  156 	ldw	(0x01, sp), x
+      00009C                        157 00103$:
+                                    158 ;	adc.c: 67: return fixed_round(tmp);
+      00009C 1E 03            [ 2]  159 	ldw	x, (0x03, sp)
+      00009E 89               [ 2]  160 	pushw	x
+      00009F 1E 03            [ 2]  161 	ldw	x, (0x03, sp)
+      0000A1 89               [ 2]  162 	pushw	x
+      0000A2 CDr00r00         [ 4]  163 	call	_fixed_round
+      0000A5 5B 1E            [ 2]  164 	addw	sp, #30
+      0000A7 81               [ 4]  165 	ret
+                                    166 ;	adc.c: 78: uint16_t adc_read(void)
+                                    167 ;	-----------------------------------------
+                                    168 ;	 function adc_read
+                                    169 ;	-----------------------------------------
+      0000A8                        170 _adc_read:
+                                    171 ;	adc.c: 80: return sum/8;
+      0000A8 CEu00u02         [ 2]  172 	ldw	x, _sum+2
+      0000AB 90 CEu00u00      [ 2]  173 	ldw	y, _sum+0
+      0000AF 90 54            [ 2]  174 	srlw	y
+      0000B1 56               [ 2]  175 	rrcw	x
+      0000B2 90 54            [ 2]  176 	srlw	y
+      0000B4 56               [ 2]  177 	rrcw	x
+      0000B5 90 54            [ 2]  178 	srlw	y
+      0000B7 56               [ 2]  179 	rrcw	x
+      0000B8 81               [ 4]  180 	ret
+                                    181 ;	adc.c: 83: uint8_t adc_channel(void)
+                                    182 ;	-----------------------------------------
+                                    183 ;	 function adc_channel
+                                    184 ;	-----------------------------------------
+      0000B9                        185 _adc_channel:
+                                    186 ;	adc.c: 85: return ADC1_CSR & 0x0F;
+      0000B9 AE 54 00         [ 2]  187 	ldw	x, #0x5400
+      0000BC F6               [ 1]  188 	ld	a, (x)
+      0000BD A4 0F            [ 1]  189 	and	a, #0x0f
+      0000BF 81               [ 4]  190 	ret
+                                    191 ;	adc.c: 88: uint8_t adc_ready(void)
+                                    192 ;	-----------------------------------------
+                                    193 ;	 function adc_ready
+                                    194 ;	-----------------------------------------
+      0000C0                        195 _adc_ready:
+      0000C0 52 03            [ 2]  196 	sub	sp, #3
+                                    197 ;	adc.c: 90: if (ADC1_CSR & 0x80) {
+      0000C2 AE 54 00         [ 2]  198 	ldw	x, #0x5400
+      0000C5 F6               [ 1]  199 	ld	a, (x)
+      0000C6 6B 03            [ 1]  200 	ld	(0x03, sp), a
+      0000C8 0D 03            [ 1]  201 	tnz	(0x03, sp)
+      0000CA 2A 4F            [ 1]  202 	jrpl	00105$
+                                    203 ;	adc.c: 72: uint16_t val = ADC1_DRL;
+      0000CC AE 54 05         [ 2]  204 	ldw	x, #0x5405
+      0000CF F6               [ 1]  205 	ld	a, (x)
+      0000D0 5F               [ 1]  206 	clrw	x
+      0000D1 97               [ 1]  207 	ld	xl, a
+      0000D2 1F 01            [ 2]  208 	ldw	(0x01, sp), x
+                                    209 ;	adc.c: 73: uint16_t valh = ADC1_DRH;
+      0000D4 AE 54 04         [ 2]  210 	ldw	x, #0x5404
+      0000D7 F6               [ 1]  211 	ld	a, (x)
+      0000D8 95               [ 1]  212 	ld	xh, a
+      0000D9 4F               [ 1]  213 	clr	a
+                                    214 ;	adc.c: 75: return val | (valh<<8);
+      0000DA 4F               [ 1]  215 	clr	a
+      0000DB 1A 02            [ 1]  216 	or	a, (0x02, sp)
+      0000DD 97               [ 1]  217 	ld	xl, a
+      0000DE 9E               [ 1]  218 	ld	a, xh
+      0000DF 1A 01            [ 1]  219 	or	a, (0x01, sp)
+                                    220 ;	adc.c: 91: sum += _adc_read();
+      0000E1 90 95            [ 1]  221 	ld	yh, a
+      0000E3 9F               [ 1]  222 	ld	a, xl
+      0000E4 5F               [ 1]  223 	clrw	x
+      0000E5 90 97            [ 1]  224 	ld	yl, a
+      0000E7 72 B9u00u02      [ 2]  225 	addw	y, _sum+2
+      0000EB 9F               [ 1]  226 	ld	a, xl
+      0000EC C9u00u01         [ 1]  227 	adc	a, _sum+1
+      0000EF 02               [ 1]  228 	rlwa	x
+      0000F0 C9u00u00         [ 1]  229 	adc	a, _sum+0
+      0000F3 95               [ 1]  230 	ld	xh, a
+      0000F4 90 CFu00u02      [ 2]  231 	ldw	_sum+2, y
+      0000F8 CFu00u00         [ 2]  232 	ldw	_sum+0, x
+                                    233 ;	adc.c: 92: count++;
+      0000FB C6u00u04         [ 1]  234 	ld	a, _count+0
+      0000FE 4C               [ 1]  235 	inc	a
+                                    236 ;	adc.c: 93: if (count < 64) {
+      0000FF C7u00u04         [ 1]  237 	ld	_count+0, a
+      000102 A1 40            [ 1]  238 	cp	a, #0x40
+      000104 24 12            [ 1]  239 	jrnc	00102$
+                                    240 ;	adc.c: 39: ADC1_CSR &= 0x7F; // Turn off EOC
+      000106 7B 03            [ 1]  241 	ld	a, (0x03, sp)
+      000108 A4 7F            [ 1]  242 	and	a, #0x7f
+      00010A AE 54 00         [ 2]  243 	ldw	x, #0x5400
+      00010D F7               [ 1]  244 	ld	(x), a
+                                    245 ;	adc.c: 40: ADC1_CR1 |= 1; // Trigger conversion
+      00010E AE 54 01         [ 2]  246 	ldw	x, #0x5401
+      000111 F6               [ 1]  247 	ld	a, (x)
+      000112 AA 01            [ 1]  248 	or	a, #0x01
+      000114 F7               [ 1]  249 	ld	(x), a
+                                    250 ;	adc.c: 95: return 0;
+      000115 4F               [ 1]  251 	clr	a
+      000116 20 04            [ 2]  252 	jra	00108$
+      000118                        253 00102$:
+                                    254 ;	adc.c: 97: return 1;
+      000118 A6 01            [ 1]  255 	ld	a, #0x01
+                                    256 ;	adc.c: 100: return 0;
+      00011A 21                     257 	.byte 0x21
+      00011B                        258 00105$:
+      00011B 4F               [ 1]  259 	clr	a
+      00011C                        260 00108$:
+      00011C 5B 03            [ 2]  261 	addw	sp, #3
+      00011E 81               [ 4]  262 	ret
+                                    263 	.area CODE
+                                    264 	.area INITIALIZER
+                                    265 	.area CABS (ABS)

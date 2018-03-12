@@ -1,0 +1,228 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           
+     00000000  l_CABS                          
+     00000000  l_DABS                          
+     00000000  l__CODE                         
+     00000000  s_CABS                          
+     00000000  s_DABS                          
+     00000000  s__CODE                         
+     00000001  l_SSEG                          
+     00000001  s_DATA                          
+     00000003  l_GSFINAL                       
+     0000001A  l_GSINIT                        
+     00000046  l_INITIALIZED                   
+     00000046  l_INITIALIZER                   
+     00000083  l_HOME                          
+     000001B4  l_DATA                          
+     000001B5  s_INITIALIZED                   
+     000001FB  s_SSEG                          
+     00001EE5  l_CODE                          
+     00008000  s_HOME                          
+     00008083  s_GSINIT                        
+     0000809D  s_GSFINAL                       
+     000080A0  s_CODE                          
+     00009F85  s_INITIALIZER                   
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+DATA                                00000001    000001B4 =         436. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000001  _cfg_system                        main
+     0000003E  _cfg_output                        main
+     00000047  _state                             main
+     00000055  _display_idx                       display
+     00000056  _display_data                      display
+     0000005A  _pending_display_data              display
+     0000005E  _pending_update                    display
+     0000005F  _timer                             display
+     00000061  _uart_write_buf                    uart
+     00000160  _uart_write_start                  uart
+     00000161  _uart_write_len                    uart
+     00000162  _uart_read_buf                     uart
+     000001A2  _uart_read_len                     uart
+     000001A3  _read_newline                      uart
+     000001A4  _digits_buf                        uart
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+INITIALIZED                         000001B5    00000046 =          70. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000001B5  _default_cfg_system                config
+     000001F2  _default_cfg_output                config
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+SSEG                                000001FB    00000001 =           1. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+HOME                                00008000    00000083 =         131. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSINIT                              00008083    0000001A =          26. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+GSFINAL                             0000809D    00000003 =           3. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                000080A0    00001EE5 =        7909. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     000080A0  _commit_output                     main
+     000080B5  _set_name                          main
+     00008116  _autocommit                        main
+     0000812B  _set_output                        main
+     00008195  _set_voltage                       main
+     000081FD  _set_current                       main
+     00008253  _set_autocommit                    main
+     000082C5  _write_str                         main
+     000082DC  _write_onoff                       main
+     000082F2  _write_millivolt                   main
+     00008309  _write_milliamp                    main
+     00008320  _write_int                         main
+     00008337  __parse_uint                       main
+     0000839A  _parse_uint                        main
+     000083F7  _process_input                     main
+     00008BA0  _config_load                       main
+     00008BD4  _read_state                        main
+     00008D38  _ensure_afr0_set                   main
+     00008D62  _main                              main
+     000092D4  _display_refresh                   display
+     00009392  _display_char                      display
+     000093D1  _display_show                      display
+     00009431  _uart_init                         uart
+     0000945A  _uart_write_ch                     uart
+     00009479  _uart_write_str                    uart
+     0000952E  _uart_write_int                    uart
+     000095C2  _uart_write_int32                  uart
+     000095EF  _uart_write_milliamp               uart
+     00009624  _uart_write_millivolt              uart
+     00009659  _uart_write_fixed_point            uart
+     000096CE  _uart_write_from_buf               uart
+     000096F1  _uart_read_to_buf                  uart
+     0000973F  _uart_drive                        uart
+     00009759  _uart_flush_writes                 uart
+     00009784  _eeprom_set_afr0                   eeprom
+     000097E0  _eeprom_save_data                  eeprom
+     0000983F  _pwm_init                          outputs
+     0000988C  _pwm_from_set                      outputs
+     000098D1  _output_commit                     outputs
+     000099AB  _output_check_state                outputs
+     000099F4  _config_default_system             config
+     00009A06  _config_load_system                config
+     00009A88  _config_save_system                config
+     00009A97  _config_default_output             config
+     00009AA9  _config_load_output                config
+     00009ADE  _config_save_output                config
+     00009AF5  _fixed_round                       fixedpoint
+     00009B2B  _parse_num                         parse
+     00009B6F  _parse_millinum                    parse
+     00009C6F  _adc_init                          adc
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+CODE                                000080A0    00001EE5 =        7909. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00009C88  _adc_start                         adc
+     00009CA4  _adc_to_volt                       adc
+     00009D17  _adc_read                          adc
+     00009D28  _adc_channel                       adc
+     00009D2F  _adc_ready                         adc
+     00009D8E  __mulint                           
+     00009DAF  __modulong                         
+     00009E1F  __divulong                         
+     00009E79  _isprint                           isprint
+     00009E93  _memcpy                            _memcpy
+     00009EC2  _strcmp                            _strcmp
+     00009F09  __mullong                          
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+INITIALIZER                         00009F85    00000046 =          70. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 11.
+
+Files Linked                              [ module(s) ]
+
+main.rel                                  [ main ]
+display.rel                               [ display ]
+uart.rel                                  [ uart ]
+eeprom.rel                                [ eeprom ]
+outputs.rel                               [ outputs ]
+config.rel                                [ config ]
+fixedpoint.rel                            [ fixedpoint ]
+parse.rel                                 [ parse ]
+adc.rel                                   [ adc ]
+
+
+Libraries Linked                          [ object file ]
+
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _mulint.rel ]
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _modulong.rel ]
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _divulong.rel ]
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ isprint.rel ]
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _memcpy.rel ]
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _strcmp.rel ]
+/usr/bin/../share/sdcc/lib/stm8/stm8.lib  [ _mullong.rel ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
+
+User Base Address Definitions
+
+HOME = 0x8000
+DATA = 0x0001
+
+
